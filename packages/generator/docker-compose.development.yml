@@ -5,7 +5,7 @@ services:
     command: "-p 11432 -c max_connections=100 -c log_connections=yes"
     container_name: kly-vault-api-pg-dev
     env_file:
-      - ./postgres.env
+      - postgres.env.development
     image: postgres:16
     networks:
       - kly-vault-api-dev

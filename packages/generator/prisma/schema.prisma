@@ -1,10 +1,16 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+generator directus {
+  provider = "node ./build/main.js"
+  version  = 1
+  directus = "9.26.0"
 }
 
 enum PublicationStatus {

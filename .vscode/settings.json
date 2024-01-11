@@ -37,9 +37,7 @@
   "eslint.workingDirectories": ["./packages/generator"],
   "files.associations": {},
   "files.autoSave": "off",
-  "files.exclude": {
-    "**/node_modules": true
-  },
+  "files.exclude": {},
   "graphql-config.load.rootDir": ".",
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "javascript.referencesCodeLens.enabled": true,
