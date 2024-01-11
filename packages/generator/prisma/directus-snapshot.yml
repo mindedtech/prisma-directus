@@ -1,5 +1,528 @@
-collections: []
-fields: []
-relations: []
+collections:
+  - collection: Locale
+    fields: []
+    meta:
+      accountability: null
+      archive_app_filter: null
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Locale
+      color: null
+      display_template: null
+      group: null
+      hidden: false
+      icon: null
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort_field: null
+      translations: {}
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: locale
+  - collection: Article
+    fields: []
+    meta:
+      accountability: null
+      archive_app_filter: null
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Article
+      color: null
+      display_template: null
+      group: null
+      hidden: false
+      icon: null
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort_field: null
+      translations: {}
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: article
+  - collection: ArticleLocale
+    fields: []
+    meta:
+      accountability: null
+      archive_app_filter: null
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: ArticleLocale
+      color: null
+      display_template: null
+      group: null
+      hidden: false
+      icon: null
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort_field: null
+      translations: {}
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: article_locale
 directus: 9.26.0
+fields:
+  - collection: Locale
+    field: locale_id
+    meta:
+      collection: Locale
+      conditions: null
+      display: null
+      display_options: null
+      field: locale_id
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: locale_id
+    schema: null
+    type: string
+  - collection: Locale
+    field: created_at
+    meta:
+      collection: Locale
+      conditions: null
+      display: null
+      display_options: null
+      field: created_at
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: created_at
+    schema: null
+    type: dateTime
+  - collection: Locale
+    field: updated_at
+    meta:
+      collection: Locale
+      conditions: null
+      display: null
+      display_options: null
+      field: updated_at
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: updated_at
+    schema: null
+    type: dateTime
+  - collection: Locale
+    field: articleLocales
+    meta:
+      collection: Locale
+      conditions: null
+      display: null
+      display_options: null
+      field: articleLocales
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: articleLocales
+    schema: null
+    type: unknown
+  - collection: Article
+    field: article_id
+    meta:
+      collection: Article
+      conditions: null
+      display: null
+      display_options: null
+      field: article_id
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: article_id
+    schema: null
+    type: string
+  - collection: Article
+    field: created_at
+    meta:
+      collection: Article
+      conditions: null
+      display: null
+      display_options: null
+      field: created_at
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: created_at
+    schema: null
+    type: dateTime
+  - collection: Article
+    field: updated_at
+    meta:
+      collection: Article
+      conditions: null
+      display: null
+      display_options: null
+      field: updated_at
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: updated_at
+    schema: null
+    type: dateTime
+  - collection: Article
+    field: articleLocales
+    meta:
+      collection: Article
+      conditions: null
+      display: null
+      display_options: null
+      field: articleLocales
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: articleLocales
+    schema: null
+    type: unknown
+  - collection: ArticleLocale
+    field: article_locale_id
+    meta:
+      collection: ArticleLocale
+      conditions: null
+      display: null
+      display_options: null
+      field: article_locale_id
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: article_locale_id
+    schema: null
+    type: string
+  - collection: ArticleLocale
+    field: article_id
+    meta:
+      collection: ArticleLocale
+      conditions: null
+      display: null
+      display_options: null
+      field: article_id
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: article_id
+    schema: null
+    type: string
+  - collection: ArticleLocale
+    field: article
+    meta:
+      collection: ArticleLocale
+      conditions: null
+      display: null
+      display_options: null
+      field: article
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: article
+    schema: null
+    type: unknown
+  - collection: ArticleLocale
+    field: locale_id
+    meta:
+      collection: ArticleLocale
+      conditions: null
+      display: null
+      display_options: null
+      field: locale_id
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: locale_id
+    schema: null
+    type: string
+  - collection: ArticleLocale
+    field: locale
+    meta:
+      collection: ArticleLocale
+      conditions: null
+      display: null
+      display_options: null
+      field: locale
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: locale
+    schema: null
+    type: unknown
+  - collection: ArticleLocale
+    field: article_locale_slug
+    meta:
+      collection: ArticleLocale
+      conditions: null
+      display: null
+      display_options: null
+      field: article_locale_slug
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: article_locale_slug
+    schema: null
+    type: string
+  - collection: ArticleLocale
+    field: created_at
+    meta:
+      collection: ArticleLocale
+      conditions: null
+      display: null
+      display_options: null
+      field: created_at
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: created_at
+    schema: null
+    type: dateTime
+  - collection: ArticleLocale
+    field: updated_at
+    meta:
+      collection: ArticleLocale
+      conditions: null
+      display: null
+      display_options: null
+      field: updated_at
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: updated_at
+    schema: null
+    type: dateTime
+  - collection: ArticleLocale
+    field: title
+    meta:
+      collection: ArticleLocale
+      conditions: null
+      display: null
+      display_options: null
+      field: title
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: title
+    schema: null
+    type: string
+  - collection: ArticleLocale
+    field: body_markdown
+    meta:
+      collection: ArticleLocale
+      conditions: null
+      display: null
+      display_options: null
+      field: body_markdown
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options:
+        enableLink: false
+      readonly: false
+      required: false
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: null
+    name: body_markdown
+    schema: null
+    type: string
+relations: []
+vendor: postgres
 version: 1

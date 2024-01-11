@@ -1,9 +1,11 @@
 import { z } from "zod";
 
+import { FieldType } from "@/generator/lib/FieldType";
+
 const RawDirective = z.object({
-  args: z.array(z.string()),
+  args: z.array(z.unknown()),
   directive: z.string(),
-  kwArgs: z.record(z.string()),
+  kwArgs: z.record(z.unknown()),
 });
 
 type RawDirective = z.infer<typeof RawDirective>;
@@ -32,6 +34,11 @@ const CollectionDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
     args: z.tuple([z.string()]),
     directive: z.literal(`color`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([z.enum([`open`, `closed`, `locked`])]),
+    directive: z.literal(`collapse`),
     kwArgs: z.object({}),
   }),
   RawDirective.extend({
@@ -108,8 +115,13 @@ type CollectionDirective<
 
 const FieldDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
+    args: z.tuple([z.string(), z.string()]),
+    directive: z.literal(`choice`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
     args: z.tuple([z.string()]),
-    directive: z.literal(`name`),
+    directive: z.literal(`condition`),
     kwArgs: z.object({}),
   }),
   RawDirective.extend({
@@ -124,6 +136,121 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
       ]),
     ]),
     directive: z.literal(`display`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([z.string(), z.string()]),
+    directive: z.literal(`displayOption`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([]),
+    directive: z.literal(`enableLink`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([z.string()]),
+    directive: z.literal(`group`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([]),
+    directive: z.literal(`hidden`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([
+      z.enum([
+        `boolean`,
+        `datetime`,
+        `input-rich-text-md`,
+        `input`,
+        `list-m2m`,
+        `list-o2m`,
+        `select-dropdown-m2o`,
+        `select-dropdown`,
+        `translations`,
+      ]),
+    ]),
+    directive: z.literal(`interface`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([z.string()]),
+    directive: z.literal(`languageDirectionField`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([z.string()]),
+    directive: z.literal(`languageField`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([z.string()]),
+    directive: z.literal(`name`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([z.string()]),
+    directive: z.literal(`note`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([]),
+    directive: z.literal(`readonly`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([]),
+    directive: z.literal(`required`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([z.coerce.number().int()]),
+    directive: z.literal(`sort`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([
+      z.enum([
+        `cast-boolean`,
+        `date-created`,
+        `date-updated`,
+        `m2m`,
+        `m2o`,
+        `o2m`,
+        `translations`,
+        `uuid`,
+      ]),
+    ]),
+    directive: z.literal(`special`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([FieldType]),
+    directive: z.literal(`type`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([z.string(), z.string()]),
+    directive: z.literal(`translation`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([z.string()]),
+    directive: z.literal(`validation`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([z.string()]),
+    directive: z.literal(`validationMessage`),
+    kwArgs: z.object({}),
+  }),
+  RawDirective.extend({
+    args: z.tuple([
+      z.enum([`half`, `half-left`, `half-right`, `full`, `fill`]),
+    ]),
+    directive: z.literal(`width`),
     kwArgs: z.object({}),
   }),
 ]);
