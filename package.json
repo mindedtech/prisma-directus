@@ -1,0 +1,25 @@
+{
+  "author": "Elie Rotenberg <elie@rotenberg.io>",
+  "bugs": {
+    "url": "https://github.com/elierotenberg/prisma-directus/issues"
+  },
+  "homepage": "https://github.com/elierotenberg/prisma-directus#readme",
+  "license": "UNLICENSED",
+  "name": "@prisma-directus/workspace",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/elierotenberg/prisma-directus.git"
+  },
+  "scripts": {
+    "ncu": "ncu -ws --root -u -t minor && npm i",
+    "ncu:latest": "ncu -ws --root -u -t latest -i && npm i"
+  },
+  "type": "commonjs",
+  "workspaces": [
+    "./packages/*"
+  ],
+  "devDependencies": {
+    "npm-check-updates": "^16.14.12"
+  }
+}

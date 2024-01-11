@@ -1,0 +1,14 @@
+networks:
+  prisma-directus-dev: {}
+services:
+  prisma-directus-dev:
+    command: "-p 11432 -c max_connections=100 -c log_connections=yes"
+    container_name: kly-vault-api-pg-dev
+    env_file:
+      - ./postgres.env
+    image: postgres:16
+    networks:
+      - kly-vault-api-dev
+    ports:
+      - 11432:11432
+version: "3.8"

@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PublicationStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model Locale {
+  locale_id      String          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at     DateTime        @default(now()) @db.Timestamptz(3)
+  updated_at     DateTime        @default(now()) @updatedAt @db.Timestamptz(3)
+  articleLocales ArticleLocale[] @relation("article_locale__locale", map: "article_locale__locale__fk")
+
+  @@id([locale_id], map: "locale_id")
+  @@map("locale")
+}
+
+model Article {
+  article_id     String          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at     DateTime        @default(now()) @db.Timestamptz(3)
+  updated_at     DateTime        @default(now()) @updatedAt @db.Timestamptz(3)
+  articleLocales ArticleLocale[] @relation("article_locale__article", map: "article_locale__article__fk")
+
+  @@id([article_id], map: "article_id")
+  @@map("article")
+}
+
+model ArticleLocale {
+  article_locale_id   String   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  article_id          String   @db.Uuid
+  article             Article  @relation("article_locale__article", fields: [article_id], references: [article_id], map: "article_locale__article__fk")
+  locale_id           String   @db.Uuid
+  locale              Locale   @relation("article_locale__locale", fields: [locale_id], references: [locale_id], map: "article_locale__locale__fk")
+  article_locale_slug String
+  created_at          DateTime @default(now()) @db.Timestamptz(3)
+  updated_at          DateTime @default(now()) @updatedAt @db.Timestamptz(3)
+  title               String
+  body_markdown       String?
+
+  @@id([article_locale_id], map: "article_locale_id")
+  @@unique([article_id, locale_id], map: "article_locale__article_id__locale_id__unique")
+  @@unique([article_locale_slug], map: "article_locale_slug__unique")
+  @@map("article_locale")
+}
