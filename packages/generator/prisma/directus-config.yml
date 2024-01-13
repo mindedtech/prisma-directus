@@ -1,0 +1,7 @@
+conditions: {}
+filters:
+  email:
+    _or:
+      - _empty: true
+      - _null: true
+      - _regex: '^[^@]+@[^@]+\.[^@]+$'

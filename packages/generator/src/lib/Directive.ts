@@ -3,108 +3,108 @@ import { z } from "zod";
 import { FieldType } from "@/generator/lib/FieldType";
 
 const RawDirective = z.object({
-  args: z.array(z.unknown()),
   directive: z.string(),
   kwArgs: z.record(z.unknown()),
+  tArgs: z.array(z.unknown()),
 });
 
 type RawDirective = z.infer<typeof RawDirective>;
 
 const CollectionDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
-    args: z.tuple([z.enum([`all`, `accountability`, `null`])]),
     directive: z.literal(`accountability`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.enum([`all`, `accountability`, `null`])]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`archiveAppFilter`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`archiveField`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`archiveValue`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`color`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.enum([`open`, `closed`, `locked`])]),
     directive: z.literal(`collapse`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.enum([`open`, `closed`, `locked`])]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`displayTemplate`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([]),
     directive: z.literal(`hidden`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`icon`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`itemDuplicationField`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`group`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
-    directive: z.literal(`name`),
-    kwArgs: z.object({}),
-  }),
-  RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`note`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`previewUrl`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`sortField`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([]),
+    directive: z.literal(`sort`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([z.coerce.number().int()]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`singleton`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string(), z.string()]),
     directive: z.literal(`translation`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string(), z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`unarchiveValue`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([]),
     directive: z.literal(`versioning`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([]),
   }),
 ]);
 type AnyCollectionDirective = z.infer<typeof CollectionDirective>;
@@ -115,17 +115,34 @@ type CollectionDirective<
 
 const FieldDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
-    args: z.tuple([z.string(), z.string()]),
     directive: z.literal(`choice`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string(), z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`condition`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([
+    directive: z.literal(`constraintName`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`defaultValue`),
+    kwArgs: z.object({}),
+    tArgs: z.union([
+      z.tuple([z.literal(`string`), z.string()]),
+      z.tuple([z.literal(`number`), z.coerce.number()]),
+      z.tuple([z.literal(`boolean`), z.coerce.boolean()]),
+      z.tuple([z.literal(`null`)]),
+    ]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`display`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([
       z.enum([
         `boolean`,
         `datetime`,
@@ -135,31 +152,31 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
         `translations`,
       ]),
     ]),
-    directive: z.literal(`display`),
-    kwArgs: z.object({}),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string(), z.string()]),
     directive: z.literal(`displayOption`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string(), z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([]),
     directive: z.literal(`enableLink`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`group`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([]),
     directive: z.literal(`hidden`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([]),
   }),
   RawDirective.extend({
-    args: z.tuple([
+    directive: z.literal(`interface`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([
       z.enum([
         `boolean`,
         `datetime`,
@@ -172,46 +189,66 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
         `translations`,
       ]),
     ]),
-    directive: z.literal(`interface`),
-    kwArgs: z.object({}),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
+    directive: z.literal(`junctionField`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`languageDirectionField`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`languageField`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
-    directive: z.literal(`name`),
+    directive: z.literal(`maxLength`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.coerce.number().int().min(0)]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
+    directive: z.literal(`numericPrecision`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([z.coerce.number().int().min(0)]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`numericScale`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([z.coerce.number().int().min(0)]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`note`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([]),
     directive: z.literal(`readonly`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([]),
   }),
   RawDirective.extend({
-    args: z.tuple([]),
     directive: z.literal(`required`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.coerce.number().int()]),
     directive: z.literal(`sort`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.coerce.number().int()]),
   }),
   RawDirective.extend({
-    args: z.tuple([
+    directive: z.literal(`sortField`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`special`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([
       z.enum([
         `cast-boolean`,
         `date-created`,
@@ -223,35 +260,33 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
         `uuid`,
       ]),
     ]),
-    directive: z.literal(`special`),
-    kwArgs: z.object({}),
   }),
   RawDirective.extend({
-    args: z.tuple([FieldType]),
     directive: z.literal(`type`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([FieldType]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string(), z.string()]),
     directive: z.literal(`translation`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string(), z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`validation`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([z.string()]),
     directive: z.literal(`validationMessage`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    args: z.tuple([
-      z.enum([`half`, `half-left`, `half-right`, `full`, `fill`]),
-    ]),
     directive: z.literal(`width`),
     kwArgs: z.object({}),
+    tArgs: z.tuple([
+      z.enum([`half`, `half-left`, `half-right`, `full`, `fill`]),
+    ]),
   }),
 ]);
 type AnyFieldDirective = z.infer<typeof FieldDirective>;
@@ -260,14 +295,15 @@ type FieldDirective<
 > = Extract<AnyFieldDirective, { directive: K }>;
 
 const parseRawDirectives = (
+  directivePrefix: string,
   documentation?: undefined | string,
 ): RawDirective[] => {
   if (typeof documentation !== `string`) {
     return [];
   }
   const directives: RawDirective[] = [];
-  const directivePattern =
-    /@(?<directiveName>[\w\.]+)(\((?<argsString>[^)]+)\))?/g;
+  const directivePatternSource = `${directivePrefix}(?<directiveName>[\\w\\.]+)(\\((?<argsString>[^)]+)\\))?`;
+  const directivePattern = new RegExp(directivePatternSource, `g`);
 
   let match;
   while ((match = directivePattern.exec(documentation)) !== null) {
@@ -280,9 +316,9 @@ const parseRawDirectives = (
       continue;
     }
     const directive: RawDirective = {
-      args: [],
       directive: directiveName,
       kwArgs: Object.create(null) as RawDirective[`kwArgs`],
+      tArgs: [],
     };
 
     if (typeof argsString === `string`) {
@@ -297,7 +333,7 @@ const parseRawDirectives = (
           }
           directive.kwArgs[key] = value.replace(/"/g, ``); // Remove quotes
         } else {
-          directive.args.push(trimmedArg.replace(/"/g, ``)); // Remove quotes
+          directive.tArgs.push(trimmedArg.replace(/"/g, ``)); // Remove quotes
         }
       }
     }
@@ -315,12 +351,17 @@ type CollectionDirectives = {
   readonly filter: <K extends AnyCollectionDirective[`directive`]>(
     directive: K,
   ) => CollectionDirective<K>[];
+  readonly directives: AnyCollectionDirective[];
 };
 const parseCollectionDirectives = (
+  directivePrefix: string,
   documentation?: undefined | string,
 ): CollectionDirectives => {
-  const directives = parseRawDirectives(documentation);
+  const directives = parseRawDirectives(directivePrefix, documentation).map(
+    (directive) => CollectionDirective.parse(directive),
+  );
   return {
+    directives,
     filter: <K extends AnyCollectionDirective[`directive`]>(directive: K) =>
       directives.filter(
         (d): d is CollectionDirective<K> => d.directive === directive,
@@ -339,12 +380,17 @@ type FieldDirectives = {
   readonly filter: <K extends AnyFieldDirective[`directive`]>(
     directive: K,
   ) => FieldDirective<K>[];
+  readonly directives: readonly AnyFieldDirective[];
 };
 const parseFieldDirectives = (
+  directivePrefix: string,
   documentation?: undefined | string,
 ): FieldDirectives => {
-  const directives = parseRawDirectives(documentation);
+  const directives = parseRawDirectives(directivePrefix, documentation).map(
+    (directive) => FieldDirective.parse(directive),
+  );
   return {
+    directives,
     filter: <K extends AnyFieldDirective[`directive`]>(directive: K) =>
       directives.filter(
         (d): d is FieldDirective<K> => d.directive === directive,
@@ -355,3 +401,5 @@ const parseFieldDirectives = (
 };
 
 export { parseCollectionDirectives, parseFieldDirectives };
+
+export type { FieldDirectives };
