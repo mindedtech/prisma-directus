@@ -66,10 +66,10 @@ const createSnapshotContext = (
         localPrismaField.documentation,
       );
       directivesOfPrismaFieldMap.set(localPrismaField, prismaFieldDirectives);
-      if (typeof localPrismaField.kind === `object`) {
+      if (localPrismaField.kind === `object`) {
         if (typeof localPrismaField.relationName !== `string`) {
           throw new Error(
-            `[field=${localPrismaField.name}] Missing relationName`,
+            `[${localPrismaModel.name}.${localPrismaField.name}] Missing relationName`,
           );
         }
         const localItemRelation = localPrismaField;
@@ -78,12 +78,12 @@ const createSnapshotContext = (
             localItemRelation.relationFromFields ?? [];
           if (typeof localPrismaFromFieldName !== `string`) {
             throw new Error(
-              `[field=${localPrismaField.name}] Missing relationFromFieldName`,
+              `[${localPrismaModel.name}.${localPrismaField.name}] Missing relationFromFieldName`,
             );
           }
           if (restLocalPrismaFromFieldName.length > 0) {
             throw new Error(
-              `[field=${localPrismaField.name}] Composite relationFromFields are not supported`,
+              `[${localPrismaModel.name}.${localPrismaField.name}] Composite relationFromFields are not supported`,
             );
           }
           const localPrismaFromField = localPrismaModel.fields.find(
@@ -91,7 +91,7 @@ const createSnapshotContext = (
           );
           if (!localPrismaFromField) {
             throw new Error(
-              `[field=${localPrismaField.name}] Missing localPrismaFromField "${localPrismaFromFieldName}"`,
+              `[${localPrismaModel.name}.${localPrismaField.name}] Missing localPrismaFromField "${localPrismaFromFieldName}"`,
             );
           }
           localPrismaItemRelationOfLocalPrismaFieldMap.set(
@@ -107,7 +107,7 @@ const createSnapshotContext = (
           );
           if (!remotePrismaModel) {
             throw new Error(
-              `[field=${localPrismaField.name}] Missing remotePrismaModel "${localItemRelation.type}"`,
+              `[${localPrismaModel.name}.${localPrismaField.name}] Missing remotePrismaModel "${localItemRelation.type}"`,
             );
           }
           const remotePrismaListRelation = remotePrismaModel.fields.find(
@@ -117,12 +117,12 @@ const createSnapshotContext = (
           );
           if (!remotePrismaListRelation) {
             throw new Error(
-              `[field=${localPrismaField.name}] Missing remotePrismaListRelation`,
+              `[${localPrismaModel.name}.${localPrismaField.name}] Missing remotePrismaListRelation`,
             );
           }
           if (!remotePrismaListRelation.isList) {
             throw new Error(
-              `[field=${localPrismaField.name}] remotePrismaListRelation is not a list`,
+              `[${localPrismaModel.name}.${localPrismaField.name}] remotePrismaListRelation is not a list`,
             );
           }
           remotePrismaListRelationOfLocalPrismaItemRelationMap.set(
@@ -137,12 +137,12 @@ const createSnapshotContext = (
             localItemRelation.relationToFields ?? [];
           if (typeof remotePrismaToFieldName !== `string`) {
             throw new Error(
-              `[field=${localPrismaField.name}] Missing relationToFieldName`,
+              `[${localPrismaModel.name}.${localPrismaField.name}] Missing relationToFieldName`,
             );
           }
           if (restRemotePrismaToFieldName.length > 0) {
             throw new Error(
-              `[field=${localPrismaField.name}] Composite relationToFields are not supported`,
+              `[${localPrismaModel.name}.${localPrismaField.name}] Composite relationToFields are not supported`,
             );
           }
           const remotePrismaToField = remotePrismaModel.fields.find(
@@ -150,7 +150,7 @@ const createSnapshotContext = (
           );
           if (!remotePrismaToField) {
             throw new Error(
-              `[field=${localPrismaField.name}] Missing remotePrismaToField "${remotePrismaToFieldName}"`,
+              `[${localPrismaModel.name}.${localPrismaField.name}] Missing remotePrismaToField "${remotePrismaToFieldName}"`,
             );
           }
           remotePrismaFieldOfLocalPrismaItemRelationMap.set(
@@ -162,11 +162,40 @@ const createSnapshotContext = (
     }
   }
 
+  const debug: SnapshotContext[`debug`] = () => {
+    console.log(`localPrismaFieldOfLocalPrismaItemRelationMap`);
+    for (const [key, value] of localPrismaFieldOfLocalPrismaItemRelationMap) {
+      console.log(`${key.name} => ${value.name}`);
+    }
+    console.log(`localPrismaItemRelationOfLocalPrismaFieldMap`);
+    for (const [key, value] of localPrismaItemRelationOfLocalPrismaFieldMap) {
+      console.log(`${key.name} => ${value.name}`);
+    }
+    console.log(`remotePrismaItemRelationOfLocalPrismaListRelationMap`);
+    for (const [
+      key,
+      value,
+    ] of remotePrismaItemRelationOfLocalPrismaListRelationMap) {
+      console.log(`${key.name} => ${value.name}`);
+    }
+    console.log(`remotePrismaListRelationOfLocalPrismaItemRelationMap`);
+    for (const [
+      key,
+      value,
+    ] of remotePrismaListRelationOfLocalPrismaItemRelationMap) {
+      console.log(`${key.name} => ${value.name}`);
+    }
+    console.log(`remotePrismaFieldOfLocalPrismaItemRelationMap`);
+    for (const [key, value] of remotePrismaFieldOfLocalPrismaItemRelationMap) {
+      console.log(`${key.name} => ${value.name}`);
+    }
+  };
+
   const getDirectivesOfPrismaModel: SnapshotContext[`getDirectivesOfPrismaModel`] =
     (prismaModel) => {
       const directives = directivesOfPrismaModelMap.get(prismaModel);
       if (!directives) {
-        throw new Error(`[model=${prismaModel.name}] Missing directives`);
+        throw new Error(`[${prismaModel.name}] Missing model directives`);
       }
       return directives;
     };
@@ -174,7 +203,10 @@ const createSnapshotContext = (
     (prismaField) => {
       const directives = directivesOfPrismaFieldMap.get(prismaField);
       if (!directives) {
-        throw new Error(`[field=${prismaField.name}] Missing directives`);
+        const prismaModel = getPrismaModelOfPrismaField(prismaField);
+        throw new Error(
+          `[${prismaModel.name}.${prismaField.name}] Missing directives`,
+        );
       }
       return directives;
     };
@@ -195,8 +227,11 @@ const createSnapshotContext = (
           localPrismaItemRelation,
         );
       if (!localPrismaFieldOfLocalPrismaItemRelation) {
+        const localPrismaModel = getPrismaModelOfPrismaField(
+          localPrismaItemRelation,
+        );
         throw new Error(
-          `[field=${localPrismaItemRelation.name}] Missing localPrismaFieldOfLocalPrismaItemRelation`,
+          `[${localPrismaModel.name}.${localPrismaItemRelation.name}] Missing localPrismaFieldOfLocalPrismaItemRelation`,
         );
       }
       return localPrismaFieldOfLocalPrismaItemRelation;
@@ -205,11 +240,6 @@ const createSnapshotContext = (
     (localPrismaField) => {
       const localPrismaItemRelationOfLocalPrismaField =
         localPrismaItemRelationOfLocalPrismaFieldMap.get(localPrismaField);
-      if (!localPrismaItemRelationOfLocalPrismaField) {
-        throw new Error(
-          `[field=${localPrismaField.name}] Missing localPrismaItemRelationOfLocalPrismaField`,
-        );
-      }
       return localPrismaItemRelationOfLocalPrismaField;
     };
 
@@ -220,8 +250,11 @@ const createSnapshotContext = (
           localPrismaListRelation,
         );
       if (!remotePrismaItemRelation) {
+        const localPrismaModel = getPrismaModelOfPrismaField(
+          localPrismaListRelation,
+        );
         throw new Error(
-          `[field=${localPrismaListRelation.name}] Missing remotePrismaItemRelation`,
+          `[${localPrismaModel.name}.${localPrismaListRelation.name}] Missing remotePrismaItemRelation`,
         );
       }
       return remotePrismaItemRelation;
@@ -233,8 +266,11 @@ const createSnapshotContext = (
           localPrismaItemRelation,
         );
       if (!remotePrismaListRelation) {
+        const localPrismaModel = getPrismaModelOfPrismaField(
+          localPrismaItemRelation,
+        );
         throw new Error(
-          `[field=${localPrismaItemRelation.name}] Missing remotePrismaListRelation`,
+          `[${localPrismaModel.name}.${localPrismaItemRelation.name}] Missing remotePrismaListRelation`,
         );
       }
       return remotePrismaListRelation;
@@ -246,8 +282,11 @@ const createSnapshotContext = (
           localPrismaItemRelation,
         );
       if (!remotePrismaField) {
+        const localPrismaModel = getPrismaModelOfPrismaField(
+          localPrismaItemRelation,
+        );
         throw new Error(
-          `[field=${localPrismaItemRelation.name}] Missing remotePrismaField`,
+          `[${localPrismaModel.name}.${localPrismaItemRelation.name}] Missing remotePrismaField`,
         );
       }
       return remotePrismaField;
@@ -256,6 +295,7 @@ const createSnapshotContext = (
   return {
     conditions,
     datamodel,
+    debug,
     filters,
     getDirectivesOfPrismaField,
     getDirectivesOfPrismaModel,

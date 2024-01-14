@@ -3,10 +3,12 @@ import { z } from "zod";
 import { Condition } from "@/generator/lib/Condition";
 import { Filter } from "@/generator/lib/Filter";
 
-const Config = z.object({
-  conditions: z.record(Condition),
-  filters: z.record(Filter),
-});
+const Config = z
+  .object({
+    conditions: z.record(Condition),
+    filters: z.record(Filter),
+  })
+  .strict();
 type Config = z.infer<typeof Config>;
 
 const createDefaultConfig = (): Config => ({

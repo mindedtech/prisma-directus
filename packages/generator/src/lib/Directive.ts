@@ -230,6 +230,25 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
+    directive: z.literal(`onDeselect`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([z.enum([`nullify`, `delete`])]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`onDelete`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([
+      z.enum([`NO ACTION`, `RESTRICT`, `CASCADE`, `SET NULL`, `SET DEFAULT`]),
+    ]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`onUpdate`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([
+      z.enum([`NO ACTION`, `RESTRICT`, `CASCADE`, `SET NULL`, `SET DEFAULT`]),
+    ]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`readonly`),
     kwArgs: z.object({}),
     tArgs: z.tuple([]),

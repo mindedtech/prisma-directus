@@ -24,14 +24,14 @@ collections:
       versioning: false
     schema:
       name: _prisma_migrations
-  - collection: locale
+  - collection: item
     meta:
       accountability: null
       archive_app_filter: false
       archive_field: null
       archive_value: null
       collapse: open
-      collection: locale
+      collection: item
       color: null
       display_template: null
       group: null
@@ -47,15 +47,15 @@ collections:
       unarchive_value: null
       versioning: false
     schema:
-      name: locale
-  - collection: article
+      name: item
+  - collection: item_group
     meta:
       accountability: null
       archive_app_filter: false
       archive_field: null
       archive_value: null
       collapse: open
-      collection: article
+      collection: item_group
       color: null
       display_template: null
       group: null
@@ -71,31 +71,7 @@ collections:
       unarchive_value: null
       versioning: false
     schema:
-      name: article
-  - collection: article_locale
-    meta:
-      accountability: null
-      archive_app_filter: false
-      archive_field: null
-      archive_value: null
-      collapse: open
-      collection: article_locale
-      color: null
-      display_template: null
-      group: null
-      hidden: false
-      icon: null
-      item_duplication_fields: null
-      note: null
-      preview_url: null
-      singleton: false
-      sort: null
-      sort_field: null
-      translations: {}
-      unarchive_value: null
-      versioning: false
-    schema:
-      name: article_locale
+      name: item_group
 directus: 10.8.3
 fields:
   - collection: _prisma_migrations
@@ -402,19 +378,19 @@ fields:
       numeric_scale: null
       table: _prisma_migrations
     type: timestamp
-  - collection: locale
-    field: locale_id
+  - collection: item
+    field: item_id
     meta:
-      collection: locale
+      collection: item
       conditions: null
       display: null
       display_options: null
-      field: locale_id
+      field: item_id
       group: null
       hidden: false
       interface: null
       note: null
-      options: {}
+      options: null
       readonly: false
       required: true
       sort: null
@@ -425,6 +401,7 @@ fields:
       validation_message: null
       width: full
     schema:
+      comment: null
       data_type: uuid
       default_value: gen_random_uuid()
       foreign_key_column: null
@@ -436,311 +413,39 @@ fields:
       is_primary_key: true
       is_unique: true
       max_length: null
-      name: locale_id
+      name: item_id
       numeric_precision: null
       numeric_scale: null
-      table: locale
+      table: item
     type: uuid
-  - collection: locale
-    field: created_at
+  - collection: item
+    field: item_group_id
     meta:
-      collection: locale
+      collection: item
       conditions: null
       display: null
       display_options: null
-      field: created_at
+      field: item_group_id
       group: null
       hidden: false
-      interface: null
+      interface: select-dropdown-m2o
       note: null
-      options: {}
-      readonly: false
-      required: true
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: timestamp with time zone
-      default_value: CURRENT_TIMESTAMP
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: false
-      is_primary_key: false
-      is_unique: false
-      max_length: null
-      name: created_at
-      numeric_precision: null
-      numeric_scale: null
-      table: locale
-    type: timestamp
-  - collection: locale
-    field: updated_at
-    meta:
-      collection: locale
-      conditions: null
-      display: null
-      display_options: null
-      field: updated_at
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
-      readonly: false
-      required: true
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: timestamp with time zone
-      default_value: CURRENT_TIMESTAMP
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: false
-      is_primary_key: false
-      is_unique: false
-      max_length: null
-      name: updated_at
-      numeric_precision: null
-      numeric_scale: null
-      table: locale
-    type: timestamp
-  - collection: locale
-    field: article_locale_list
-    meta:
-      collection: locale
-      conditions: null
-      display: null
-      display_options: null
-      field: article_locale_list
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
-      readonly: false
-      required: true
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    type: alias
-  - collection: article
-    field: article_id
-    meta:
-      collection: article
-      conditions: null
-      display: null
-      display_options: null
-      field: article_id
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
+      options: null
       readonly: false
       required: true
       sort: null
       special:
-        - uuid
+        - m2o
       translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      data_type: uuid
-      default_value: gen_random_uuid()
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: false
-      is_primary_key: true
-      is_unique: true
-      max_length: null
-      name: article_id
-      numeric_precision: null
-      numeric_scale: null
-      table: article
-    type: uuid
-  - collection: article
-    field: created_at
-    meta:
-      collection: article
-      conditions: null
-      display: null
-      display_options: null
-      field: created_at
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
-      readonly: false
-      required: true
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: timestamp with time zone
-      default_value: CURRENT_TIMESTAMP
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: false
-      is_primary_key: false
-      is_unique: false
-      max_length: null
-      name: created_at
-      numeric_precision: null
-      numeric_scale: null
-      table: article
-    type: timestamp
-  - collection: article
-    field: updated_at
-    meta:
-      collection: article
-      conditions: null
-      display: null
-      display_options: null
-      field: updated_at
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
-      readonly: false
-      required: true
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: timestamp with time zone
-      default_value: CURRENT_TIMESTAMP
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: false
-      is_primary_key: false
-      is_unique: false
-      max_length: null
-      name: updated_at
-      numeric_precision: null
-      numeric_scale: null
-      table: article
-    type: timestamp
-  - collection: article
-    field: article_locale_list
-    meta:
-      collection: article
-      conditions: null
-      display: null
-      display_options: null
-      field: article_locale_list
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
-      readonly: false
-      required: true
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    type: alias
-  - collection: article_locale
-    field: article_locale_id
-    meta:
-      collection: article_locale
-      conditions: null
-      display: null
-      display_options: null
-      field: article_locale_id
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
-      readonly: false
-      required: true
-      sort: null
-      special:
-        - uuid
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: uuid
-      default_value: gen_random_uuid()
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: false
-      is_primary_key: true
-      is_unique: true
-      max_length: null
-      name: article_locale_id
-      numeric_precision: null
-      numeric_scale: null
-      table: article_locale
-    type: uuid
-  - collection: article_locale
-    field: article_id
-    meta:
-      collection: article_locale
-      conditions: null
-      display: null
-      display_options: null
-      field: article_id
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
-      readonly: true
-      required: true
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
+      comment: null
       data_type: uuid
       default_value: null
-      foreign_key_column: article_id
-      foreign_key_table: article
+      foreign_key_column: item_group_id
+      foreign_key_table: item_group
       generation_expression: null
       has_auto_increment: false
       is_generated: false
@@ -748,211 +453,15 @@ fields:
       is_primary_key: false
       is_unique: false
       max_length: null
-      name: article_id
+      name: item_group_id
       numeric_precision: null
       numeric_scale: null
-      table: article_locale
+      table: item
     type: uuid
-  - collection: article_locale
-    field: article
-    meta:
-      collection: article_locale
-      conditions: null
-      display: null
-      display_options: null
-      field: article
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
-      readonly: false
-      required: true
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    type: alias
-  - collection: article_locale
-    field: locale_id
-    meta:
-      collection: article_locale
-      conditions: null
-      display: null
-      display_options: null
-      field: locale_id
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
-      readonly: true
-      required: true
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: uuid
-      default_value: null
-      foreign_key_column: locale_id
-      foreign_key_table: locale
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: false
-      is_primary_key: false
-      is_unique: false
-      max_length: null
-      name: locale_id
-      numeric_precision: null
-      numeric_scale: null
-      table: article_locale
-    type: uuid
-  - collection: article_locale
-    field: locale
-    meta:
-      collection: article_locale
-      conditions: null
-      display: null
-      display_options: null
-      field: locale
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
-      readonly: false
-      required: true
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    type: alias
-  - collection: article_locale
-    field: article_locale_slug
-    meta:
-      collection: article_locale
-      conditions: null
-      display: null
-      display_options: null
-      field: article_locale_slug
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
-      readonly: false
-      required: true
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: text
-      default_value: null
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: false
-      is_primary_key: false
-      is_unique: true
-      max_length: null
-      name: article_locale_slug
-      numeric_precision: null
-      numeric_scale: null
-      table: article_locale
-    type: text
-  - collection: article_locale
-    field: created_at
-    meta:
-      collection: article_locale
-      conditions: null
-      display: null
-      display_options: null
-      field: created_at
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
-      readonly: false
-      required: true
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: timestamp with time zone
-      default_value: CURRENT_TIMESTAMP
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: false
-      is_primary_key: false
-      is_unique: false
-      max_length: null
-      name: created_at
-      numeric_precision: null
-      numeric_scale: null
-      table: article_locale
-    type: timestamp
-  - collection: article_locale
-    field: updated_at
-    meta:
-      collection: article_locale
-      conditions: null
-      display: null
-      display_options: null
-      field: updated_at
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: {}
-      readonly: false
-      required: true
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
-    schema:
-      data_type: timestamp with time zone
-      default_value: CURRENT_TIMESTAMP
-      foreign_key_column: null
-      foreign_key_table: null
-      generation_expression: null
-      has_auto_increment: false
-      is_generated: false
-      is_nullable: false
-      is_primary_key: false
-      is_unique: false
-      max_length: null
-      name: updated_at
-      numeric_precision: null
-      numeric_scale: null
-      table: article_locale
-    type: timestamp
-  - collection: article_locale
+  - collection: item
     field: title
     meta:
-      collection: article_locale
+      collection: item
       conditions: null
       display: null
       display_options: null
@@ -961,7 +470,7 @@ fields:
       hidden: false
       interface: null
       note: null
-      options: {}
+      options: null
       readonly: false
       required: true
       sort: null
@@ -971,6 +480,7 @@ fields:
       validation_message: null
       width: full
     schema:
+      comment: null
       data_type: text
       default_value: null
       foreign_key_column: null
@@ -985,23 +495,30 @@ fields:
       name: title
       numeric_precision: null
       numeric_scale: null
-      table: article_locale
+      table: item
     type: text
-  - collection: article_locale
-    field: body_markdown
+  - collection: item
+    field: item_color
     meta:
-      collection: article_locale
+      collection: item
       conditions: null
       display: null
       display_options: null
-      field: body_markdown
+      field: item_color
       group: null
       hidden: false
       interface: null
       note: null
-      options: {}
+      options:
+        choices:
+          - text: RED
+            value: RED
+          - text: GREEN
+            value: GREEN
+          - text: BLUE
+            value: BLUE
       readonly: false
-      required: false
+      required: true
       sort: null
       special: null
       translations: null
@@ -1009,6 +526,86 @@ fields:
       validation_message: null
       width: full
     schema:
+      comment: null
+      data_type: ItemColor
+      default_value: null
+      foreign_key_column: null
+      foreign_key_table: null
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: false
+      is_primary_key: false
+      is_unique: false
+      max_length: null
+      name: item_color
+      numeric_precision: null
+      numeric_scale: null
+      table: item
+    type: string
+  - collection: item_group
+    field: item_group_id
+    meta:
+      collection: item_group
+      conditions: null
+      display: null
+      display_options: null
+      field: item_group_id
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options: null
+      readonly: false
+      required: true
+      sort: null
+      special:
+        - uuid
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      comment: null
+      data_type: uuid
+      default_value: gen_random_uuid()
+      foreign_key_column: null
+      foreign_key_table: null
+      generation_expression: null
+      has_auto_increment: false
+      is_generated: false
+      is_nullable: false
+      is_primary_key: true
+      is_unique: true
+      max_length: null
+      name: item_group_id
+      numeric_precision: null
+      numeric_scale: null
+      table: item_group
+    type: uuid
+  - collection: item_group
+    field: title
+    meta:
+      collection: item_group
+      conditions: null
+      display: null
+      display_options: null
+      field: title
+      group: null
+      hidden: false
+      interface: null
+      note: null
+      options: null
+      readonly: false
+      required: true
+      sort: null
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      comment: null
       data_type: text
       default_value: null
       foreign_key_column: null
@@ -1016,99 +613,59 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
-      is_nullable: true
+      is_nullable: false
       is_primary_key: false
       is_unique: false
       max_length: null
-      name: body_markdown
+      name: title
       numeric_precision: null
       numeric_scale: null
-      table: article_locale
+      table: item_group
     type: text
+  - collection: item_group
+    field: items
+    meta:
+      collection: item_group
+      conditions: null
+      display: null
+      display_options: null
+      field: items
+      group: null
+      hidden: false
+      interface: list-o2m
+      note: null
+      options: null
+      readonly: false
+      required: false
+      sort: null
+      special:
+        - o2m
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    type: alias
 relations:
-  - collection: locale
-    field: article_locale_list
+  - collection: item
+    field: item_group_id
     meta:
       junction_field: null
-      many_collection: article_locale
-      many_field: locale
+      many_collection: item
+      many_field: item_group_id
       one_allowed_collections: null
-      one_collection: locale
+      one_collection: item_group
       one_collection_field: null
       one_deselect_action: delete
-      one_field: article_locale_list
+      one_field: items
       sort_field: null
-    related_collection: article_locale
+    related_collection: item_group
     schema:
-      column: locale
-      constraint_name: article_locale__locale__fk
-      foreign_key_column: article_locale_list
-      foreign_key_table: locale
-      on_delete: null
-      on_update: null
-      table: article_locale
-  - collection: article
-    field: article_locale_list
-    meta:
-      junction_field: null
-      many_collection: article_locale
-      many_field: article
-      one_allowed_collections: null
-      one_collection: article
-      one_collection_field: null
-      one_deselect_action: delete
-      one_field: article_locale_list
-      sort_field: null
-    related_collection: article_locale
-    schema:
-      column: article
-      constraint_name: article_locale__article__fk
-      foreign_key_column: article_locale_list
-      foreign_key_table: article
-      on_delete: null
-      on_update: null
-      table: article_locale
-  - collection: article_locale
-    field: article
-    meta:
-      junction_field: null
-      many_collection: article_locale
-      many_field: article
-      one_allowed_collections: null
-      one_collection: article
-      one_collection_field: null
-      one_deselect_action: delete
-      one_field: article_locale_list
-      sort_field: null
-    related_collection: article
-    schema:
-      column: article
-      constraint_name: article_locale__article__fk
-      foreign_key_column: article_locale_list
-      foreign_key_table: article
+      column: item_group_id
+      constraint_name: item__item_group_fk
+      foreign_key_column: item_group_id
+      foreign_key_table: item_group
       on_delete: CASCADE
       on_update: CASCADE
-      table: article_locale
-  - collection: article_locale
-    field: locale
-    meta:
-      junction_field: null
-      many_collection: article_locale
-      many_field: locale
-      one_allowed_collections: null
-      one_collection: locale
-      one_collection_field: null
-      one_deselect_action: delete
-      one_field: article_locale_list
-      sort_field: null
-    related_collection: locale
-    schema:
-      column: locale
-      constraint_name: article_locale__locale__fk
-      foreign_key_column: article_locale_list
-      foreign_key_table: locale
-      on_delete: CASCADE
-      on_update: CASCADE
-      table: article_locale
+      table: item
 vendor: postgres
 version: 1

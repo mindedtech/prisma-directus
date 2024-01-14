@@ -50,6 +50,7 @@ const getPrismaModelSnapshotTypes = (
   prismaField: PrismaField,
   stack: PrismaField[] = [],
 ):
+  | undefined
   | {
       readonly dbType: DatabaseType;
       readonly directusType: Exclude<SnapshotFieldType, `alias`>;
@@ -65,6 +66,9 @@ const getPrismaModelSnapshotTypes = (
     return {
       directusType: `alias`,
     };
+  }
+  if (prismaField.kind === `object`) {
+    return;
   }
   const defaultObject = getPrismaFieldDefaultObject(prismaField);
   const localPrismaItemRelation =
@@ -287,7 +291,7 @@ const getPrismaFieldSnapshotFieldSchema = (
 ): SnapshotField[`schema`] => {
   const prismaModel = ctx.getPrismaModelOfPrismaField(prismaField);
   const types = getPrismaModelSnapshotTypes(ctx, prismaField);
-  if (types.directusType === `alias`) {
+  if (typeof types === `undefined` || types.directusType === `alias`) {
     return;
   }
   const { dbType } = types;
@@ -364,7 +368,11 @@ const getPrismaFieldSnapshotFieldSchema = (
 const prismaFieldToSnapshotField = (
   ctx: SnapshotContext,
   prismaField: PrismaField,
-): SnapshotField => {
+): undefined | SnapshotField => {
+  const types = getPrismaModelSnapshotTypes(ctx, prismaField);
+  if (typeof types === `undefined`) {
+    return undefined;
+  }
   const prismaModel = ctx.getPrismaModelOfPrismaField(prismaField);
   const directives = ctx.getDirectivesOfPrismaField(prismaField);
   let choices: SnapshotFieldMetaOptions[`choices`] = undefined;
@@ -442,14 +450,14 @@ const prismaFieldToSnapshotField = (
     language: directive.tArgs[0],
     translation: directive.tArgs[1],
   }));
-  const { directusType } = getPrismaModelSnapshotTypes(ctx, prismaField);
+  const { directusType } = types;
 
   const snapshotField: SnapshotField = {
     collection: prismaModel.dbName ?? prismaModel.name,
     field: prismaField.dbName ?? prismaField.name,
     meta: {
       collection: prismaModel.dbName ?? prismaModel.name,
-      conditions: fieldConditions,
+      conditions: fieldConditions.length > 0 ? fieldConditions : null,
       display: directives.find(`display`)?.tArgs[0] ?? null,
       display_options: displayOptions,
       field: prismaField.dbName ?? prismaField.name,
@@ -458,12 +466,10 @@ const prismaFieldToSnapshotField = (
       interface: directives.find(`interface`)?.tArgs[0] ?? null,
       note: directives.find(`note`)?.tArgs[0] ?? null,
       options,
-      readonly:
-        directives.find(`readonly`) !== undefined || prismaField.isReadOnly,
+      readonly: directives.find(`readonly`) !== undefined,
       required:
         directives.find(`required`) !== undefined ||
-        prismaField.isRequired ||
-        prismaField.isId,
+        (!prismaField.isList && (prismaField.isRequired || prismaField.isId)),
       sort: directives.find(`sort`)?.tArgs[0] ?? null,
       special: special.length > 0 ? special : null,
       translations: translations.length > 0 ? translations : null,

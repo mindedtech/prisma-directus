@@ -6,7 +6,10 @@ import { prismaFieldToSnaphotRelation } from "@/generator/lib/Snapshot/SnapshotR
 
 import type { Condition } from "@/generator/lib/Condition";
 import type { Filter } from "@/generator/lib/Filter";
-import type { PrismaDatamodel } from "@/generator/lib/Snapshot/SnapshotTypes";
+import type {
+  PrismaDatamodel,
+  Snapshot,
+} from "@/generator/lib/Snapshot/SnapshotTypes";
 
 type CreateSnapshotOptions = {
   readonly conditions: Record<string, Condition>;
@@ -24,33 +27,51 @@ const createSnapshot = ({
   directus,
   filters,
   version,
-}: CreateSnapshotOptions) => {
+}: CreateSnapshotOptions): {
+  readonly snapshot: Snapshot;
+  readonly isError: boolean;
+  readonly error: unknown;
+} => {
   const snapshot = createBaseSnapshot(directus, version);
-  const ctx = createSnapshotContext(
-    datamodel,
-    conditions,
-    filters,
-    directivePrefix,
-    snapshot,
-  );
-
-  for (const prismaModel of datamodel.models) {
-    const snapshotCollection = prismaModelToSnapshotCollection(
-      ctx,
-      prismaModel,
+  try {
+    const ctx = createSnapshotContext(
+      datamodel,
+      conditions,
+      filters,
+      directivePrefix,
+      snapshot,
     );
-    snapshot.collections.push(snapshotCollection);
-    for (const prismaField of prismaModel.fields) {
-      const snapshotField = prismaFieldToSnapshotField(ctx, prismaField);
-      snapshot.fields.push(snapshotField);
-      const snapshotRelation = prismaFieldToSnaphotRelation(ctx, prismaField);
-      if (snapshotRelation) {
-        snapshot.relations.push(snapshotRelation);
+
+    for (const prismaModel of datamodel.models) {
+      const snapshotCollection = prismaModelToSnapshotCollection(
+        ctx,
+        prismaModel,
+      );
+      snapshot.collections.push(snapshotCollection);
+      for (const prismaField of prismaModel.fields) {
+        const snapshotField = prismaFieldToSnapshotField(ctx, prismaField);
+        if (snapshotField) {
+          snapshot.fields.push(snapshotField);
+        }
+        const snapshotRelation = prismaFieldToSnaphotRelation(ctx, prismaField);
+        if (snapshotRelation) {
+          snapshot.relations.push(snapshotRelation);
+        }
       }
     }
-  }
 
-  return snapshot;
+    return {
+      error: null,
+      isError: false,
+      snapshot,
+    };
+  } catch (error) {
+    return {
+      error,
+      isError: true,
+      snapshot,
+    };
+  }
 };
 
 export { createSnapshot };

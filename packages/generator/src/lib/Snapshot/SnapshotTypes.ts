@@ -110,6 +110,7 @@ type SnapshotContext = {
   readonly conditions: Record<string, Condition>;
   readonly filters: Record<string, Filter>;
   readonly snapshot: Snapshot;
+  readonly debug: () => void;
 
   readonly getDirectivesOfPrismaModel: (
     prismaModel: PrismaModel,

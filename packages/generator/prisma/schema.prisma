@@ -7,14 +7,14 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// generator directus {
-//   provider   = "node ./build/main.js"
-//   version    = 1
-//   directus   = "10.8.3"
-//   configFile = "./prisma/directus-config.yml"
-//   debugFile  = "./prisma/directus-debug.local.yml"
-//   verbose    = true
-// }
+generator directus {
+  provider   = "node ./build/main.js"
+  version    = 1
+  directus   = "10.8.3"
+  configFile = "./prisma/directus-config.yml"
+  debugFile  = "./prisma/directus-debug.local.yml"
+  errorFile  = "./prisma/directus-error.local.log"
+}
 
 enum ItemColor {
   RED
@@ -22,25 +22,29 @@ enum ItemColor {
   BLUE
 }
 
-model Item {
+model item {
   /// @special(uuid)
-  item_id       String    @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  item_group_id String    @db.Uuid
+  item_id       String     @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  /// @special(m2o) @interface(select-dropdown-m2o)
+  item_group_id String     @db.Uuid
   /// @constraintName(item__item_group_fk)
-  item_group    ItemGroup @relation("item__item_group", fields: [item_group_id], references: [item_group_id], map: "item__item_group")
+  item_group    item_group @relation("item__item_group", fields: [item_group_id], references: [item_group_id], map: "item__item_group", onDelete: Cascade, onUpdate: Cascade)
   title         String
   item_color    ItemColor
 
   @@id([item_id], map: "item_id")
+  @@map("item")
 }
 
-model ItemGroup {
+model item_group {
   /// @special(uuid)
   item_group_id String @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title         String
-  items         Item[] @relation("item__item_group")
+  /// @constraintName(item__item_group_fk) @special(o2m) @interface(list-o2m)
+  items         item[] @relation("item__item_group")
 
   @@id([item_group_id], map: "item_group_id")
+  @@map("item_group")
 }
 
 // enum PublicationStatus {
