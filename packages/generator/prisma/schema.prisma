@@ -7,65 +7,92 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator directus {
-  provider   = "node ./build/main.js"
-  version    = 1
-  directus   = "10.8.3"
-  configFile = "./prisma/directus-config.yml"
-  debugFile  = "./prisma/directus-debug.local.yml"
-  verbose    = true
+// generator directus {
+//   provider   = "node ./build/main.js"
+//   version    = 1
+//   directus   = "10.8.3"
+//   configFile = "./prisma/directus-config.yml"
+//   debugFile  = "./prisma/directus-debug.local.yml"
+//   verbose    = true
+// }
+
+enum ItemColor {
+  RED
+  GREEN
+  BLUE
 }
 
-enum PublicationStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
-
-model Locale {
+model Item {
   /// @special(uuid)
-  locale_id           String          @default(dbgenerated("gen_random_uuid()")) @map("locale_id") @db.Uuid
-  created_at          DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
-  updated_at          DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
-  /// @constraintName(article_locale__locale__fk)
-  article_locale_list ArticleLocale[] @relation("article_locale__locale", map: "article_locale__locale__fk")
+  item_id       String    @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  item_group_id String    @db.Uuid
+  /// @constraintName(item__item_group_fk)
+  item_group    ItemGroup @relation("item__item_group", fields: [item_group_id], references: [item_group_id], map: "item__item_group")
+  title         String
+  item_color    ItemColor
 
-  @@id([locale_id], map: "locale_id")
-  @@map("locale")
+  @@id([item_id], map: "item_id")
 }
 
-model Article {
+model ItemGroup {
   /// @special(uuid)
-  article_id          String          @default(dbgenerated("gen_random_uuid()")) @map("article_id") @db.Uuid
-  created_at          DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
-  updated_at          DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
-  /// @constraintName(article_locale__article__fk)
-  article_locale_list ArticleLocale[] @relation("article_locale__article", map: "article_locale__article__fk")
+  item_group_id String @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title         String
+  items         Item[] @relation("item__item_group")
 
-  @@id([article_id], map: "article_id")
-  @@map("article")
+  @@id([item_group_id], map: "item_group_id")
 }
 
-model ArticleLocale {
-  /// @special(uuid)
-  article_locale_id   String   @default(dbgenerated("gen_random_uuid()")) @map("article_locale_id") @db.Uuid
-  article_id          String   @map("article_id") @db.Uuid
-  /// @constraintName(article_locale__article__fk)
-  article             Article  @relation("article_locale__article", fields: [article_id], references: [article_id], map: "article_locale__article__fk", onDelete: Cascade, onUpdate: Cascade)
-  locale_id           String   @map("locale_id") @db.Uuid
-  /// @constraintName(article_locale__locale__fk)
-  locale              Locale   @relation("article_locale__locale", fields: [locale_id], references: [locale_id], map: "article_locale__locale__fk", onDelete: Cascade, onUpdate: Cascade)
-  article_locale_slug String   @map("article_locale_slug")
-  created_at          DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
-  updated_at          DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
-  title               String
-  body_markdown       String?  @map("body_markdown")
+// enum PublicationStatus {
+//   DRAFT
+//   PUBLISHED
+//   ARCHIVED
+// }
 
-  @@id([article_locale_id], map: "article_locale_id")
-  @@unique([article_id, locale_id], map: "article_locale__article_id__locale_id__unique")
-  @@unique([article_locale_slug], map: "article_locale_slug__unique")
-  @@map("article_locale")
-}
+// model Locale {
+//   /// @special(uuid)
+//   locale_id           String          @default(dbgenerated("gen_random_uuid()")) @map("locale_id") @db.Uuid
+//   created_at          DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
+//   updated_at          DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+//   /// @constraintName(article_locale__locale__fk)
+//   article_locale_list ArticleLocale[] @relation("article_locale__locale", map: "article_locale__locale__fk")
+
+//   @@id([locale_id], map: "locale_id")
+//   @@map("locale")
+// }
+
+// model Article {
+//   /// @special(uuid)
+//   article_id          String          @default(dbgenerated("gen_random_uuid()")) @map("article_id") @db.Uuid
+//   created_at          DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
+//   updated_at          DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+//   /// @constraintName(article_locale__article__fk)
+//   article_locale_list ArticleLocale[] @relation("article_locale__article", map: "article_locale__article__fk")
+
+//   @@id([article_id], map: "article_id")
+//   @@map("article")
+// }
+
+// model ArticleLocale {
+//   /// @special(uuid)
+//   article_locale_id   String   @default(dbgenerated("gen_random_uuid()")) @map("article_locale_id") @db.Uuid
+//   article_id          String   @map("article_id") @db.Uuid
+//   /// @constraintName(article_locale__article__fk)
+//   article             Article  @relation("article_locale__article", fields: [article_id], references: [article_id], map: "article_locale__article__fk", onDelete: Cascade, onUpdate: Cascade)
+//   locale_id           String   @map("locale_id") @db.Uuid
+//   /// @constraintName(article_locale__locale__fk)
+//   locale              Locale   @relation("article_locale__locale", fields: [locale_id], references: [locale_id], map: "article_locale__locale__fk", onDelete: Cascade, onUpdate: Cascade)
+//   article_locale_slug String   @map("article_locale_slug")
+//   created_at          DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+//   updated_at          DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+//   title               String
+//   body_markdown       String?  @map("body_markdown")
+
+//   @@id([article_locale_id], map: "article_locale_id")
+//   @@unique([article_id, locale_id], map: "article_locale__article_id__locale_id__unique")
+//   @@unique([article_locale_slug], map: "article_locale_slug__unique")
+//   @@map("article_locale")
+// }
 
 // model KitchenSink {
 //   kitchen_sink_id String @default(dbgenerated("gen_random_uuid()")) @db.Uuid

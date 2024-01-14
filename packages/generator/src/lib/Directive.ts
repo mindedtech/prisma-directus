@@ -10,7 +10,7 @@ const RawDirective = z.object({
 
 type RawDirective = z.infer<typeof RawDirective>;
 
-const CollectionDirective = z.discriminatedUnion(`directive`, [
+const ModelDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
     directive: z.literal(`accountability`),
     kwArgs: z.object({}),
@@ -107,11 +107,10 @@ const CollectionDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([]),
   }),
 ]);
-type AnyCollectionDirective = z.infer<typeof CollectionDirective>;
-type CollectionDirective<
-  K extends
-    AnyCollectionDirective[`directive`] = AnyCollectionDirective[`directive`],
-> = Extract<AnyCollectionDirective, { directive: K }>;
+type AnyModelDirective = z.infer<typeof ModelDirective>;
+type ModelDirective<
+  K extends AnyModelDirective[`directive`] = AnyModelDirective[`directive`],
+> = Extract<AnyModelDirective, { directive: K }>;
 
 const FieldDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
@@ -121,6 +120,11 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
   }),
   RawDirective.extend({
     directive: z.literal(`condition`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`comment`),
     kwArgs: z.object({}),
     tArgs: z.tuple([z.string()]),
   }),
@@ -344,32 +348,30 @@ const parseRawDirectives = (
   return directives;
 };
 
-type CollectionDirectives = {
-  readonly find: <K extends AnyCollectionDirective[`directive`]>(
+type ModelDirectives = {
+  readonly find: <K extends AnyModelDirective[`directive`]>(
     directive: K,
-  ) => CollectionDirective<K> | undefined;
-  readonly filter: <K extends AnyCollectionDirective[`directive`]>(
+  ) => ModelDirective<K> | undefined;
+  readonly filter: <K extends AnyModelDirective[`directive`]>(
     directive: K,
-  ) => CollectionDirective<K>[];
-  readonly directives: AnyCollectionDirective[];
+  ) => ModelDirective<K>[];
+  readonly directives: AnyModelDirective[];
 };
-const parseCollectionDirectives = (
+const parseModelDirectives = (
   directivePrefix: string,
   documentation?: undefined | string,
-): CollectionDirectives => {
+): ModelDirectives => {
   const directives = parseRawDirectives(directivePrefix, documentation).map(
-    (directive) => CollectionDirective.parse(directive),
+    (directive) => ModelDirective.parse(directive),
   );
   return {
     directives,
-    filter: <K extends AnyCollectionDirective[`directive`]>(directive: K) =>
+    filter: <K extends AnyModelDirective[`directive`]>(directive: K) =>
       directives.filter(
-        (d): d is CollectionDirective<K> => d.directive === directive,
+        (d): d is ModelDirective<K> => d.directive === directive,
       ),
-    find: <K extends AnyCollectionDirective[`directive`]>(directive: K) =>
-      directives.find(
-        (d): d is CollectionDirective<K> => d.directive === directive,
-      ),
+    find: <K extends AnyModelDirective[`directive`]>(directive: K) =>
+      directives.find((d): d is ModelDirective<K> => d.directive === directive),
   };
 };
 
@@ -400,6 +402,6 @@ const parseFieldDirectives = (
   };
 };
 
-export { parseCollectionDirectives, parseFieldDirectives };
+export { parseFieldDirectives, parseModelDirectives };
 
-export type { FieldDirectives };
+export type { FieldDirectives, ModelDirectives };
