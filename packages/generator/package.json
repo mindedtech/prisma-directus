@@ -68,6 +68,7 @@
     "dev:docker:pg:up": "docker-compose -f docker-compose.development.yml up -d prisma-directus-pg-dev",
     "dev:prisma": "dotenv -e .env.development prisma --",
     "dev:prisma:datamodel": "node ./build-datamodel.mjs",
+    "dev:prisma:init": "rm -rf prisma/migrations && npm run dev:prisma -- migrate dev --name init",
     "main": "./build/main.mjs"
   },
   "type": "module",
