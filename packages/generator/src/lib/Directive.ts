@@ -57,6 +57,11 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
+    directive: z.literal(`ignore`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`itemDuplicationField`),
     kwArgs: z.object({}),
     tArgs: z.tuple([z.string()]),

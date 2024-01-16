@@ -43,6 +43,10 @@ const createSnapshot = ({
     );
 
     for (const prismaModel of datamodel.models) {
+      const directives = ctx.getDirectivesOfPrismaModel(prismaModel);
+      if (typeof directives.find(`ignore`) !== `undefined`) {
+        continue;
+      }
       const snapshotCollection = prismaModelToSnapshotCollection(
         ctx,
         prismaModel,

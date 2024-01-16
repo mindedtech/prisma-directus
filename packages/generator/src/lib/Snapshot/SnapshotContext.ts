@@ -59,6 +59,9 @@ const createSnapshotContext = (
       localPrismaModel.documentation,
     );
     directivesOfPrismaModelMap.set(localPrismaModel, prismaModelDirectives);
+    if (typeof prismaModelDirectives.find(`ignore`) !== `undefined`) {
+      continue;
+    }
     for (const localPrismaField of localPrismaModel.fields) {
       prismaModelOfPrismaFieldMap.set(localPrismaField, localPrismaModel);
       const prismaFieldDirectives = parseFieldDirectives(
