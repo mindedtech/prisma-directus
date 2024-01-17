@@ -16,8 +16,8 @@ import type {
 } from "@directus/api/types/snapshot";
 import type { Type as SnapshotFieldType } from "@directus/types";
 import type { DMMF } from "@prisma/generator-helper";
-type SnapshotCollection = BaseCollection & {
-  meta: BaseCollectionMeta & {
+type SnapshotCollection = Omit<BaseCollection, `meta`> & {
+  meta: Omit<BaseCollectionMeta, `translations`> & {
     archive_app_filter: boolean;
     archive_field: string | null;
     archive_value: string | null;
@@ -28,7 +28,14 @@ type SnapshotCollection = BaseCollection & {
     sort_field: string | null;
     sort: number | null;
     unarchive_value: string | null;
-    translations: null | Record<string, string>;
+    translations:
+      | null
+      | {
+          language: string;
+          translation: string;
+          singular?: string;
+          plural?: string;
+        }[];
   };
   schema: NonNullable<BaseCollection[`schema`]>;
 };
@@ -45,7 +52,7 @@ type SnapshotFieldMetaOptions = {
   languageField?: string;
 };
 
-type SnapshotFieldMeta = BaseSnapshotField[`meta`] & {
+type SnapshotFieldMeta = Omit<BaseSnapshotField[`meta`], `translations`> & {
   display:
     | `boolean`
     | `datetime`
@@ -81,6 +88,12 @@ type SnapshotFieldMeta = BaseSnapshotField[`meta`] & {
         | `uuid`
       )[]
     | null;
+  translations:
+    | null
+    | {
+        language: string;
+        translation: string;
+      }[];
 };
 
 type SnapshotField = OmitStrict<
@@ -106,6 +119,7 @@ type PrismaModel = PrismaDatamodel[`models`][number];
 type PrismaField = PrismaModel[`fields`][number];
 
 type SnapshotContext = {
+  readonly autoSort: boolean;
   readonly datamodel: PrismaDatamodel;
   readonly conditions: Record<string, Condition>;
   readonly filters: Record<string, Filter>;

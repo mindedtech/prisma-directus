@@ -19,6 +19,7 @@ import type {
 
 const createSnapshotContext = (
   datamodel: PrismaDatamodel,
+  autoSortFields: boolean,
   conditions: Record<string, Condition>,
   filters: Record<string, Filter>,
   directivePrefix: string,
@@ -296,6 +297,7 @@ const createSnapshotContext = (
     };
 
   return {
+    autoSort: autoSortFields,
     conditions,
     datamodel,
     debug,

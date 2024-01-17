@@ -12,6 +12,7 @@ import type {
 } from "@/generator/lib/Snapshot/SnapshotTypes";
 
 type CreateSnapshotOptions = {
+  readonly autoSortFields: boolean;
   readonly conditions: Record<string, Condition>;
   readonly datamodel: PrismaDatamodel;
   readonly directivePrefix: string;
@@ -21,6 +22,7 @@ type CreateSnapshotOptions = {
 };
 
 const createSnapshot = ({
+  autoSortFields,
   conditions,
   datamodel,
   directivePrefix,
@@ -36,6 +38,7 @@ const createSnapshot = ({
   try {
     const ctx = createSnapshotContext(
       datamodel,
+      autoSortFields,
       conditions,
       filters,
       directivePrefix,
@@ -43,8 +46,8 @@ const createSnapshot = ({
     );
 
     for (const prismaModel of datamodel.models) {
-      const directives = ctx.getDirectivesOfPrismaModel(prismaModel);
-      if (typeof directives.find(`ignore`) !== `undefined`) {
+      const modelDirectives = ctx.getDirectivesOfPrismaModel(prismaModel);
+      if (typeof modelDirectives.find(`ignore`) !== `undefined`) {
         continue;
       }
       const snapshotCollection = prismaModelToSnapshotCollection(
@@ -52,15 +55,23 @@ const createSnapshot = ({
         prismaModel,
       );
       snapshot.collections.push(snapshotCollection);
+      let k = 0;
       for (const prismaField of prismaModel.fields) {
         const snapshotField = prismaFieldToSnapshotField(ctx, prismaField);
         if (snapshotField) {
+          if (
+            autoSortFields ||
+            modelDirectives.find(`autoSortFields`) !== undefined
+          ) {
+            snapshotField.meta.sort = k;
+          }
           snapshot.fields.push(snapshotField);
         }
         const snapshotRelation = prismaFieldToSnaphotRelation(ctx, prismaField);
         if (snapshotRelation) {
           snapshot.relations.push(snapshotRelation);
         }
+        k++;
       }
     }
 

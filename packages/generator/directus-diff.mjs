@@ -1,3 +1,5 @@
+#!/bin/env node
+
 import { readFile, writeFile } from "fs/promises";
 
 import {
@@ -22,4 +24,4 @@ const result = await client.request(schemaDiff(snapshot));
 
 await writeFile(`./prisma/directus-diff.local.yml`, dump(result), `utf-8`);
 
-await client.logout().catch(() => process.exit(1));
+await client.logout().catch(() => process.exit(0));

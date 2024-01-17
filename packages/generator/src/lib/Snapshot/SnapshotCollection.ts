@@ -18,6 +18,9 @@ const prismaModelToSnapshotCollection = (
   }
   const modelDirectives = ctx.getDirectivesOfPrismaModel(prismaModel);
   const accountability = modelDirectives.find(`accountability`)?.tArgs[0];
+  const collectionTranslations = modelDirectives.filter(
+    `collectionTranslation`,
+  );
   const itemDuplicationFields = modelDirectives
     .filter(`itemDuplicationField`)
     .map((directive) => directive.tArgs[0]);
@@ -54,11 +57,15 @@ const prismaModelToSnapshotCollection = (
       singleton: modelDirectives.find(`singleton`) !== undefined,
       sort: modelDirectives.find(`sort`)?.tArgs[0] ?? null,
       sort_field: modelDirectives.find(`sortField`)?.tArgs[0] ?? null,
-      translations: Object.fromEntries(
-        modelDirectives
-          .filter(`translation`)
-          .map((directive) => directive.tArgs),
-      ),
+      translations:
+        collectionTranslations.length > 0
+          ? collectionTranslations.map(({ tArgs }) => ({
+              language: tArgs[0],
+              plural: tArgs[3],
+              singular: tArgs[2],
+              translation: tArgs[1],
+            }))
+          : null,
       unarchive_value:
         modelDirectives.find(`unarchiveValue`)?.tArgs[0] ??
         modelDirectives.find(`archive`)?.kwArgs.unarchive ??

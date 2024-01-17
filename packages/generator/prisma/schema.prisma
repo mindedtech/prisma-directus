@@ -22,59 +22,106 @@ enum PublicationStatus {
   ARCHIVED
 }
 
+/// @autoSortFields
+/// @collectionTranslation(en-US, Language)
+/// @collectionTranslation(fr-FR, Langue)
 model locale {
-  /// @uuid
-  locale_id           String           @default(dbgenerated("gen_random_uuid()")) @map("locale_id") @db.Uuid
+  /// @fieldTranslation(en-US, Code)
+  /// @fieldTranslation(fr-FR, Code)
+  locale_code         String           @map("locale_code")
   /// @createdAt
+  /// @fieldTranslation(en-US, Created at)
+  /// @fieldTranslation(fr-FR, Créé le)
   created_at          DateTime         @default(now()) @map("created_at") @db.Timestamptz(3)
   /// @updatedAt
+  /// @fieldTranslation(en-US, Updated at)
+  /// @fieldTranslation(fr-FR, Mis à jour le)
   updated_at          DateTime         @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
-  /// @o2m @constraint(article_locale__locale__fk)
+  /// @constraint(article_locale__locale__fk)
+  /// @fieldTranslation(en-US, Articles)
+  /// @fieldTranslation(fr-FR, Articles)
   article_locale_list article_locale[] @relation("article_locale__locale", map: "article_locale__locale__fk")
 
-  @@id([locale_id], map: "locale_id")
+  @@id([locale_code], map: "locale__pk")
   @@map("locale")
 }
 
-/// @archive(field: publication_status, archive: ARCHIVED, unarchive: DRAFT)
+/// @autoSortFields @archive(field: publication_status, archive: ARCHIVED, unarchive: DRAFT)
+/// @collectionTranslation(en-US, Article)
+/// @collectionTranslation(fr-FR, Article)
 model article {
   /// @uuid
+  /// @fieldTranslation(en-US, ID)
+  /// @fieldTranslation(fr-FR, ID)
   article_id          String            @default(dbgenerated("gen_random_uuid()")) @map("article_id") @db.Uuid
   /// @createdAt
+  /// @fieldTranslation(en-US, Created at)
+  /// @fieldTranslation(fr-FR, Créé le)
   created_at          DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
   /// @updatedAt
+  /// @fieldTranslation(en-US, Updated at)
+  /// @fieldTranslation(fr-FR, Mis à jour le)
   updated_at          DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  /// @fieldTranslation(en-US, Publication status)
+  /// @fieldTranslation(fr-FR, Statut de publication)
   publication_status  PublicationStatus @default(DRAFT)
-  /// @o2m @constraint(article_locale__article__fk)
+  /// @translations(locale_code) @constraint(article_locale__article__fk)
+  /// @fieldTranslation(en-US, Translations)
+  /// @fieldTranslation(fr-FR, Traductions)
   article_locale_list article_locale[]  @relation("article_locale__article", map: "article_locale__article__fk")
 
-  @@id([article_id], map: "article_id")
+  @@id([article_id], map: "article__pk")
   @@map("article")
 }
 
-/// @archive(field: publication_status, archive: ARCHIVED, unarchive: DRAFT)
+/// @autoSortFields @hidden @archive(field: publication_status, archive: ARCHIVED, unarchive: DRAFT)
+/// @collectionTranslation(en-US, Article)
+/// @collectionTranslation(fr-FR, Article)
 model article_locale {
-  /// @uuid
+  /// @uuid @hidden
+  /// @fieldTranslation(en-US, ID)
+  /// @fieldTranslation(fr-FR, ID)
   article_locale_id   String            @default(dbgenerated("gen_random_uuid()")) @map("article_locale_id") @db.Uuid
-  /// @m2o
+  /// @hidden
+  /// @fieldTranslation(en-US, Article ID)
+  /// @fieldTranslation(fr-FR, ID Article)
   article_id          String            @map("article_id") @db.Uuid
-  /// @constraint(article_locale__article__fk)
+  /// @junctionField(locale_code) @constraint(article_locale__article__fk)
+  /// @fieldTranslation(en-US, Article)
+  /// @fieldTranslation(fr-FR, Article)
   article             article           @relation("article_locale__article", fields: [article_id], references: [article_id], map: "article_locale__article__fk", onDelete: Cascade, onUpdate: Cascade)
-  /// @m2o
-  locale_id           String            @map("locale_id") @db.Uuid
-  /// @constraint(article_locale__locale__fk)
-  locale              locale            @relation("article_locale__locale", fields: [locale_id], references: [locale_id], map: "article_locale__locale__fk", onDelete: Cascade, onUpdate: Cascade)
+  /// @hidden
+  /// @fieldTranslation(en-US, Language code)
+  /// @fieldTranslation(fr-FR, Code langue)
+  locale_code         String            @map("locale_code")
+  /// @junctionField(article_id) @constraint(article_locale__locale__fk)
+  /// @fieldTranslation(en-US, Language)
+  /// @fieldTranslation(fr-FR, Langue)
+  locale              locale            @relation("article_locale__locale", fields: [locale_code], references: [locale_code], map: "article_locale__locale__fk", onDelete: Cascade, onUpdate: Cascade)
+  /// @fieldTranslation(en-US, Slug)
+  /// @fieldTranslation(fr-FR, Slug)
   article_locale_slug String            @map("article_locale_slug")
   /// @createdAt
+  /// @fieldTranslation(en-US, Created at)
+  /// @fieldTranslation(fr-FR, Créé le)
   created_at          DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
   /// @updatedAt
+  /// @fieldTranslation(en-US, Updated at)
+  /// @fieldTranslation(fr-FR, Mis à jour le)
   updated_at          DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  /// @fieldTranslation(en-US, Publication status)
+  /// @fieldTranslation(fr-FR, Statut de publication)
   publication_status  PublicationStatus @default(DRAFT)
+  /// @fieldTranslation(en-US, Title)
+  /// @fieldTranslation(fr-FR, Titre)
   title               String
+  /// @richText
+  /// @fieldTranslation(en-US, Body)
+  /// @fieldTranslation(fr-FR, Corps)
   body_markdown       String?           @map("body_markdown")
 
-  @@id([article_locale_id], map: "article_locale_id")
-  @@unique([article_id, locale_id], map: "article_locale__article_id__locale_id__unique")
-  @@unique([article_locale_slug], map: "article_locale_slug__unique")
+  @@id([article_locale_id], map: "article_locale__pk")
+  @@unique([article_id, locale_code], map: "article_locale__article__locale__uq")
+  @@unique([article_locale_slug], map: "article_locale__slug__uq")
   @@map("article_locale")
 }

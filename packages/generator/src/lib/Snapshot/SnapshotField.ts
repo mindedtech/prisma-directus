@@ -211,7 +211,7 @@ const getPrismaModelSnapshotTypes = (
         kind: `enum`,
         type: prismaField.type,
       },
-      directusType: `string`,
+      directusType: `unknown`,
     };
   }
   throw new Error(
@@ -353,7 +353,7 @@ const getPrismaFieldSnapshotFieldSchema = (
     generation_expression: null,
     has_auto_increment: false,
     is_generated: false,
-    is_nullable: !prismaField.isRequired,
+    is_nullable: !prismaField.isRequired && !prismaField.isId,
     is_primary_key: prismaField.isId,
     is_unique: prismaField.isUnique || prismaField.isId,
     max_length: directives.find(`maxLength`)?.tArgs[0] ?? null,
@@ -412,7 +412,7 @@ const prismaFieldToSnapshotField = (
     }
     return condition;
   });
-  const displayOptions = directives
+  let displayOptions = directives
     .filter(`displayOption`)
     .reduce<null | Record<string, string>>(
       (displayOptions = {}, { tArgs: [key, value] }) => ({
@@ -430,19 +430,23 @@ const prismaFieldToSnapshotField = (
     options ??= {};
     options.enableLink = true;
   }
-  const fieldTranslations = directives.find(`translations`)?.kwArgs;
+  const translations = directives.find(`translations`);
   const languageDirectionField =
     directives.find(`languageDirectionField`)?.tArgs[0] ??
-    fieldTranslations?.language;
+    translations?.tArgs[1];
   if (languageDirectionField !== undefined) {
     options ??= {};
     options.languageDirectionField = languageDirectionField;
+    displayOptions ??= {};
+    displayOptions[`languageDirectionField`] = languageDirectionField;
   }
   const languageField =
-    directives.find(`languageField`)?.tArgs[0] ?? fieldTranslations?.language;
+    directives.find(`languageField`)?.tArgs[0] ?? translations?.tArgs[0];
   if (languageField !== undefined) {
     options ??= {};
     options.languageField = languageField;
+    displayOptions ??= {};
+    displayOptions[`languageField`] = languageField;
   }
   const special = directives
     .filter(`special`)
@@ -471,7 +475,10 @@ const prismaFieldToSnapshotField = (
   if (directives.find(`uuid`) !== undefined && !special.includes(`uuid`)) {
     special.push(`uuid`);
   }
-  if (fieldTranslations && !special.includes(`translations`)) {
+  if (
+    typeof options?.languageField !== `undefined` &&
+    !special.includes(`translations`)
+  ) {
     special.push(`translations`);
   }
   const validation = directives.find(`validation`);
@@ -482,10 +489,7 @@ const prismaFieldToSnapshotField = (
       `[${prismaModel.name}.${prismaField.name}] Filter "${validation?.tArgs[0]}" not found`,
     );
   }
-  const translations = directives.filter(`translation`).map((directive) => ({
-    language: directive.tArgs[0],
-    translation: directive.tArgs[1],
-  }));
+  const fieldTranslations = directives.filter(`fieldTranslation`);
   const { directusType } = types;
 
   const snapshotField: SnapshotField = {
@@ -500,7 +504,9 @@ const prismaFieldToSnapshotField = (
           ? `boolean`
           : directives.find(`datetime`) !== undefined
             ? `datetime`
-            : null),
+            : special.includes(`translations`)
+              ? `translations`
+              : null),
       display_options: displayOptions,
       field: prismaField.dbName ?? prismaField.name,
       group: directives.find(`group`)?.tArgs[0] ?? null,
@@ -511,22 +517,32 @@ const prismaFieldToSnapshotField = (
           ? `boolean`
           : directives.find(`datetime`) !== undefined
             ? `datetime`
-            : directives.find(`m2m`) !== undefined
-              ? `list-m2m`
-              : directives.find(`o2m`) !== undefined
-                ? `list-o2m`
-                : directives.find(`m2o`) !== undefined
-                  ? `select-dropdown-m2o`
-                  : null),
+            : directives.find(`richText`) !== undefined
+              ? `input-rich-text-md`
+              : directives.find(`m2m`) !== undefined
+                ? `list-m2m`
+                : directives.find(`o2m`) !== undefined
+                  ? `list-o2m`
+                  : directives.find(`m2o`) !== undefined
+                    ? `select-dropdown-m2o`
+                    : choices
+                      ? `select-dropdown`
+                      : special.includes(`translations`)
+                        ? `translations`
+                        : null),
       note: directives.find(`note`)?.tArgs[0] ?? null,
       options,
       readonly: directives.find(`readonly`) !== undefined,
-      required:
-        directives.find(`required`) !== undefined ||
-        (!prismaField.isList && (prismaField.isRequired || prismaField.isId)),
+      required: directives.find(`required`) !== undefined,
       sort: directives.find(`sort`)?.tArgs[0] ?? null,
       special: special.length > 0 ? special : null,
-      translations: translations.length > 0 ? translations : null,
+      translations:
+        fieldTranslations.length > 0
+          ? fieldTranslations.map(({ tArgs: [language, translation] }) => ({
+              language,
+              translation,
+            }))
+          : null,
       validation: filter as SnapshotFieldMeta[`validation`],
       validation_message:
         directives.find(`validationMessage`)?.tArgs[0] ??

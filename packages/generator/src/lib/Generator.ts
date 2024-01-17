@@ -16,6 +16,7 @@ import { createSnapshot } from "@/generator/lib/Snapshot/Snapshot";
 
 const GeneratorConfig = z
   .object({
+    autoSortFields: z.boolean().default(false),
     banner: z
       .string()
       .default(
@@ -55,6 +56,7 @@ const generate = () =>
         throw new Error(`No output directory specified`);
       }
       const {
+        autoSortFields,
         banner,
         configFile,
         debugFile,
@@ -67,6 +69,7 @@ const generate = () =>
       const config = await parseConfigFile(configFile);
 
       const { error, isError, snapshot } = createSnapshot({
+        autoSortFields,
         conditions: config.conditions,
         datamodel: dmmf.datamodel,
         directivePrefix,

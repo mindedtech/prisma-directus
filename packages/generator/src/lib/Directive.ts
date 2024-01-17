@@ -42,6 +42,11 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
+    directive: z.literal(`autoSortFields`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`color`),
     kwArgs: z.object({}),
     tArgs: z.tuple([z.string()]),
@@ -50,6 +55,14 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
     directive: z.literal(`collapse`),
     kwArgs: z.object({}),
     tArgs: z.tuple([z.enum([`open`, `closed`, `locked`])]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`collectionTranslation`),
+    kwArgs: z.object({}),
+    tArgs: z.union([
+      z.tuple([z.string(), z.string()]),
+      z.tuple([z.string(), z.string(), z.string(), z.string()]),
+    ]),
   }),
   RawDirective.extend({
     directive: z.literal(`displayTemplate`),
@@ -105,11 +118,6 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
     directive: z.literal(`singleton`),
     kwArgs: z.object({}),
     tArgs: z.tuple([]),
-  }),
-  RawDirective.extend({
-    directive: z.literal(`translation`),
-    kwArgs: z.object({}),
-    tArgs: z.tuple([z.string(), z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`unarchiveValue`),
@@ -265,6 +273,11 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([z.coerce.number().int().min(0)]),
   }),
   RawDirective.extend({
+    directive: z.literal(`richText`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`scale`),
     kwArgs: z.object({}),
     tArgs: z.tuple([z.coerce.number().int().min(0)]),
@@ -345,16 +358,14 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([FieldType]),
   }),
   RawDirective.extend({
-    directive: z.literal(`translation`),
+    directive: z.literal(`fieldTranslation`),
     kwArgs: z.object({}),
     tArgs: z.tuple([z.string(), z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`translations`),
-    kwArgs: z.object({
-      direction: z.string().optional(),
-      language: z.string(),
-    }),
+    kwArgs: z.object({}),
+    tArgs: z.union([z.tuple([z.string()]), z.tuple([z.string(), z.string()])]),
   }),
   RawDirective.extend({
     directive: z.literal(`uuid`),
@@ -364,7 +375,7 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
     directive: z.literal(`validation`),
     kwArgs: z.object({}),
-    tArgs: z.tuple([z.string(), z.string().optional()]),
+    tArgs: z.union([z.tuple([z.string()]), z.tuple([z.string(), z.string()])]),
   }),
   RawDirective.extend({
     directive: z.literal(`validationMessage`),

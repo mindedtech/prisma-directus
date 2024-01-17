@@ -19,7 +19,7 @@ collections:
       singleton: false
       sort: null
       sort_field: null
-      translations: {}
+      translations: null
       unarchive_value: null
       versioning: false
     schema:
@@ -43,7 +43,11 @@ collections:
       singleton: false
       sort: null
       sort_field: null
-      translations: {}
+      translations:
+        - language: en-US
+          translation: Language
+        - language: fr-FR
+          translation: Langue
       unarchive_value: null
       versioning: false
     schema:
@@ -67,7 +71,11 @@ collections:
       singleton: false
       sort: null
       sort_field: null
-      translations: {}
+      translations:
+        - language: en-US
+          translation: Article
+        - language: fr-FR
+          translation: Article
       unarchive_value: DRAFT
       versioning: false
     schema:
@@ -83,7 +91,7 @@ collections:
       color: null
       display_template: null
       group: null
-      hidden: false
+      hidden: true
       icon: null
       item_duplication_fields: null
       note: null
@@ -91,7 +99,11 @@ collections:
       singleton: false
       sort: null
       sort_field: null
-      translations: {}
+      translations:
+        - language: en-US
+          translation: Article
+        - language: fr-FR
+          translation: Article
       unarchive_value: DRAFT
       versioning: false
     schema:
@@ -403,31 +415,34 @@ fields:
       table: _prisma_migrations
     type: timestamp
   - collection: locale
-    field: locale_id
+    field: locale_code
     meta:
       collection: locale
       conditions: null
       display: null
       display_options: null
-      field: locale_id
+      field: locale_code
       group: null
       hidden: false
       interface: null
       note: null
       options: null
       readonly: false
-      required: true
-      sort: null
-      special:
-        - uuid
-      translations: null
+      required: false
+      sort: 0
+      special: null
+      translations:
+        - language: en-US
+          translation: Code
+        - language: fr-FR
+          translation: Code
       validation: null
       validation_message: null
       width: full
     schema:
       comment: null
-      data_type: uuid
-      default_value: gen_random_uuid()
+      data_type: text
+      default_value: null
       foreign_key_column: null
       foreign_key_table: null
       generation_expression: null
@@ -437,11 +452,11 @@ fields:
       is_primary_key: true
       is_unique: true
       max_length: null
-      name: locale_id
+      name: locale_code
       numeric_precision: null
       numeric_scale: null
       table: locale
-    type: uuid
+    type: text
   - collection: locale
     field: created_at
     meta:
@@ -456,11 +471,15 @@ fields:
       note: null
       options: null
       readonly: false
-      required: true
-      sort: null
+      required: false
+      sort: 1
       special:
         - date-created
-      translations: null
+      translations:
+        - language: en-US
+          translation: Created at
+        - language: fr-FR
+          translation: Créé le
       validation: null
       validation_message: null
       width: full
@@ -496,11 +515,15 @@ fields:
       note: null
       options: null
       readonly: false
-      required: true
-      sort: null
+      required: false
+      sort: 2
       special:
         - date-updated
-      translations: null
+      translations:
+        - language: en-US
+          translation: Updated at
+        - language: fr-FR
+          translation: Mis à jour le
       validation: null
       validation_message: null
       width: full
@@ -532,15 +555,18 @@ fields:
       field: article_locale_list
       group: null
       hidden: false
-      interface: list-o2m
+      interface: null
       note: null
       options: null
       readonly: false
       required: false
-      sort: null
-      special:
-        - o2m
-      translations: null
+      sort: 3
+      special: null
+      translations:
+        - language: en-US
+          translation: Articles
+        - language: fr-FR
+          translation: Articles
       validation: null
       validation_message: null
       width: full
@@ -559,11 +585,15 @@ fields:
       note: null
       options: null
       readonly: false
-      required: true
-      sort: null
+      required: false
+      sort: 0
       special:
         - uuid
-      translations: null
+      translations:
+        - language: en-US
+          translation: ID
+        - language: fr-FR
+          translation: ID
       validation: null
       validation_message: null
       width: full
@@ -599,11 +629,15 @@ fields:
       note: null
       options: null
       readonly: false
-      required: true
-      sort: null
+      required: false
+      sort: 1
       special:
         - date-created
-      translations: null
+      translations:
+        - language: en-US
+          translation: Created at
+        - language: fr-FR
+          translation: Créé le
       validation: null
       validation_message: null
       width: full
@@ -639,11 +673,15 @@ fields:
       note: null
       options: null
       readonly: false
-      required: true
-      sort: null
+      required: false
+      sort: 2
       special:
         - date-updated
-      translations: null
+      translations:
+        - language: en-US
+          translation: Updated at
+        - language: fr-FR
+          translation: Mis à jour le
       validation: null
       validation_message: null
       width: full
@@ -675,7 +713,7 @@ fields:
       field: publication_status
       group: null
       hidden: false
-      interface: null
+      interface: select-dropdown
       note: null
       options:
         choices:
@@ -686,10 +724,14 @@ fields:
           - text: ARCHIVED
             value: ARCHIVED
       readonly: false
-      required: true
-      sort: null
+      required: false
+      sort: 3
       special: null
-      translations: null
+      translations:
+        - language: en-US
+          translation: Publication status
+        - language: fr-FR
+          translation: Statut de publication
       validation: null
       validation_message: null
       width: full
@@ -710,26 +752,32 @@ fields:
       numeric_precision: null
       numeric_scale: null
       table: article
-    type: string
+    type: unknown
   - collection: article
     field: article_locale_list
     meta:
       collection: article
       conditions: null
-      display: null
-      display_options: null
+      display: translations
+      display_options:
+        languageField: locale_code
       field: article_locale_list
       group: null
       hidden: false
-      interface: list-o2m
+      interface: translations
       note: null
-      options: null
+      options:
+        languageField: locale_code
       readonly: false
       required: false
-      sort: null
+      sort: 4
       special:
-        - o2m
-      translations: null
+        - translations
+      translations:
+        - language: en-US
+          translation: Translations
+        - language: fr-FR
+          translation: Traductions
       validation: null
       validation_message: null
       width: full
@@ -743,16 +791,20 @@ fields:
       display_options: null
       field: article_locale_id
       group: null
-      hidden: false
+      hidden: true
       interface: null
       note: null
       options: null
       readonly: false
-      required: true
-      sort: null
+      required: false
+      sort: 0
       special:
         - uuid
-      translations: null
+      translations:
+        - language: en-US
+          translation: ID
+        - language: fr-FR
+          translation: ID
       validation: null
       validation_message: null
       width: full
@@ -783,16 +835,19 @@ fields:
       display_options: null
       field: article_id
       group: null
-      hidden: false
-      interface: select-dropdown-m2o
+      hidden: true
+      interface: null
       note: null
       options: null
       readonly: false
-      required: true
-      sort: null
-      special:
-        - m2o
-      translations: null
+      required: false
+      sort: 1
+      special: null
+      translations:
+        - language: en-US
+          translation: Article ID
+        - language: fr-FR
+          translation: ID Article
       validation: null
       validation_message: null
       width: full
@@ -815,32 +870,35 @@ fields:
       table: article_locale
     type: uuid
   - collection: article_locale
-    field: locale_id
+    field: locale_code
     meta:
       collection: article_locale
       conditions: null
       display: null
       display_options: null
-      field: locale_id
+      field: locale_code
       group: null
-      hidden: false
-      interface: select-dropdown-m2o
+      hidden: true
+      interface: null
       note: null
       options: null
       readonly: false
-      required: true
-      sort: null
-      special:
-        - m2o
-      translations: null
+      required: false
+      sort: 3
+      special: null
+      translations:
+        - language: en-US
+          translation: Language code
+        - language: fr-FR
+          translation: Code langue
       validation: null
       validation_message: null
       width: full
     schema:
       comment: null
-      data_type: uuid
+      data_type: text
       default_value: null
-      foreign_key_column: locale_id
+      foreign_key_column: locale_code
       foreign_key_table: locale
       generation_expression: null
       has_auto_increment: false
@@ -849,11 +907,11 @@ fields:
       is_primary_key: false
       is_unique: false
       max_length: null
-      name: locale_id
+      name: locale_code
       numeric_precision: null
       numeric_scale: null
       table: article_locale
-    type: uuid
+    type: text
   - collection: article_locale
     field: article_locale_slug
     meta:
@@ -868,10 +926,14 @@ fields:
       note: null
       options: null
       readonly: false
-      required: true
-      sort: null
+      required: false
+      sort: 5
       special: null
-      translations: null
+      translations:
+        - language: en-US
+          translation: Slug
+        - language: fr-FR
+          translation: Slug
       validation: null
       validation_message: null
       width: full
@@ -907,11 +969,15 @@ fields:
       note: null
       options: null
       readonly: false
-      required: true
-      sort: null
+      required: false
+      sort: 6
       special:
         - date-created
-      translations: null
+      translations:
+        - language: en-US
+          translation: Created at
+        - language: fr-FR
+          translation: Créé le
       validation: null
       validation_message: null
       width: full
@@ -947,11 +1013,15 @@ fields:
       note: null
       options: null
       readonly: false
-      required: true
-      sort: null
+      required: false
+      sort: 7
       special:
         - date-updated
-      translations: null
+      translations:
+        - language: en-US
+          translation: Updated at
+        - language: fr-FR
+          translation: Mis à jour le
       validation: null
       validation_message: null
       width: full
@@ -983,7 +1053,7 @@ fields:
       field: publication_status
       group: null
       hidden: false
-      interface: null
+      interface: select-dropdown
       note: null
       options:
         choices:
@@ -994,10 +1064,14 @@ fields:
           - text: ARCHIVED
             value: ARCHIVED
       readonly: false
-      required: true
-      sort: null
+      required: false
+      sort: 8
       special: null
-      translations: null
+      translations:
+        - language: en-US
+          translation: Publication status
+        - language: fr-FR
+          translation: Statut de publication
       validation: null
       validation_message: null
       width: full
@@ -1018,7 +1092,7 @@ fields:
       numeric_precision: null
       numeric_scale: null
       table: article_locale
-    type: string
+    type: unknown
   - collection: article_locale
     field: title
     meta:
@@ -1033,10 +1107,14 @@ fields:
       note: null
       options: null
       readonly: false
-      required: true
-      sort: null
+      required: false
+      sort: 9
       special: null
-      translations: null
+      translations:
+        - language: en-US
+          translation: Title
+        - language: fr-FR
+          translation: Titre
       validation: null
       validation_message: null
       width: full
@@ -1068,14 +1146,18 @@ fields:
       field: body_markdown
       group: null
       hidden: false
-      interface: null
+      interface: input-rich-text-md
       note: null
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 10
       special: null
-      translations: null
+      translations:
+        - language: en-US
+          translation: Body
+        - language: fr-FR
+          translation: Corps
       validation: null
       validation_message: null
       width: full
@@ -1101,7 +1183,7 @@ relations:
   - collection: article_locale
     field: article_id
     meta:
-      junction_field: null
+      junction_field: locale_code
       many_collection: article_locale
       many_field: article_id
       one_allowed_collections: null
@@ -1120,11 +1202,11 @@ relations:
       on_update: CASCADE
       table: article_locale
   - collection: article_locale
-    field: locale_id
+    field: locale_code
     meta:
-      junction_field: null
+      junction_field: article_id
       many_collection: article_locale
-      many_field: locale_id
+      many_field: locale_code
       one_allowed_collections: null
       one_collection: locale
       one_collection_field: null
@@ -1133,9 +1215,9 @@ relations:
       sort_field: null
     related_collection: locale
     schema:
-      column: locale_id
+      column: locale_code
       constraint_name: article_locale__locale__fk
-      foreign_key_column: locale_id
+      foreign_key_column: locale_code
       foreign_key_table: locale
       on_delete: CASCADE
       on_update: CASCADE

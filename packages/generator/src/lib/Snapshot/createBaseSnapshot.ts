@@ -23,7 +23,7 @@ const createBaseSnapshot = (directus: string, version: number): Snapshot => {
           singleton: false,
           sort: null,
           sort_field: null,
-          translations: {},
+          translations: null,
           unarchive_value: null,
           versioning: false,
         },
