@@ -225,7 +225,7 @@ const getPrismaFieldSnapshotDefaultValue = (
 ): string | number | boolean | null => {
   const directiveDefaultValue = ctx
     .getDirectivesOfPrismaField(prismaField)
-    .find(`defaultValue`)?.tArgs[0];
+    .find(`default`)?.tArgs[0];
   if (typeof directiveDefaultValue !== `undefined`) {
     if (directiveDefaultValue === `null`) {
       return null;
@@ -241,7 +241,7 @@ const getPrismaFieldSnapshotDefaultValue = (
     const defaultObject = getPrismaFieldDefaultObject(prismaField);
     if (defaultObject) {
       if (defaultObject.name === `now`) {
-        return `CUURRENT_TIMESTAMP`;
+        return `CURRENT_TIMESTAMP`;
       }
       if (defaultObject.name === `uuid`) {
         return `gen_random_uuid()`;
@@ -298,7 +298,7 @@ const getPrismaFieldSnapshotFieldSchema = (
   const directives = ctx.getDirectivesOfPrismaField(prismaField);
   const defaultValue = getPrismaFieldSnapshotDefaultValue(ctx, prismaField);
   let numericPrecision: number | null =
-    directives.find(`numericPrecision`)?.tArgs[0] ?? null;
+    directives.find(`precision`)?.tArgs[0] ?? null;
   if (numericPrecision === null) {
     if (dbType.kind === `scalar`) {
       if (dbType.type === `double precision`) {
@@ -315,8 +315,7 @@ const getPrismaFieldSnapshotFieldSchema = (
       }
     }
   }
-  let numericScale: number | null =
-    directives.find(`numericScale`)?.tArgs[0] ?? null;
+  let numericScale: number | null = directives.find(`scale`)?.tArgs[0] ?? null;
   if (numericScale === null) {
     if (dbType.kind === `scalar`) {
       if (dbType.type === `numeric`) {
@@ -390,12 +389,19 @@ const prismaFieldToSnapshotField = (
       value: prismaEnumValue.name,
     }));
   }
-  const directiveChoices = directives.filter(`choice`).map((directive) => ({
+  const directiveChoice = directives.filter(`choice`).map((directive) => ({
     text: directive.tArgs[0],
     value: directive.tArgs[1],
   }));
-  if (directiveChoices.length > 0) {
-    choices = directiveChoices;
+  if (directiveChoice.length > 0) {
+    choices = directiveChoice;
+  }
+  const directiveChoices = directives.find(`choices`)?.kwArgs;
+  if (directiveChoices) {
+    choices = Object.entries(directiveChoices).map(([value, text]) => ({
+      text,
+      value,
+    }));
   }
   const fieldConditions = directives.filter(`condition`).map((directive) => {
     const condition = ctx.conditions[directive.tArgs[0]];
@@ -420,17 +426,20 @@ const prismaFieldToSnapshotField = (
     options ??= {};
     options.choices = choices;
   }
-  if (directives.find(`enableLink`) !== undefined) {
+  if (directives.find(`link`) !== undefined) {
     options ??= {};
     options.enableLink = true;
   }
-  const languageDirectionField = directives.find(`languageDirectionField`)
-    ?.tArgs[0];
+  const fieldTranslations = directives.find(`translations`)?.kwArgs;
+  const languageDirectionField =
+    directives.find(`languageDirectionField`)?.tArgs[0] ??
+    fieldTranslations?.language;
   if (languageDirectionField !== undefined) {
     options ??= {};
     options.languageDirectionField = languageDirectionField;
   }
-  const languageField = directives.find(`languageField`)?.tArgs[0];
+  const languageField =
+    directives.find(`languageField`)?.tArgs[0] ?? fieldTranslations?.language;
   if (languageField !== undefined) {
     options ??= {};
     options.languageField = languageField;
@@ -438,6 +447,33 @@ const prismaFieldToSnapshotField = (
   const special = directives
     .filter(`special`)
     .map((directive) => directive.tArgs[0]);
+  if (
+    directives.find(`createdAt`) !== undefined &&
+    !special.includes(`date-created`)
+  ) {
+    special.push(`date-created`);
+  }
+  if (
+    directives.find(`updatedAt`) !== undefined &&
+    !special.includes(`date-updated`)
+  ) {
+    special.push(`date-updated`);
+  }
+  if (directives.find(`m2m`) !== undefined && !special.includes(`m2m`)) {
+    special.push(`m2m`);
+  }
+  if (directives.find(`m2o`) !== undefined && !special.includes(`m2o`)) {
+    special.push(`m2o`);
+  }
+  if (directives.find(`o2m`) !== undefined && !special.includes(`o2m`)) {
+    special.push(`o2m`);
+  }
+  if (directives.find(`uuid`) !== undefined && !special.includes(`uuid`)) {
+    special.push(`uuid`);
+  }
+  if (fieldTranslations && !special.includes(`translations`)) {
+    special.push(`translations`);
+  }
   const validation = directives.find(`validation`);
   const filter =
     typeof validation !== `undefined` ? ctx.filters[validation.tArgs[0]] : null;
@@ -458,12 +494,30 @@ const prismaFieldToSnapshotField = (
     meta: {
       collection: prismaModel.dbName ?? prismaModel.name,
       conditions: fieldConditions.length > 0 ? fieldConditions : null,
-      display: directives.find(`display`)?.tArgs[0] ?? null,
+      display:
+        directives.find(`display`)?.tArgs[0] ??
+        (directives.find(`boolean`) !== undefined
+          ? `boolean`
+          : directives.find(`datetime`) !== undefined
+            ? `datetime`
+            : null),
       display_options: displayOptions,
       field: prismaField.dbName ?? prismaField.name,
       group: directives.find(`group`)?.tArgs[0] ?? null,
       hidden: directives.find(`hidden`) !== undefined,
-      interface: directives.find(`interface`)?.tArgs[0] ?? null,
+      interface:
+        directives.find(`interface`)?.tArgs[0] ??
+        (directives.find(`boolean`) !== undefined
+          ? `boolean`
+          : directives.find(`datetime`) !== undefined
+            ? `datetime`
+            : directives.find(`m2m`) !== undefined
+              ? `list-m2m`
+              : directives.find(`o2m`) !== undefined
+                ? `list-o2m`
+                : directives.find(`m2o`) !== undefined
+                  ? `select-dropdown-m2o`
+                  : null),
       note: directives.find(`note`)?.tArgs[0] ?? null,
       options,
       readonly: directives.find(`readonly`) !== undefined,
@@ -475,7 +529,9 @@ const prismaFieldToSnapshotField = (
       translations: translations.length > 0 ? translations : null,
       validation: filter as SnapshotFieldMeta[`validation`],
       validation_message:
-        directives.find(`validationMessage`)?.tArgs[0] ?? null,
+        directives.find(`validationMessage`)?.tArgs[0] ??
+        directives.find(`validation`)?.tArgs[1] ??
+        null,
       width: directives.find(`width`)?.tArgs[0] ?? `full`,
     },
     schema: getPrismaFieldSnapshotFieldSchema(ctx, prismaField),

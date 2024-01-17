@@ -29,7 +29,7 @@ const prismaFieldToSnaphotRelation = (
     localPrismaItemRelation,
   );
   const contraintName =
-    localPrismaItemRelationDirectives.find(`constraintName`)?.tArgs[0];
+    localPrismaItemRelationDirectives.find(`constraint`)?.tArgs[0];
   if (typeof contraintName !== `string`) {
     throw new Error(
       `[field=${localPrismaItemRelation.name}] Missing constraintName`,

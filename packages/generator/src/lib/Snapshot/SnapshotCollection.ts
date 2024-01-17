@@ -29,9 +29,16 @@ const prismaModelToSnapshotCollection = (
           ? null
           : accountability,
       archive_app_filter:
-        modelDirectives.find(`archiveAppFilter`) !== undefined,
-      archive_field: modelDirectives.find(`archiveField`)?.tArgs[0] ?? null,
-      archive_value: modelDirectives.find(`archiveValue`)?.tArgs[0] ?? null,
+        modelDirectives.find(`archiveAppFilter`) !== undefined ||
+        modelDirectives.find(`archive`)?.kwArgs.filter === true,
+      archive_field:
+        modelDirectives.find(`archiveField`)?.tArgs[0] ??
+        modelDirectives.find(`archive`)?.kwArgs.field ??
+        null,
+      archive_value:
+        modelDirectives.find(`archiveValue`)?.tArgs[0] ??
+        modelDirectives.find(`archive`)?.kwArgs.archive ??
+        null,
       collapse: modelDirectives.find(`collapse`)?.tArgs[0] ?? `open`,
       collection: prismaModel.dbName ?? prismaModel.name,
       color: modelDirectives.find(`color`)?.tArgs[0] ?? null,
@@ -52,7 +59,10 @@ const prismaModelToSnapshotCollection = (
           .filter(`translation`)
           .map((directive) => directive.tArgs),
       ),
-      unarchive_value: modelDirectives.find(`unarchiveValue`)?.tArgs[0] ?? null,
+      unarchive_value:
+        modelDirectives.find(`unarchiveValue`)?.tArgs[0] ??
+        modelDirectives.find(`archive`)?.kwArgs.unarchive ??
+        null,
       versioning: modelDirectives.find(`versioning`) !== undefined,
     },
     schema: {
