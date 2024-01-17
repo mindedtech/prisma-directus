@@ -42,7 +42,7 @@ CREATE UNIQUE INDEX "article_locale__article__locale__uq" ON "article_locale"("a
 CREATE UNIQUE INDEX "article_locale__slug__uq" ON "article_locale"("article_locale_slug");
 
 -- AddForeignKey
-ALTER TABLE "article_locale" ADD CONSTRAINT "article_locale__article__fk" FOREIGN KEY ("article_id") REFERENCES "article"("article_id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "article_locale" ADD CONSTRAINT "article_locale__article__fk" FOREIGN KEY ("article_id") REFERENCES "article"("article_id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "article_locale" ADD CONSTRAINT "article_locale__locale__fk" FOREIGN KEY ("locale_code") REFERENCES "locale"("locale_code") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "article_locale" ADD CONSTRAINT "article_locale__locale__fk" FOREIGN KEY ("locale_code") REFERENCES "locale"("locale_code") ON DELETE CASCADE ON UPDATE NO ACTION;

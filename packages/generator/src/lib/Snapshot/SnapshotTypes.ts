@@ -52,6 +52,16 @@ type SnapshotFieldMetaOptions = {
   languageField?: string;
 };
 
+type SnapshotFieldMetaSpecial =
+  | `cast-boolean`
+  | `date-created`
+  | `date-updated`
+  | `m2m`
+  | `m2o`
+  | `o2m`
+  | `translations`
+  | `uuid`;
+
 type SnapshotFieldMeta = Omit<BaseSnapshotField[`meta`], `translations`> & {
   display:
     | `boolean`
@@ -76,18 +86,7 @@ type SnapshotFieldMeta = Omit<BaseSnapshotField[`meta`], `translations`> & {
   readonly: boolean;
   required?: boolean;
   sort: number | null;
-  special?:
-    | (
-        | `cast-boolean`
-        | `date-created`
-        | `date-updated`
-        | `m2m`
-        | `m2o`
-        | `o2m`
-        | `translations`
-        | `uuid`
-      )[]
-    | null;
+  special?: SnapshotFieldMetaSpecial[] | null;
   translations:
     | null
     | {
@@ -100,7 +99,7 @@ type SnapshotField = OmitStrict<
   BaseSnapshotField,
   `meta` | `name` | `schema`
 > & {
-  meta: OmitStrict<SnapshotFieldMeta, `id`>;
+  meta: null | OmitStrict<SnapshotFieldMeta, `id`>;
   schema?: BaseSnapshotField[`schema`];
 };
 
@@ -166,6 +165,7 @@ export type {
   SnapshotFieldMeta,
   SnapshotFieldMetaOptions,
   SnapshotFieldMetaOptionsChoice,
+  SnapshotFieldMetaSpecial,
   SnapshotFieldType,
   SnapshotRelation,
 };

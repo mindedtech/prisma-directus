@@ -4,6 +4,7 @@ import type {
   SnapshotField,
   SnapshotFieldMeta,
   SnapshotFieldMetaOptions,
+  SnapshotFieldMetaSpecial,
   SnapshotFieldType,
 } from "@/generator/lib/Snapshot/SnapshotTypes";
 import type { DMMF } from "@prisma/generator-helper";
@@ -62,10 +63,15 @@ const getPrismaModelSnapshotTypes = (
     throw new Error(`[field=${prismaField.name}] Circular reference`);
   }
   stack.push(prismaField);
+  const prismaFieldDirectives = ctx.getDirectivesOfPrismaField(prismaField);
   if (prismaField.isList) {
-    return {
-      directusType: `alias`,
-    };
+    for (const directive of [`m2m`, `m2o`, `o2m`, `translations`] as const) {
+      if (prismaFieldDirectives.find(directive) !== undefined) {
+        return {
+          directusType: `alias`,
+        };
+      }
+    }
   }
   if (prismaField.kind === `object`) {
     return;
@@ -86,10 +92,7 @@ const getPrismaModelSnapshotTypes = (
   }
   if (prismaField.kind === `scalar`) {
     if (
-      ctx
-        .getDirectivesOfPrismaField(prismaField)
-        .filter(`special`)
-        .some((directive) => directive.tArgs[0] === `uuid`) ||
+      ctx.getDirectivesOfPrismaField(prismaField).find(`uuid`) !== undefined ||
       defaultObject?.name === `uuid` ||
       (defaultObject?.name === `dbgenerated` &&
         defaultObject?.args[0] === `gen_random_uuid()`)
@@ -209,7 +212,7 @@ const getPrismaModelSnapshotTypes = (
     return {
       dbType: {
         kind: `enum`,
-        type: prismaField.type,
+        type: `"${prismaField.type}"`,
       },
       directusType: `unknown`,
     };
@@ -345,7 +348,7 @@ const getPrismaFieldSnapshotFieldSchema = (
   }
 
   return {
-    comment: directives.find(`comment`)?.tArgs[0] ?? null,
+    comment: directives.find(`comment`)?.tArgs[0],
     data_type: dbType.type,
     default_value: defaultValue,
     foreign_key_column: foreignKeyColumn,
@@ -448,31 +451,26 @@ const prismaFieldToSnapshotField = (
     displayOptions ??= {};
     displayOptions[`languageField`] = languageField;
   }
-  const special = directives
-    .filter(`special`)
-    .map((directive) => directive.tArgs[0]);
-  if (
-    directives.find(`createdAt`) !== undefined &&
-    !special.includes(`date-created`)
-  ) {
+  const special: SnapshotFieldMetaSpecial[] = [];
+  if (directives.find(`castBoolean`) !== undefined) {
+    special.push(`cast-boolean`);
+  }
+  if (directives.find(`createdAt`) !== undefined) {
     special.push(`date-created`);
   }
-  if (
-    directives.find(`updatedAt`) !== undefined &&
-    !special.includes(`date-updated`)
-  ) {
+  if (directives.find(`updatedAt`) !== undefined) {
     special.push(`date-updated`);
   }
-  if (directives.find(`m2m`) !== undefined && !special.includes(`m2m`)) {
+  if (directives.find(`m2m`) !== undefined) {
     special.push(`m2m`);
   }
-  if (directives.find(`m2o`) !== undefined && !special.includes(`m2o`)) {
+  if (directives.find(`m2o`) !== undefined) {
     special.push(`m2o`);
   }
-  if (directives.find(`o2m`) !== undefined && !special.includes(`o2m`)) {
+  if (directives.find(`o2m`) !== undefined) {
     special.push(`o2m`);
   }
-  if (directives.find(`uuid`) !== undefined && !special.includes(`uuid`)) {
+  if (directives.find(`uuid`) !== undefined) {
     special.push(`uuid`);
   }
   if (
@@ -527,7 +525,7 @@ const prismaFieldToSnapshotField = (
                     ? `select-dropdown-m2o`
                     : choices
                       ? `select-dropdown`
-                      : special.includes(`translations`)
+                      : directives.find(`translations`) !== undefined
                         ? `translations`
                         : null),
       note: directives.find(`note`)?.tArgs[0] ?? null,

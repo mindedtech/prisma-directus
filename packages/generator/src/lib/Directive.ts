@@ -196,6 +196,11 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
+    directive: z.literal(`castBoolean`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`createdAt`),
     kwArgs: z.object({}),
     tArgs: z.tuple([]),
@@ -238,7 +243,7 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     ]),
   }),
   RawDirective.extend({
-    directive: z.literal(`junctionField`),
+    directive: z.literal(`join`),
     kwArgs: z.object({}),
     tArgs: z.tuple([z.string()]),
   }),
@@ -298,20 +303,6 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([z.enum([`nullify`, `delete`])]),
   }),
   RawDirective.extend({
-    directive: z.literal(`onDelete`),
-    kwArgs: z.object({}),
-    tArgs: z.tuple([
-      z.enum([`NO ACTION`, `RESTRICT`, `CASCADE`, `SET NULL`, `SET DEFAULT`]),
-    ]),
-  }),
-  RawDirective.extend({
-    directive: z.literal(`onUpdate`),
-    kwArgs: z.object({}),
-    tArgs: z.tuple([
-      z.enum([`NO ACTION`, `RESTRICT`, `CASCADE`, `SET NULL`, `SET DEFAULT`]),
-    ]),
-  }),
-  RawDirective.extend({
     directive: z.literal(`readonly`),
     kwArgs: z.object({}),
     tArgs: z.tuple([]),
@@ -330,22 +321,6 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     directive: z.literal(`sortField`),
     kwArgs: z.object({}),
     tArgs: z.tuple([z.string()]),
-  }),
-  RawDirective.extend({
-    directive: z.literal(`special`),
-    kwArgs: z.object({}),
-    tArgs: z.tuple([
-      z.enum([
-        `cast-boolean`,
-        `date-created`,
-        `date-updated`,
-        `m2m`,
-        `m2o`,
-        `o2m`,
-        `translations`,
-        `uuid`,
-      ]),
-    ]),
   }),
   RawDirective.extend({
     directive: z.literal(`updatedAt`),

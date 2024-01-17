@@ -5,7 +5,7 @@
   },
   "homepage": "https://github.com/elierotenberg/prisma-directus#readme",
   "license": "UNLICENSED",
-  "name": "@prisma-directus/workspace",
+  "name": "prisma-directus",
   "private": true,
   "repository": {
     "type": "git",

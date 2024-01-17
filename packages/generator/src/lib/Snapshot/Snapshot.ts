@@ -60,8 +60,9 @@ const createSnapshot = ({
         const snapshotField = prismaFieldToSnapshotField(ctx, prismaField);
         if (snapshotField) {
           if (
-            autoSortFields ||
-            modelDirectives.find(`autoSortFields`) !== undefined
+            snapshotField.meta &&
+            (autoSortFields ||
+              modelDirectives.find(`autoSortFields`) !== undefined)
           ) {
             snapshotField.meta.sort = k;
           }

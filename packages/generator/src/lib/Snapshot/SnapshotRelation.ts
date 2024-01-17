@@ -32,12 +32,11 @@ const prismaFieldToSnaphotRelation = (
     localPrismaItemRelationDirectives.find(`constraint`)?.tArgs[0];
   if (typeof contraintName !== `string`) {
     throw new Error(
-      `[field=${localPrismaItemRelation.name}] Missing constraintName`,
+      `[${localPrismaModel.name}.${localPrismaItemRelation.name}] Missing constraint`,
     );
   }
   const onDelete: ForeignKey[`on_delete`] =
-    localPrismaItemRelationDirectives.find(`onDelete`)?.tArgs[0] ??
-    (localPrismaItemRelation.relationOnDelete === `Cascade`
+    localPrismaItemRelation.relationOnDelete === `Cascade`
       ? `CASCADE`
       : localPrismaItemRelation.relationOnDelete === `SetNull`
         ? `SET NULL`
@@ -47,19 +46,16 @@ const prismaFieldToSnaphotRelation = (
             ? `RESTRICT`
             : localPrismaItemRelation.relationOnDelete === `SetDefault`
               ? `SET DEFAULT`
-              : null);
+              : null;
   const onDeselect: SnapshotRelation[`meta`][`one_deselect_action`] =
     localPrismaItemRelationDirectives.find(`onDeselect`)?.tArgs[0] ??
     (onDelete === `CASCADE` ? `delete` : `nullify`);
-  const onUpdate: ForeignKey[`on_update`] =
-    localPrismaItemRelationDirectives.find(`onUpdate`)?.tArgs[0] ?? onDelete;
   const snapshotRelation: SnapshotRelation = {
     collection: localPrismaModel.dbName ?? localPrismaModel.name,
     field: localPrismaField.dbName ?? localPrismaField.name,
     meta: {
       junction_field:
-        localPrismaItemRelationDirectives.find(`junctionField`)?.tArgs[0] ??
-        null,
+        localPrismaItemRelationDirectives.find(`join`)?.tArgs[0] ?? null,
       many_collection: localPrismaModel.dbName ?? localPrismaModel.name,
       many_field: localPrismaField.dbName ?? localPrismaField.name,
       one_allowed_collections: null,
@@ -78,7 +74,7 @@ const prismaFieldToSnaphotRelation = (
       foreign_key_column: remotePrismaField.dbName ?? remotePrismaField.name,
       foreign_key_table: remotePrismaModel.dbName ?? remotePrismaModel.name,
       on_delete: onDelete,
-      on_update: onUpdate,
+      on_update: `NO ACTION`,
       table: localPrismaModel.dbName ?? localPrismaModel.name,
     },
   };

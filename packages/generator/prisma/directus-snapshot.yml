@@ -43,11 +43,7 @@ collections:
       singleton: false
       sort: null
       sort_field: null
-      translations:
-        - language: en-US
-          translation: Language
-        - language: fr-FR
-          translation: Langue
+      translations: null
       unarchive_value: null
       versioning: false
     schema:
@@ -71,11 +67,7 @@ collections:
       singleton: false
       sort: null
       sort_field: null
-      translations:
-        - language: en-US
-          translation: Article
-        - language: fr-FR
-          translation: Article
+      translations: null
       unarchive_value: DRAFT
       versioning: false
     schema:
@@ -84,8 +76,8 @@ collections:
     meta:
       accountability: null
       archive_app_filter: false
-      archive_field: publication_status
-      archive_value: ARCHIVED
+      archive_field: null
+      archive_value: null
       collapse: open
       collection: article_locale
       color: null
@@ -99,12 +91,8 @@ collections:
       singleton: false
       sort: null
       sort_field: null
-      translations:
-        - language: en-US
-          translation: Article
-        - language: fr-FR
-          translation: Article
-      unarchive_value: DRAFT
+      translations: null
+      unarchive_value: null
       versioning: false
     schema:
       name: article_locale
@@ -112,25 +100,7 @@ directus: 10.8.3
 fields:
   - collection: _prisma_migrations
     field: applied_steps_count
-    meta:
-      collection: _prisma_migrations
-      conditions: null
-      display: null
-      display_options: null
-      field: applied_steps_count
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: null
-      readonly: false
-      required: false
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
+    meta: null
     schema:
       data_type: integer
       default_value: 0
@@ -150,25 +120,7 @@ fields:
     type: integer
   - collection: _prisma_migrations
     field: checksum
-    meta:
-      collection: _prisma_migrations
-      conditions: null
-      display: null
-      display_options: null
-      field: checksum
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: null
-      readonly: false
-      required: false
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
+    meta: null
     schema:
       data_type: character varying
       default_value: null
@@ -188,25 +140,7 @@ fields:
     type: string
   - collection: _prisma_migrations
     field: finished_at
-    meta:
-      collection: _prisma_migrations
-      conditions: null
-      display: null
-      display_options: null
-      field: finished_at
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: null
-      readonly: false
-      required: false
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
+    meta: null
     schema:
       data_type: timestamp with time zone
       default_value: null
@@ -226,25 +160,7 @@ fields:
     type: timestamp
   - collection: _prisma_migrations
     field: id
-    meta:
-      collection: _prisma_migrations
-      conditions: null
-      display: null
-      display_options: null
-      field: id
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: null
-      readonly: false
-      required: false
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
+    meta: null
     schema:
       data_type: character varying
       default_value: null
@@ -264,25 +180,7 @@ fields:
     type: string
   - collection: _prisma_migrations
     field: logs
-    meta:
-      collection: _prisma_migrations
-      conditions: null
-      display: null
-      display_options: null
-      field: logs
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: null
-      readonly: false
-      required: false
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
+    meta: null
     schema:
       data_type: text
       default_value: null
@@ -302,25 +200,7 @@ fields:
     type: text
   - collection: _prisma_migrations
     field: migration_name
-    meta:
-      collection: _prisma_migrations
-      conditions: null
-      display: null
-      display_options: null
-      field: migration_name
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: null
-      readonly: false
-      required: false
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
+    meta: null
     schema:
       data_type: character varying
       default_value: null
@@ -340,25 +220,7 @@ fields:
     type: string
   - collection: _prisma_migrations
     field: rolled_back_at
-    meta:
-      collection: _prisma_migrations
-      conditions: null
-      display: null
-      display_options: null
-      field: rolled_back_at
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: null
-      readonly: false
-      required: false
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
+    meta: null
     schema:
       data_type: timestamp with time zone
       default_value: null
@@ -378,25 +240,7 @@ fields:
     type: timestamp
   - collection: _prisma_migrations
     field: started_at
-    meta:
-      collection: _prisma_migrations
-      conditions: null
-      display: null
-      display_options: null
-      field: started_at
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: null
-      readonly: false
-      required: false
-      sort: null
-      special: null
-      translations: null
-      validation: null
-      validation_message: null
-      width: full
+    meta: null
     schema:
       data_type: timestamp with time zone
       default_value: now()
@@ -431,16 +275,11 @@ fields:
       required: false
       sort: 0
       special: null
-      translations:
-        - language: en-US
-          translation: Code
-        - language: fr-FR
-          translation: Code
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: text
       default_value: null
       foreign_key_column: null
@@ -475,16 +314,11 @@ fields:
       sort: 1
       special:
         - date-created
-      translations:
-        - language: en-US
-          translation: Created at
-        - language: fr-FR
-          translation: Créé le
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: timestamp with time zone
       default_value: CURRENT_TIMESTAMP
       foreign_key_column: null
@@ -519,16 +353,11 @@ fields:
       sort: 2
       special:
         - date-updated
-      translations:
-        - language: en-US
-          translation: Updated at
-        - language: fr-FR
-          translation: Mis à jour le
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: timestamp with time zone
       default_value: CURRENT_TIMESTAMP
       foreign_key_column: null
@@ -545,32 +374,6 @@ fields:
       numeric_scale: null
       table: locale
     type: timestamp
-  - collection: locale
-    field: article_locale_list
-    meta:
-      collection: locale
-      conditions: null
-      display: null
-      display_options: null
-      field: article_locale_list
-      group: null
-      hidden: false
-      interface: null
-      note: null
-      options: null
-      readonly: false
-      required: false
-      sort: 3
-      special: null
-      translations:
-        - language: en-US
-          translation: Articles
-        - language: fr-FR
-          translation: Articles
-      validation: null
-      validation_message: null
-      width: full
-    type: alias
   - collection: article
     field: article_id
     meta:
@@ -589,16 +392,11 @@ fields:
       sort: 0
       special:
         - uuid
-      translations:
-        - language: en-US
-          translation: ID
-        - language: fr-FR
-          translation: ID
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: uuid
       default_value: gen_random_uuid()
       foreign_key_column: null
@@ -633,16 +431,11 @@ fields:
       sort: 1
       special:
         - date-created
-      translations:
-        - language: en-US
-          translation: Created at
-        - language: fr-FR
-          translation: Créé le
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: timestamp with time zone
       default_value: CURRENT_TIMESTAMP
       foreign_key_column: null
@@ -677,16 +470,11 @@ fields:
       sort: 2
       special:
         - date-updated
-      translations:
-        - language: en-US
-          translation: Updated at
-        - language: fr-FR
-          translation: Mis à jour le
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: timestamp with time zone
       default_value: CURRENT_TIMESTAMP
       foreign_key_column: null
@@ -727,17 +515,12 @@ fields:
       required: false
       sort: 3
       special: null
-      translations:
-        - language: en-US
-          translation: Publication status
-        - language: fr-FR
-          translation: Statut de publication
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
-      data_type: PublicationStatus
+      data_type: '"PublicationStatus"'
       default_value: DRAFT
       foreign_key_column: null
       foreign_key_table: null
@@ -773,11 +556,7 @@ fields:
       sort: 4
       special:
         - translations
-      translations:
-        - language: en-US
-          translation: Translations
-        - language: fr-FR
-          translation: Traductions
+      translations: null
       validation: null
       validation_message: null
       width: full
@@ -800,16 +579,11 @@ fields:
       sort: 0
       special:
         - uuid
-      translations:
-        - language: en-US
-          translation: ID
-        - language: fr-FR
-          translation: ID
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: uuid
       default_value: gen_random_uuid()
       foreign_key_column: null
@@ -843,16 +617,11 @@ fields:
       required: false
       sort: 1
       special: null
-      translations:
-        - language: en-US
-          translation: Article ID
-        - language: fr-FR
-          translation: ID Article
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: uuid
       default_value: null
       foreign_key_column: article_id
@@ -886,16 +655,11 @@ fields:
       required: false
       sort: 3
       special: null
-      translations:
-        - language: en-US
-          translation: Language code
-        - language: fr-FR
-          translation: Code langue
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: text
       default_value: null
       foreign_key_column: locale_code
@@ -929,16 +693,11 @@ fields:
       required: false
       sort: 5
       special: null
-      translations:
-        - language: en-US
-          translation: Slug
-        - language: fr-FR
-          translation: Slug
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: text
       default_value: null
       foreign_key_column: null
@@ -973,16 +732,11 @@ fields:
       sort: 6
       special:
         - date-created
-      translations:
-        - language: en-US
-          translation: Created at
-        - language: fr-FR
-          translation: Créé le
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: timestamp with time zone
       default_value: CURRENT_TIMESTAMP
       foreign_key_column: null
@@ -1017,16 +771,11 @@ fields:
       sort: 7
       special:
         - date-updated
-      translations:
-        - language: en-US
-          translation: Updated at
-        - language: fr-FR
-          translation: Mis à jour le
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: timestamp with time zone
       default_value: CURRENT_TIMESTAMP
       foreign_key_column: null
@@ -1067,17 +816,12 @@ fields:
       required: false
       sort: 8
       special: null
-      translations:
-        - language: en-US
-          translation: Publication status
-        - language: fr-FR
-          translation: Statut de publication
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
-      data_type: PublicationStatus
+      data_type: '"PublicationStatus"'
       default_value: DRAFT
       foreign_key_column: null
       foreign_key_table: null
@@ -1110,16 +854,11 @@ fields:
       required: false
       sort: 9
       special: null
-      translations:
-        - language: en-US
-          translation: Title
-        - language: fr-FR
-          translation: Titre
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: text
       default_value: null
       foreign_key_column: null
@@ -1153,16 +892,11 @@ fields:
       required: false
       sort: 10
       special: null
-      translations:
-        - language: en-US
-          translation: Body
-        - language: fr-FR
-          translation: Corps
+      translations: null
       validation: null
       validation_message: null
       width: full
     schema:
-      comment: null
       data_type: text
       default_value: null
       foreign_key_column: null
@@ -1199,7 +933,7 @@ relations:
       foreign_key_column: article_id
       foreign_key_table: article
       on_delete: CASCADE
-      on_update: CASCADE
+      on_update: NO ACTION
       table: article_locale
   - collection: article_locale
     field: locale_code
@@ -1220,7 +954,7 @@ relations:
       foreign_key_column: locale_code
       foreign_key_table: locale
       on_delete: CASCADE
-      on_update: CASCADE
+      on_update: NO ACTION
       table: article_locale
 vendor: postgres
 version: 1
