@@ -69,8 +69,10 @@ model article_locale {
   created_at          DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
   /// @updatedAt
   updated_at          DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
-  publication_status  PublicationStatus @default(DRAFT)
+  publication_status  PublicationStatus @default(DRAFT) @map("publication_status")
   title               String
+  /// @validation(slug)
+  slug                String            @map("slug")
   /// @richText
   body_markdown       String?           @map("body_markdown")
 

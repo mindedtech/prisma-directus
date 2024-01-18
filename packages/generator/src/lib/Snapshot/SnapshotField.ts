@@ -550,7 +550,15 @@ const prismaFieldToSnapshotField = (
               translation,
             }))
           : null,
-      validation: filter as SnapshotFieldMeta[`validation`],
+      validation: filter
+        ? ({
+            _and: [
+              {
+                [prismaField.dbName ?? prismaField.name]: filter,
+              },
+            ],
+          } as SnapshotFieldMeta[`validation`])
+        : null,
       validation_message:
         directives.find(`validationMessage`)?.tArgs[0] ??
         directives.find(`validation`)?.tArgs[1] ??

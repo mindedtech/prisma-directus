@@ -3,7 +3,7 @@
     "editor.formatOnSave": false
   },
   "[prisma]": {
-    "editor.defaultFormatter": "Prisma.prisma"
+    "editor.defaultFormatter": "ajmnz.prisma-import"
   },
   "[typescript]": {
     "editor.formatOnSave": false
