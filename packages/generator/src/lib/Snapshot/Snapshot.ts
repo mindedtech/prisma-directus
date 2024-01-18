@@ -47,7 +47,7 @@ const createSnapshot = ({
 
     for (const prismaModel of datamodel.models) {
       const modelDirectives = ctx.getDirectivesOfPrismaModel(prismaModel);
-      if (typeof modelDirectives.find(`ignore`) !== `undefined`) {
+      if (modelDirectives.find(`ignore`)) {
         continue;
       }
       const snapshotCollection = prismaModelToSnapshotCollection(
@@ -61,8 +61,7 @@ const createSnapshot = ({
         if (snapshotField) {
           if (
             snapshotField.meta &&
-            (autoSortFields ||
-              modelDirectives.find(`autoSortFields`) !== undefined)
+            (autoSortFields || modelDirectives.find(`autoSortFields`))
           ) {
             snapshotField.meta.sort = k;
           }

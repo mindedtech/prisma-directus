@@ -229,7 +229,7 @@ const getPrismaFieldSnapshotDefaultValue = (
   const directiveDefaultValue = ctx
     .getDirectivesOfPrismaField(prismaField)
     .find(`default`)?.tArgs[0];
-  if (typeof directiveDefaultValue !== `undefined`) {
+  if (directiveDefaultValue !== undefined) {
     if (directiveDefaultValue === `null`) {
       return null;
     }
@@ -294,7 +294,7 @@ const getPrismaFieldSnapshotFieldSchema = (
 ): SnapshotField[`schema`] => {
   const prismaModel = ctx.getPrismaModelOfPrismaField(prismaField);
   const types = getPrismaModelSnapshotTypes(ctx, prismaField);
-  if (typeof types === `undefined` || types.directusType === `alias`) {
+  if (types === undefined || types.directusType === `alias`) {
     return;
   }
   const { dbType } = types;
@@ -372,7 +372,7 @@ const prismaFieldToSnapshotField = (
   prismaField: PrismaField,
 ): undefined | SnapshotField => {
   const types = getPrismaModelSnapshotTypes(ctx, prismaField);
-  if (typeof types === `undefined`) {
+  if (types === undefined) {
     return undefined;
   }
   const prismaModel = ctx.getPrismaModelOfPrismaField(prismaField);
@@ -433,6 +433,15 @@ const prismaFieldToSnapshotField = (
     options ??= {};
     options.enableLink = true;
   }
+  if (directives.find(`allowDuplicates`) !== undefined) {
+    options ??= {};
+    options.allowDuplicates = true;
+  }
+  const template = directives.find(`template`)?.tArgs[0];
+  if (template !== undefined) {
+    options ??= {};
+    options.template = template;
+  }
   const translations = directives.find(`translations`);
   const languageDirectionField =
     directives.find(`languageDirectionField`)?.tArgs[0] ??
@@ -474,15 +483,15 @@ const prismaFieldToSnapshotField = (
     special.push(`uuid`);
   }
   if (
-    typeof options?.languageField !== `undefined` &&
+    options?.languageField !== undefined &&
     !special.includes(`translations`)
   ) {
     special.push(`translations`);
   }
   const validation = directives.find(`validation`);
   const filter =
-    typeof validation !== `undefined` ? ctx.filters[validation.tArgs[0]] : null;
-  if (filter !== null && typeof filter === `undefined`) {
+    validation !== undefined ? ctx.filters[validation.tArgs[0]] : null;
+  if (filter !== null && filter === undefined) {
     throw new Error(
       `[${prismaModel.name}.${prismaField.name}] Filter "${validation?.tArgs[0]}" not found`,
     );

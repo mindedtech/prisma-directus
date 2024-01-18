@@ -46,7 +46,9 @@ type SnapshotFieldMetaOptionsChoice = {
 };
 
 type SnapshotFieldMetaOptions = {
+  allowDuplicates?: boolean;
   choices?: SnapshotFieldMetaOptionsChoice[];
+  template?: string;
   enableLink?: boolean;
   languageDirectionField?: string;
   languageField?: string;

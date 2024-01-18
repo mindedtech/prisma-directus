@@ -28,7 +28,7 @@ const prismaModelToSnapshotCollection = (
     collection: prismaModel.dbName ?? prismaModel.name,
     meta: {
       accountability:
-        accountability === `null` || typeof accountability === `undefined`
+        accountability === `null` || accountability === undefined
           ? null
           : accountability,
       archive_app_filter:
@@ -45,8 +45,7 @@ const prismaModelToSnapshotCollection = (
       collapse: modelDirectives.find(`collapse`)?.tArgs[0] ?? `open`,
       collection: prismaModel.dbName ?? prismaModel.name,
       color: modelDirectives.find(`color`)?.tArgs[0] ?? null,
-      display_template:
-        modelDirectives.find(`displayTemplate`)?.tArgs[0] ?? null,
+      display_template: modelDirectives.find(`template`)?.tArgs[0] ?? null,
       group: modelDirectives.find(`group`)?.tArgs[0] ?? null,
       hidden: modelDirectives.find(`hidden`) !== undefined,
       icon: modelDirectives.find(`icon`)?.tArgs[0] ?? null,

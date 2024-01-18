@@ -37,7 +37,7 @@ const { parseEnvValue } = prismaInternals;
 
 const parseConfigFile = async (configFile?: string): Promise<Config> => {
   const defaultConfig = createDefaultConfig();
-  if (typeof configFile === `undefined`) {
+  if (configFile === undefined) {
     return defaultConfig;
   }
   const configString = await readFile(configFile, `utf-8`);
@@ -96,7 +96,7 @@ const generate = () =>
     },
     onManifest: () => ({
       defaultOutput: `./directus-snapshot.yml`,
-      prettyName: `@prisma-diretus/generator`,
+      prettyName: `prisma-directus-generator`,
     }),
   });
 

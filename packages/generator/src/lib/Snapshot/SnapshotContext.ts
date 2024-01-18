@@ -60,7 +60,7 @@ const createSnapshotContext = (
       localPrismaModel.documentation,
     );
     directivesOfPrismaModelMap.set(localPrismaModel, prismaModelDirectives);
-    if (typeof prismaModelDirectives.find(`ignore`) !== `undefined`) {
+    if (prismaModelDirectives.find(`ignore`)) {
       continue;
     }
     for (const localPrismaField of localPrismaModel.fields) {

@@ -65,7 +65,7 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
     ]),
   }),
   RawDirective.extend({
-    directive: z.literal(`displayTemplate`),
+    directive: z.literal(`template`),
     kwArgs: z.object({}),
     tArgs: z.tuple([z.string()]),
   }),
@@ -137,6 +137,26 @@ type ModelDirective<
 
 const FieldDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
+    directive: z.literal(`allowDuplicates`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`boolean`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`castBoolean`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`createdAt`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`choice`),
     kwArgs: z.object({}),
     tArgs: z.tuple([z.string(), z.string()]),
@@ -191,24 +211,14 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     ]),
   }),
   RawDirective.extend({
-    directive: z.literal(`boolean`),
-    kwArgs: z.object({}),
-    tArgs: z.tuple([]),
-  }),
-  RawDirective.extend({
-    directive: z.literal(`castBoolean`),
-    kwArgs: z.object({}),
-    tArgs: z.tuple([]),
-  }),
-  RawDirective.extend({
-    directive: z.literal(`createdAt`),
-    kwArgs: z.object({}),
-    tArgs: z.tuple([]),
-  }),
-  RawDirective.extend({
     directive: z.literal(`displayOption`),
     kwArgs: z.object({}),
     tArgs: z.tuple([z.string(), z.string()]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`template`),
+    kwArgs: z.object({}),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`link`),
