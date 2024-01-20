@@ -127,4 +127,12 @@ const FieldValidationOperator: ZodType<FieldValidationOperator> = z
   })
   .strict();
 
-export { FieldFilter, Filter };
+const FilterDictionary = z.record(
+  z.object({
+    filter: Filter,
+    message: z.string(),
+  }),
+);
+type FilterDictionary = z.infer<typeof FilterDictionary>;
+
+export { FieldFilter, Filter, FilterDictionary };

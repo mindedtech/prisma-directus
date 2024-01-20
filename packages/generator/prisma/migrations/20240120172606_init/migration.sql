@@ -30,6 +30,7 @@ CREATE TABLE "article_locale" (
     "updated_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "publication_status" "PublicationStatus" NOT NULL DEFAULT 'DRAFT',
     "title" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "body_markdown" TEXT,
 
     CONSTRAINT "article_locale__pk" PRIMARY KEY ("article_locale_id")

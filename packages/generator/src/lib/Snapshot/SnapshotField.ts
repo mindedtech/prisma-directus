@@ -554,7 +554,7 @@ const prismaFieldToSnapshotField = (
         ? ({
             _and: [
               {
-                [prismaField.dbName ?? prismaField.name]: filter,
+                [prismaField.dbName ?? prismaField.name]: filter.filter,
               },
             ],
           } as SnapshotFieldMeta[`validation`])
@@ -562,6 +562,7 @@ const prismaFieldToSnapshotField = (
       validation_message:
         directives.find(`validationMessage`)?.tArgs[0] ??
         directives.find(`validation`)?.tArgs[1] ??
+        filter?.message ??
         null,
       width: directives.find(`width`)?.tArgs[0] ?? `full`,
     },

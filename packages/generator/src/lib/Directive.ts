@@ -441,6 +441,7 @@ type ModelDirectives = {
 };
 const parseModelDirectives = (
   directivePrefix: string,
+  modelName: string,
   documentation?: undefined | string,
 ): ModelDirectives => {
   const directives = parseRawDirectives(directivePrefix, documentation).map(
@@ -451,8 +452,8 @@ const parseModelDirectives = (
         if (error instanceof z.ZodError) {
           error.addIssue({
             code: z.ZodIssueCode.custom,
-            message: `Model directive "${directive.directive}" is not valid`,
-            path: [`directive`],
+            message: `[${modelName}] Directive "${JSON.stringify(directive)}" is not valid`,
+            path: [modelName, `directive`],
           });
         }
         throw error;
@@ -481,6 +482,8 @@ type FieldDirectives = {
 };
 const parseFieldDirectives = (
   directivePrefix: string,
+  modelName: string,
+  fieldName: string,
   documentation?: undefined | string,
 ): FieldDirectives => {
   const directives = parseRawDirectives(directivePrefix, documentation).map(
@@ -491,8 +494,8 @@ const parseFieldDirectives = (
         if (error instanceof z.ZodError) {
           error.addIssue({
             code: z.ZodIssueCode.custom,
-            message: `Field directive "${directive.directive}" is not valid`,
-            path: [`directive`],
+            message: `[${modelName}.${fieldName}] Directive "${JSON.stringify(directive)}" is not valid`,
+            path: [modelName, fieldName, `directive`],
           });
         }
         throw error;

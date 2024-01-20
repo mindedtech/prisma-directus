@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 import { Condition } from "@/generator/lib/Condition";
-import { Filter } from "@/generator/lib/Filter";
+import { FilterDictionary } from "@/generator/lib/Filter";
 
 const Config = z
   .object({
     conditions: z.record(Condition),
-    filters: z.record(Filter),
+    filters: FilterDictionary,
   })
   .strict();
 type Config = z.infer<typeof Config>;
@@ -15,23 +15,32 @@ const createDefaultConfig = (): Config => ({
   conditions: {},
   filters: {
     slug: {
-      _or: [
-        {
-          _regex: `^[a-zA-Z0-9]*$`,
-        },
-        {
-          _empty: true,
-        },
-        {
-          _null: true,
-        },
-      ],
+      filter: {
+        _or: [
+          {
+            _regex: `^[a-z0-9]+(?:-[a-z0-9]+)*$`,
+          },
+          {
+            _empty: true,
+          },
+          {
+            _null: true,
+          },
+        ],
+      },
+      message: `Slug must be a valid slug, e.g. this-is-a-slug`,
     },
     uri: {
-      _regex: `^(?<scheme>[a-zA-Z][a-zA-Z0-9+.-]*):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
+      filter: {
+        _regex: `^(?<scheme>[a-zA-Z][a-zA-Z0-9+.-]*):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
+      },
+      message: `Must be a valid URI (or URL), e.g. urn:isbn:0385249497`,
     },
     url: {
-      _regex: `^(?<scheme>https?):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
+      filter: {
+        _regex: `^(?<scheme>https?):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
+      },
+      message: `Must be a valid URL, e.g. https://example.com`,
     },
   },
 });

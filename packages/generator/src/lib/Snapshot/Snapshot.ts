@@ -5,7 +5,7 @@ import { prismaFieldToSnapshotField } from "@/generator/lib/Snapshot/SnapshotFie
 import { prismaFieldToSnaphotRelation } from "@/generator/lib/Snapshot/SnapshotRelation";
 
 import type { Condition } from "@/generator/lib/Condition";
-import type { Filter } from "@/generator/lib/Filter";
+import type { FilterDictionary } from "@/generator/lib/Filter";
 import type {
   PrismaDatamodel,
   Snapshot,
@@ -17,7 +17,7 @@ type CreateSnapshotOptions = {
   readonly datamodel: PrismaDatamodel;
   readonly directivePrefix: string;
   readonly directus: string;
-  readonly filters: Record<string, Filter>;
+  readonly filters: FilterDictionary;
   readonly version: number;
 };
 

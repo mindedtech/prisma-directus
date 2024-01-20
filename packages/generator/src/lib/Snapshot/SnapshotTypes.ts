@@ -3,7 +3,7 @@ import type {
   FieldDirectives,
   ModelDirectives,
 } from "@/generator/lib/Directive";
-import type { Filter } from "@/generator/lib/Filter";
+import type { FilterDictionary } from "@/generator/lib/Filter";
 import type { OmitStrict } from "@/generator/lib/utils";
 import type {
   Collection as BaseCollection,
@@ -123,7 +123,7 @@ type SnapshotContext = {
   readonly autoSort: boolean;
   readonly datamodel: PrismaDatamodel;
   readonly conditions: Record<string, Condition>;
-  readonly filters: Record<string, Filter>;
+  readonly filters: FilterDictionary;
   readonly snapshot: Snapshot;
   readonly debug: () => void;
 

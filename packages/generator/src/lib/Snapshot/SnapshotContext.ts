@@ -8,7 +8,7 @@ import type {
   FieldDirectives,
   ModelDirectives,
 } from "@/generator/lib/Directive";
-import type { Filter } from "@/generator/lib/Filter";
+import type { FilterDictionary } from "@/generator/lib/Filter";
 import type {
   PrismaDatamodel,
   PrismaField,
@@ -21,7 +21,7 @@ const createSnapshotContext = (
   datamodel: PrismaDatamodel,
   autoSortFields: boolean,
   conditions: Record<string, Condition>,
-  filters: Record<string, Filter>,
+  filters: FilterDictionary,
   directivePrefix: string,
   snapshot: Snapshot,
 ): SnapshotContext => {
@@ -57,6 +57,7 @@ const createSnapshotContext = (
   for (const localPrismaModel of datamodel.models) {
     const prismaModelDirectives = parseModelDirectives(
       directivePrefix,
+      localPrismaModel.name,
       localPrismaModel.documentation,
     );
     directivesOfPrismaModelMap.set(localPrismaModel, prismaModelDirectives);
@@ -67,6 +68,8 @@ const createSnapshotContext = (
       prismaModelOfPrismaFieldMap.set(localPrismaField, localPrismaModel);
       const prismaFieldDirectives = parseFieldDirectives(
         directivePrefix,
+        localPrismaModel.name,
+        localPrismaField.name,
         localPrismaField.documentation,
       );
       directivesOfPrismaFieldMap.set(localPrismaField, prismaFieldDirectives);

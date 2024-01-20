@@ -897,10 +897,10 @@ fields:
         _and:
           - slug:
               _or:
-                - _regex: ^[a-zA-Z0-9]*$
+                - _regex: ^[a-z0-9]+(?:-[a-z0-9]+)*$
                 - _empty: true
                 - _null: true
-      validation_message: null
+      validation_message: Slug must be a valid slug, e.g. this-is-a-slug
       width: full
     schema:
       data_type: text
