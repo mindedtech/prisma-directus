@@ -1,14 +1,30 @@
 networks:
   prisma-directus-dev: {}
 services:
-  prisma-directus-dev:
-    command: "-p 11432 -c max_connections=100 -c log_connections=yes"
-    container_name: kly-vault-api-pg-dev
+  prisma-directus-pg-dev:
+    command: "-p 11432 -c max_connections=100 -c log_connections=yes -c log_statement=all"
+    container_name: prisma-directus-pg-dev
     env_file:
-      - ./postgres.env
+      - postgres.env.development
     image: postgres:16
     networks:
-      - kly-vault-api-dev
+      - prisma-directus-dev
     ports:
       - 11432:11432
+  prisma-directus-directus-dev:
+    container_name: prisma-directus-directus-dev
+    environment:
+      - DB_HOST=prisma-directus-pg-dev
+    env_file:
+      - directus.env.development
+    image: directus/directus:10
+    networks:
+      - prisma-directus-dev
+    ports:
+      - 11055:11055
+    volumes:
+      - read_only: false
+        source: ./uploads
+        target: /mount/uploads
+        type: bind
 version: "3.8"

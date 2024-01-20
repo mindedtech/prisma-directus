@@ -1,8 +1,5 @@
-const main = async (): Promise<void> => {
-  await Promise.resolve();
-};
+#!/bin/env node
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+import { generate } from "@/generator/lib/Generator";
+
+generate();

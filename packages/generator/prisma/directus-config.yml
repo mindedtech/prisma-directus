@@ -1,0 +1,9 @@
+conditions: {}
+filters:
+  email:
+    message: Must be a valid email address
+    filter:
+      _or:
+        - _empty: true
+        - _null: true
+        - _regex: '^[^@]+@[^@]+\.[^@]+$'

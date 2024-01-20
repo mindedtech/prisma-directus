@@ -1,10 +1,19 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+generator directus {
+  provider   = "node ./build/main.js"
+  version    = 1
+  directus   = "10.8.3"
+  configFile = "./prisma/directus-config.yml"
+  debugFile  = "./prisma/directus-debug.local.yml"
+  errorFile  = "./prisma/directus-error.local.log"
 }
 
 enum PublicationStatus {
@@ -13,40 +22,62 @@ enum PublicationStatus {
   ARCHIVED
 }
 
-model Locale {
-  locale_id      String          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at     DateTime        @default(now()) @db.Timestamptz(3)
-  updated_at     DateTime        @default(now()) @updatedAt @db.Timestamptz(3)
-  articleLocales ArticleLocale[] @relation("article_locale__locale", map: "article_locale__locale__fk")
+/// @autoSortFields
+model locale {
+  locale_code         String           @map("locale_code")
+  /// @createdAt
+  created_at          DateTime         @default(now()) @map("created_at") @db.Timestamptz(3)
+  /// @updatedAt
+  updated_at          DateTime         @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  /// @constraint(article_locale__locale__fk)
+  article_locale_list article_locale[] @relation("article_locale__locale", map: "article_locale__locale__fk")
 
-  @@id([locale_id], map: "locale_id")
+  @@id([locale_code], map: "locale__pk")
   @@map("locale")
 }
 
-model Article {
-  article_id     String          @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at     DateTime        @default(now()) @db.Timestamptz(3)
-  updated_at     DateTime        @default(now()) @updatedAt @db.Timestamptz(3)
-  articleLocales ArticleLocale[] @relation("article_locale__article", map: "article_locale__article__fk")
+/// @autoSortFields @archive(field: publication_status, archive: ARCHIVED, unarchive: DRAFT)
+model article {
+  /// @uuid
+  article_id          String            @default(dbgenerated("gen_random_uuid()")) @map("article_id") @db.Uuid
+  /// @createdAt
+  created_at          DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  /// @updatedAt
+  updated_at          DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  publication_status  PublicationStatus @default(DRAFT)
+  /// @translations(locale_code) @constraint(article_locale__article__fk)
+  article_locale_list article_locale[]  @relation("article_locale__article", map: "article_locale__article__fk")
 
-  @@id([article_id], map: "article_id")
+  @@id([article_id], map: "article__pk")
   @@map("article")
 }
 
-model ArticleLocale {
-  article_locale_id   String   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  article_id          String   @db.Uuid
-  article             Article  @relation("article_locale__article", fields: [article_id], references: [article_id], map: "article_locale__article__fk")
-  locale_id           String   @db.Uuid
-  locale              Locale   @relation("article_locale__locale", fields: [locale_id], references: [locale_id], map: "article_locale__locale__fk")
-  article_locale_slug String
-  created_at          DateTime @default(now()) @db.Timestamptz(3)
-  updated_at          DateTime @default(now()) @updatedAt @db.Timestamptz(3)
+/// @autoSortFields @hidden
+model article_locale {
+  /// @uuid @hidden
+  article_locale_id   String            @default(dbgenerated("gen_random_uuid()")) @map("article_locale_id") @db.Uuid
+  /// @hidden
+  article_id          String            @map("article_id") @db.Uuid
+  /// @join(locale_code) @constraint(article_locale__article__fk)
+  article             article           @relation("article_locale__article", fields: [article_id], references: [article_id], map: "article_locale__article__fk", onDelete: Cascade, onUpdate: NoAction)
+  /// @hidden
+  locale_code         String            @map("locale_code")
+  /// @join(article_id) @constraint(article_locale__locale__fk)
+  locale              locale            @relation("article_locale__locale", fields: [locale_code], references: [locale_code], map: "article_locale__locale__fk", onDelete: Cascade, onUpdate: NoAction)
+  article_locale_slug String            @map("article_locale_slug")
+  /// @createdAt
+  created_at          DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  /// @updatedAt
+  updated_at          DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  publication_status  PublicationStatus @default(DRAFT) @map("publication_status")
   title               String
-  body_markdown       String?
+  /// @validation(slug)
+  slug                String            @map("slug")
+  /// @richText
+  body_markdown       String?           @map("body_markdown")
 
-  @@id([article_locale_id], map: "article_locale_id")
-  @@unique([article_id, locale_id], map: "article_locale__article_id__locale_id__unique")
-  @@unique([article_locale_slug], map: "article_locale_slug__unique")
+  @@id([article_locale_id], map: "article_locale__pk")
+  @@unique([article_id, locale_code], map: "article_locale__article__locale__uq")
+  @@unique([article_locale_slug], map: "article_locale__slug__uq")
   @@map("article_locale")
 }
