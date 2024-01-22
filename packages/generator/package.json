@@ -34,9 +34,9 @@
     "typescript": "^5.3.3"
   },
   "exports": {
-    ".": {
-      "import": "./build/index.js",
-      "types": "./build/index.d.ts"
+    "./runtime": {
+      "import": "./build/runtime.js",
+      "types": "./build/runtime.d.ts"
     }
   },
   "files": [
@@ -74,5 +74,5 @@
   },
   "type": "module",
   "types": "./build/index.d.ts",
-  "version": "0.1.0"
+  "version": "0.1.1"
 }
