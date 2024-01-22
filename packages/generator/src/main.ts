@@ -1,5 +1,5 @@
 #!/bin/env node
 
-import { generate } from "@/generator/lib/Generator";
+import { runGeneratorHandler } from "@/generator/lib/GeneratorHandler";
 
-generate();
+runGeneratorHandler();

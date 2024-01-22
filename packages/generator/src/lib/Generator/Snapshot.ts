@@ -1,9 +1,3 @@
-import type { Condition } from "@/generator/lib/Condition";
-import type {
-  FieldDirectives,
-  ModelDirectives,
-} from "@/generator/lib/Directive";
-import type { FilterDictionary } from "@/generator/lib/Filter";
 import type { OmitStrict } from "@/generator/lib/utils";
 import type {
   Collection as BaseCollection,
@@ -15,7 +9,7 @@ import type {
   SnapshotRelation as BaseSnapshotRelation,
 } from "@directus/api/types/snapshot";
 import type { Type as SnapshotFieldType } from "@directus/types";
-import type { DMMF } from "@prisma/generator-helper";
+
 type SnapshotCollection = Omit<BaseCollection, `meta`> & {
   meta: Omit<BaseCollectionMeta, `translations`> & {
     archive_app_filter: boolean;
@@ -115,54 +109,9 @@ type Snapshot = OmitStrict<BaseSnapshot, `collections` | `fields`> & {
   relations: SnapshotRelation[];
 };
 
-type PrismaDatamodel = DMMF.Datamodel;
-type PrismaModel = PrismaDatamodel[`models`][number];
-type PrismaField = PrismaModel[`fields`][number];
-
-type SnapshotContext = {
-  readonly autoSort: boolean;
-  readonly datamodel: PrismaDatamodel;
-  readonly conditions: Record<string, Condition>;
-  readonly filters: FilterDictionary;
-  readonly snapshot: Snapshot;
-  readonly debug: () => void;
-
-  readonly getDirectivesOfPrismaModel: (
-    prismaModel: PrismaModel,
-  ) => ModelDirectives;
-  readonly getDirectivesOfPrismaField: (
-    prismaField: PrismaField,
-  ) => FieldDirectives;
-
-  readonly getPrismaModelOfPrismaField: (
-    prismaField: PrismaField,
-  ) => PrismaModel;
-
-  readonly getLocalPrismaFieldOfLocalPrismaItemRelation: (
-    prismaField: PrismaField,
-  ) => PrismaField;
-  readonly getLocalPrismaItemRelationOfLocalPrismaField: (
-    prismaField: PrismaField,
-  ) => undefined | PrismaField;
-
-  readonly getRemotePrismaItemRelationOfLocalPrismaListRelation: (
-    prismaField: PrismaField,
-  ) => PrismaField;
-  readonly getRemotePrismaListRelationOfLocalPrismaItemRelation: (
-    prismaField: PrismaField,
-  ) => PrismaField;
-  readonly getRemotePrismaFieldOfLocalPrismaItemRelation: (
-    prismaField: PrismaField,
-  ) => PrismaField;
-};
-
 export type {
-  PrismaDatamodel,
-  PrismaField,
-  PrismaModel,
   Snapshot,
   SnapshotCollection,
-  SnapshotContext,
   SnapshotField,
   SnapshotFieldMeta,
   SnapshotFieldMetaOptions,

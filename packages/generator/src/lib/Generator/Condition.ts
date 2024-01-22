@@ -12,4 +12,9 @@ const Condition: ZodType<Condition> = z.object({
   rule: z.record(z.any()),
 });
 
-export { Condition };
+const ConditionDictionary = z.record(Condition);
+type ConditionDictionary = z.infer<typeof ConditionDictionary>;
+
+const createDefaultConditionDictionary = (): ConditionDictionary => ({});
+
+export { Condition, ConditionDictionary, createDefaultConditionDictionary };

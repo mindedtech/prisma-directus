@@ -1,13 +1,11 @@
-import type {
-  PrismaModel,
-  SnapshotCollection,
-  SnapshotContext,
-} from "@/generator/lib/Snapshot/SnapshotTypes";
+import type { GeneratorContext } from "@/generator/lib/Generator/GeneratorContext";
+import type { PrismaModel } from "@/generator/lib/Generator/Prisma";
+import type { SnapshotCollection } from "@/generator/lib/Generator/Snapshot";
 
-const prismaModelToSnapshotCollection = (
-  ctx: SnapshotContext,
+const processPrismaModel = (
+  ctx: GeneratorContext,
   prismaModel: PrismaModel,
-): SnapshotCollection => {
+): void => {
   if (
     prismaModel.primaryKey?.fields &&
     prismaModel.primaryKey.fields.length > 1
@@ -76,7 +74,27 @@ const prismaModelToSnapshotCollection = (
     },
   };
 
-  return directusCollection;
+  for (const {
+    kwArgs: { filter },
+    tArgs: [roleName, action, fields],
+  } of modelDirectives.filter(`permission`)) {
+    const role = ctx.config.roles[roleName];
+    if (!role) {
+      throw new Error(
+        `[${prismaModel.name}] Unknown role for permission [role=${roleName}]`,
+      );
+    }
+    ctx.permissions.push({
+      action,
+      collection: directusCollection.collection,
+      fields,
+      permissions:
+        filter === undefined ? undefined : ctx.config.filters[filter]?.filter,
+      role: role.id,
+    });
+  }
+
+  ctx.snapshot.collections.push(directusCollection);
 };
 
-export { prismaModelToSnapshotCollection };
+export { processPrismaModel };

@@ -22,7 +22,8 @@ enum PublicationStatus {
   ARCHIVED
 }
 
-/// @autoSortFields
+/// @permission(public, read, *)
+/// @permission(writer, create, *)
 model locale {
   locale_code         String           @map("locale_code")
   /// @createdAt
@@ -36,7 +37,7 @@ model locale {
   @@map("locale")
 }
 
-/// @autoSortFields @archive(field: publication_status, archive: ARCHIVED, unarchive: DRAFT)
+/// @archive(field: publication_status, archive: ARCHIVED, unarchive: DRAFT)
 model article {
   /// @uuid
   article_id          String            @default(dbgenerated("gen_random_uuid()")) @map("article_id") @db.Uuid
@@ -52,7 +53,7 @@ model article {
   @@map("article")
 }
 
-/// @autoSortFields @hidden
+/// @hidden
 model article_locale {
   /// @uuid @hidden
   article_locale_id   String            @default(dbgenerated("gen_random_uuid()")) @map("article_locale_id") @db.Uuid

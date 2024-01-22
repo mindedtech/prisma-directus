@@ -135,4 +135,35 @@ const FilterDictionary = z.record(
 );
 type FilterDictionary = z.infer<typeof FilterDictionary>;
 
-export { FieldFilter, Filter, FilterDictionary };
+const createDefaultFilterDictionary = (): FilterDictionary => ({
+  slug: {
+    filter: {
+      _or: [
+        {
+          _regex: `^[a-z0-9]+(?:-[a-z0-9]+)*$`,
+        },
+        {
+          _empty: true,
+        },
+        {
+          _null: true,
+        },
+      ],
+    },
+    message: `Slug must be a valid slug, e.g. this-is-a-slug`,
+  },
+  uri: {
+    filter: {
+      _regex: `^(?<scheme>[a-zA-Z][a-zA-Z0-9+.-]*):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
+    },
+    message: `Must be a valid URI (or URL), e.g. urn:isbn:0385249497`,
+  },
+  url: {
+    filter: {
+      _regex: `^(?<scheme>https?):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
+    },
+    message: `Must be a valid URL, e.g. https://example.com`,
+  },
+});
+
+export { FieldFilter, Filter, FilterDictionary, createDefaultFilterDictionary };

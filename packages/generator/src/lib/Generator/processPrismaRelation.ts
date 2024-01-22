@@ -1,14 +1,12 @@
-import type {
-  PrismaField,
-  SnapshotContext,
-  SnapshotRelation,
-} from "@/generator/lib/Snapshot/SnapshotTypes";
+import type { GeneratorContext } from "@/generator/lib/Generator/GeneratorContext";
+import type { PrismaField } from "@/generator/lib/Generator/Prisma";
+import type { SnapshotRelation } from "@/generator/lib/Generator/Snapshot";
 import type { ForeignKey } from "@directus/schema";
 
-const prismaFieldToSnaphotRelation = (
-  ctx: SnapshotContext,
+const processPrismaRelation = (
+  ctx: GeneratorContext,
   localPrismaField: PrismaField,
-): undefined | SnapshotRelation => {
+): void => {
   const localPrismaModel = ctx.getPrismaModelOfPrismaField(localPrismaField);
   const localPrismaItemRelation =
     ctx.getLocalPrismaItemRelationOfLocalPrismaField(localPrismaField);
@@ -79,7 +77,7 @@ const prismaFieldToSnaphotRelation = (
     },
   };
 
-  return snapshotRelation;
+  ctx.snapshot.relations.push(snapshotRelation);
 };
 
-export { prismaFieldToSnaphotRelation };
+export { processPrismaRelation };

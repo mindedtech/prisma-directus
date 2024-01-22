@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-import { FieldType } from "@/generator/lib/FieldType";
+import { FieldType } from "@/generator/lib/Generator/FieldType";
+import { PermissionAction } from "@/generator/lib/Generator/Permission";
 
 const RawDirective = z.object({
   directive: z.string(),
@@ -13,52 +14,49 @@ type RawDirective = z.infer<typeof RawDirective>;
 const ModelDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
     directive: z.literal(`accountability`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.enum([`all`, `accountability`, `null`])]),
   }),
   RawDirective.extend({
     directive: z.literal(`archiveAppFilter`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`archiveField`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`archiveValue`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`archive`),
-    kwArgs: z.object({
-      archive: z.string(),
-      field: z.string(),
-      filter: z.coerce.boolean().default(false),
-      unarchive: z.string(),
-    }),
-    tArgs: z.tuple([]),
-  }),
-  RawDirective.extend({
-    directive: z.literal(`autoSortFields`),
-    kwArgs: z.object({}),
+    kwArgs: z
+      .object({
+        archive: z.string(),
+        field: z.string(),
+        filter: z.coerce.boolean().default(false),
+        unarchive: z.string(),
+      })
+      .strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`color`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`collapse`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.enum([`open`, `closed`, `locked`])]),
   }),
   RawDirective.extend({
     directive: z.literal(`collectionTranslation`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.union([
       z.tuple([z.string(), z.string()]),
       z.tuple([z.string(), z.string(), z.string(), z.string()]),
@@ -66,67 +64,74 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
   }),
   RawDirective.extend({
     directive: z.literal(`template`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`hidden`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`icon`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`ignore`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`itemDuplicationField`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`group`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`note`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
+    directive: z.literal(`permission`),
+    kwArgs: z.object({
+      filter: z.string().optional(),
+    }),
+    tArgs: z.tuple([z.string(), PermissionAction, z.string()]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`previewUrl`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`sortField`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`sort`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.coerce.number().int()]),
   }),
   RawDirective.extend({
     directive: z.literal(`singleton`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`unarchiveValue`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`versioning`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
 ]);
@@ -138,27 +143,27 @@ type ModelDirective<
 const FieldDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
     directive: z.literal(`allowDuplicates`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`boolean`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`castBoolean`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`createdAt`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`choice`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string(), z.string()]),
   }),
   RawDirective.extend({
@@ -168,22 +173,22 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
   }),
   RawDirective.extend({
     directive: z.literal(`condition`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`comment`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`constraint`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`default`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.union([
       z.tuple([z.literal(`string`), z.string()]),
       z.tuple([z.literal(`number`), z.coerce.number()]),
@@ -193,12 +198,12 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
   }),
   RawDirective.extend({
     directive: z.literal(`datetime`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`display`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([
       z.enum([
         `boolean`,
@@ -212,32 +217,32 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
   }),
   RawDirective.extend({
     directive: z.literal(`displayOption`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string(), z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`template`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`link`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`group`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`hidden`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`interface`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([
       z.enum([
         `boolean`,
@@ -254,122 +259,122 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
   }),
   RawDirective.extend({
     directive: z.literal(`join`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`languageDirectionField`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`languageField`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`m2m`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`m2o`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`maxLength`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.coerce.number().int().min(0)]),
   }),
   RawDirective.extend({
     directive: z.literal(`precision`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.coerce.number().int().min(0)]),
   }),
   RawDirective.extend({
     directive: z.literal(`richText`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`scale`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.coerce.number().int().min(0)]),
   }),
   RawDirective.extend({
     directive: z.literal(`note`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`o2m`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`onDeselect`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.enum([`nullify`, `delete`])]),
   }),
   RawDirective.extend({
     directive: z.literal(`readonly`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`required`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`sort`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.coerce.number().int()]),
   }),
   RawDirective.extend({
     directive: z.literal(`sortField`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`updatedAt`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`type`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([FieldType]),
   }),
   RawDirective.extend({
     directive: z.literal(`fieldTranslation`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string(), z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`translations`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.union([z.tuple([z.string()]), z.tuple([z.string(), z.string()])]),
   }),
   RawDirective.extend({
     directive: z.literal(`uuid`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`validation`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.union([z.tuple([z.string()]), z.tuple([z.string(), z.string()])]),
   }),
   RawDirective.extend({
     directive: z.literal(`validationMessage`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`width`),
-    kwArgs: z.object({}),
+    kwArgs: z.object({}).strict(),
     tArgs: z.tuple([
       z.enum([`half`, `half-left`, `half-right`, `full`, `fill`]),
     ]),

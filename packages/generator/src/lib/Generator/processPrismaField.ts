@@ -1,12 +1,12 @@
+import type { GeneratorContext } from "@/generator/lib/Generator/GeneratorContext";
+import type { PrismaField } from "@/generator/lib/Generator/Prisma";
 import type {
-  PrismaField,
-  SnapshotContext,
   SnapshotField,
   SnapshotFieldMeta,
   SnapshotFieldMetaOptions,
   SnapshotFieldMetaSpecial,
   SnapshotFieldType,
-} from "@/generator/lib/Snapshot/SnapshotTypes";
+} from "@/generator/lib/Generator/Snapshot";
 import type { DMMF } from "@prisma/generator-helper";
 
 const getPrismaFieldDefaultObject = (
@@ -47,7 +47,7 @@ type DatabaseType =
     };
 
 const getPrismaModelSnapshotTypes = (
-  ctx: SnapshotContext,
+  ctx: GeneratorContext,
   prismaField: PrismaField,
   stack: PrismaField[] = [],
 ):
@@ -223,7 +223,7 @@ const getPrismaModelSnapshotTypes = (
 };
 
 const getPrismaFieldSnapshotDefaultValue = (
-  ctx: SnapshotContext,
+  ctx: GeneratorContext,
   prismaField: PrismaField,
 ): string | number | boolean | null => {
   const directiveDefaultValue = ctx
@@ -289,7 +289,7 @@ const getPrismaFieldSnapshotDefaultValue = (
 };
 
 const getPrismaFieldSnapshotFieldSchema = (
-  ctx: SnapshotContext,
+  ctx: GeneratorContext,
   prismaField: PrismaField,
 ): SnapshotField[`schema`] => {
   const prismaModel = ctx.getPrismaModelOfPrismaField(prismaField);
@@ -367,13 +367,13 @@ const getPrismaFieldSnapshotFieldSchema = (
   };
 };
 
-const prismaFieldToSnapshotField = (
-  ctx: SnapshotContext,
+const processPrismaField = (
+  ctx: GeneratorContext,
   prismaField: PrismaField,
-): undefined | SnapshotField => {
+): void => {
   const types = getPrismaModelSnapshotTypes(ctx, prismaField);
   if (types === undefined) {
-    return undefined;
+    return;
   }
   const prismaModel = ctx.getPrismaModelOfPrismaField(prismaField);
   const directives = ctx.getDirectivesOfPrismaField(prismaField);
@@ -407,7 +407,7 @@ const prismaFieldToSnapshotField = (
     }));
   }
   const fieldConditions = directives.filter(`condition`).map((directive) => {
-    const condition = ctx.conditions[directive.tArgs[0]];
+    const condition = ctx.config.conditions[directive.tArgs[0]];
     if (!condition) {
       throw new Error(
         `[${prismaModel.name}.${prismaField.name}] Condition "${directive.tArgs[0]}" not found`,
@@ -490,7 +490,7 @@ const prismaFieldToSnapshotField = (
   }
   const validation = directives.find(`validation`);
   const filter =
-    validation !== undefined ? ctx.filters[validation.tArgs[0]] : null;
+    validation !== undefined ? ctx.config.filters[validation.tArgs[0]] : null;
   if (filter !== null && filter === undefined) {
     throw new Error(
       `[${prismaModel.name}.${prismaField.name}] Filter "${validation?.tArgs[0]}" not found`,
@@ -570,7 +570,7 @@ const prismaFieldToSnapshotField = (
     type: directusType,
   };
 
-  return snapshotField;
+  ctx.snapshot.fields.push(snapshotField);
 };
 
-export { prismaFieldToSnapshotField };
+export { processPrismaField };

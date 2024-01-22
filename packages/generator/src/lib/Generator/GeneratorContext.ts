@@ -1,30 +1,75 @@
 import {
   parseFieldDirectives,
   parseModelDirectives,
-} from "@/generator/lib/Directive";
+} from "@/generator/lib/Generator/Directive";
+import { createDefaultPrismaSnapshot } from "@/generator/lib/Generator/Prisma";
 
-import type { Condition } from "@/generator/lib/Condition";
 import type {
   FieldDirectives,
   ModelDirectives,
-} from "@/generator/lib/Directive";
-import type { FilterDictionary } from "@/generator/lib/Filter";
+} from "@/generator/lib/Generator/Directive";
+import type { GeneratorConfig } from "@/generator/lib/Generator/GeneratorConfig";
+import type { Permission } from "@/generator/lib/Generator/Permission";
 import type {
   PrismaDatamodel,
   PrismaField,
   PrismaModel,
-  Snapshot,
-  SnapshotContext,
-} from "@/generator/lib/Snapshot/SnapshotTypes";
+} from "@/generator/lib/Generator/Prisma";
+import type { Snapshot } from "@/generator/lib/Generator/Snapshot";
 
-const createSnapshotContext = (
+type GeneratorContext = {
+  readonly config: GeneratorConfig;
+  readonly datamodel: PrismaDatamodel;
+  readonly snapshot: Snapshot;
+  readonly permissions: Permission[];
+
+  readonly getDirectivesOfPrismaModel: (
+    prismaModel: PrismaModel,
+  ) => ModelDirectives;
+  readonly getDirectivesOfPrismaField: (
+    prismaField: PrismaField,
+  ) => FieldDirectives;
+
+  readonly getPrismaModelOfPrismaField: (
+    prismaField: PrismaField,
+  ) => PrismaModel;
+
+  readonly getLocalPrismaFieldOfLocalPrismaItemRelation: (
+    prismaField: PrismaField,
+  ) => PrismaField;
+  readonly getLocalPrismaItemRelationOfLocalPrismaField: (
+    prismaField: PrismaField,
+  ) => undefined | PrismaField;
+
+  readonly getRemotePrismaItemRelationOfLocalPrismaListRelation: (
+    prismaField: PrismaField,
+  ) => PrismaField;
+  readonly getRemotePrismaListRelationOfLocalPrismaItemRelation: (
+    prismaField: PrismaField,
+  ) => PrismaField;
+  readonly getRemotePrismaFieldOfLocalPrismaItemRelation: (
+    prismaField: PrismaField,
+  ) => PrismaField;
+};
+
+const createGeneratorContext = (
+  config: GeneratorConfig,
   datamodel: PrismaDatamodel,
-  autoSortFields: boolean,
-  conditions: Record<string, Condition>,
-  filters: FilterDictionary,
-  directivePrefix: string,
-  snapshot: Snapshot,
-): SnapshotContext => {
+): GeneratorContext => {
+  const { directivePrefix } = config;
+
+  const prismaSnapshot = createDefaultPrismaSnapshot();
+
+  const snapshot: Snapshot = {
+    ...prismaSnapshot,
+    directus: config.directus,
+    relations: [],
+    vendor: `postgres`,
+    version: config.version,
+  };
+
+  const permissions: Permission[] = [];
+
   const directivesOfPrismaModelMap: Map<PrismaModel, ModelDirectives> =
     new Map();
   const directivesOfPrismaFieldMap: Map<PrismaField, FieldDirectives> =
@@ -168,37 +213,7 @@ const createSnapshotContext = (
       }
     }
   }
-
-  const debug: SnapshotContext[`debug`] = () => {
-    console.log(`localPrismaFieldOfLocalPrismaItemRelationMap`);
-    for (const [key, value] of localPrismaFieldOfLocalPrismaItemRelationMap) {
-      console.log(`${key.name} => ${value.name}`);
-    }
-    console.log(`localPrismaItemRelationOfLocalPrismaFieldMap`);
-    for (const [key, value] of localPrismaItemRelationOfLocalPrismaFieldMap) {
-      console.log(`${key.name} => ${value.name}`);
-    }
-    console.log(`remotePrismaItemRelationOfLocalPrismaListRelationMap`);
-    for (const [
-      key,
-      value,
-    ] of remotePrismaItemRelationOfLocalPrismaListRelationMap) {
-      console.log(`${key.name} => ${value.name}`);
-    }
-    console.log(`remotePrismaListRelationOfLocalPrismaItemRelationMap`);
-    for (const [
-      key,
-      value,
-    ] of remotePrismaListRelationOfLocalPrismaItemRelationMap) {
-      console.log(`${key.name} => ${value.name}`);
-    }
-    console.log(`remotePrismaFieldOfLocalPrismaItemRelationMap`);
-    for (const [key, value] of remotePrismaFieldOfLocalPrismaItemRelationMap) {
-      console.log(`${key.name} => ${value.name}`);
-    }
-  };
-
-  const getDirectivesOfPrismaModel: SnapshotContext[`getDirectivesOfPrismaModel`] =
+  const getDirectivesOfPrismaModel: GeneratorContext[`getDirectivesOfPrismaModel`] =
     (prismaModel) => {
       const directives = directivesOfPrismaModelMap.get(prismaModel);
       if (!directives) {
@@ -206,7 +221,7 @@ const createSnapshotContext = (
       }
       return directives;
     };
-  const getDirectivesOfPrismaField: SnapshotContext[`getDirectivesOfPrismaField`] =
+  const getDirectivesOfPrismaField: GeneratorContext[`getDirectivesOfPrismaField`] =
     (prismaField) => {
       const directives = directivesOfPrismaFieldMap.get(prismaField);
       if (!directives) {
@@ -218,7 +233,7 @@ const createSnapshotContext = (
       return directives;
     };
 
-  const getPrismaModelOfPrismaField: SnapshotContext[`getPrismaModelOfPrismaField`] =
+  const getPrismaModelOfPrismaField: GeneratorContext[`getPrismaModelOfPrismaField`] =
     (prismaField) => {
       const prismaModel = prismaModelOfPrismaFieldMap.get(prismaField);
       if (!prismaModel) {
@@ -227,7 +242,7 @@ const createSnapshotContext = (
       return prismaModel;
     };
 
-  const getLocalPrismaFieldOfLocalPrismaItemRelation: SnapshotContext[`getLocalPrismaFieldOfLocalPrismaItemRelation`] =
+  const getLocalPrismaFieldOfLocalPrismaItemRelation: GeneratorContext[`getLocalPrismaFieldOfLocalPrismaItemRelation`] =
     (localPrismaItemRelation) => {
       const localPrismaFieldOfLocalPrismaItemRelation =
         localPrismaFieldOfLocalPrismaItemRelationMap.get(
@@ -243,14 +258,14 @@ const createSnapshotContext = (
       }
       return localPrismaFieldOfLocalPrismaItemRelation;
     };
-  const getLocalPrismaItemRelationOfLocalPrismaField: SnapshotContext[`getLocalPrismaItemRelationOfLocalPrismaField`] =
+  const getLocalPrismaItemRelationOfLocalPrismaField: GeneratorContext[`getLocalPrismaItemRelationOfLocalPrismaField`] =
     (localPrismaField) => {
       const localPrismaItemRelationOfLocalPrismaField =
         localPrismaItemRelationOfLocalPrismaFieldMap.get(localPrismaField);
       return localPrismaItemRelationOfLocalPrismaField;
     };
 
-  const getRemotePrismaItemRelationOfLocalPrismaListRelation: SnapshotContext[`getRemotePrismaItemRelationOfLocalPrismaListRelation`] =
+  const getRemotePrismaItemRelationOfLocalPrismaListRelation: GeneratorContext[`getRemotePrismaItemRelationOfLocalPrismaListRelation`] =
     (localPrismaListRelation) => {
       const remotePrismaItemRelation =
         remotePrismaItemRelationOfLocalPrismaListRelationMap.get(
@@ -266,7 +281,7 @@ const createSnapshotContext = (
       }
       return remotePrismaItemRelation;
     };
-  const getRemotePrismaListRelationOfLocalPrismaItemRelation: SnapshotContext[`getRemotePrismaListRelationOfLocalPrismaItemRelation`] =
+  const getRemotePrismaListRelationOfLocalPrismaItemRelation: GeneratorContext[`getRemotePrismaListRelationOfLocalPrismaItemRelation`] =
     (localPrismaItemRelation) => {
       const remotePrismaListRelation =
         remotePrismaListRelationOfLocalPrismaItemRelationMap.get(
@@ -282,7 +297,7 @@ const createSnapshotContext = (
       }
       return remotePrismaListRelation;
     };
-  const getRemotePrismaFieldOfLocalPrismaItemRelation: SnapshotContext[`getRemotePrismaFieldOfLocalPrismaItemRelation`] =
+  const getRemotePrismaFieldOfLocalPrismaItemRelation: GeneratorContext[`getRemotePrismaFieldOfLocalPrismaItemRelation`] =
     (localPrismaItemRelation) => {
       const remotePrismaField =
         remotePrismaFieldOfLocalPrismaItemRelationMap.get(
@@ -300,11 +315,8 @@ const createSnapshotContext = (
     };
 
   return {
-    autoSort: autoSortFields,
-    conditions,
+    config,
     datamodel,
-    debug,
-    filters,
     getDirectivesOfPrismaField,
     getDirectivesOfPrismaModel,
     getLocalPrismaFieldOfLocalPrismaItemRelation,
@@ -313,8 +325,11 @@ const createSnapshotContext = (
     getRemotePrismaFieldOfLocalPrismaItemRelation,
     getRemotePrismaItemRelationOfLocalPrismaListRelation,
     getRemotePrismaListRelationOfLocalPrismaItemRelation,
+    permissions,
     snapshot,
   };
 };
 
-export { createSnapshotContext };
+export { createGeneratorContext };
+
+export type { GeneratorContext };

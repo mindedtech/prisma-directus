@@ -96,7 +96,6 @@ collections:
       versioning: false
     schema:
       name: article_locale
-directus: 10.8.3
 fields:
   - collection: _prisma_migrations
     field: applied_steps_count
@@ -273,7 +272,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 0
+      sort: null
       special: null
       translations: null
       validation: null
@@ -311,7 +310,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 1
+      sort: null
       special:
         - date-created
       translations: null
@@ -350,7 +349,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 2
+      sort: null
       special:
         - date-updated
       translations: null
@@ -389,7 +388,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 0
+      sort: null
       special:
         - uuid
       translations: null
@@ -428,7 +427,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 1
+      sort: null
       special:
         - date-created
       translations: null
@@ -467,7 +466,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 2
+      sort: null
       special:
         - date-updated
       translations: null
@@ -513,7 +512,7 @@ fields:
             value: ARCHIVED
       readonly: false
       required: false
-      sort: 3
+      sort: null
       special: null
       translations: null
       validation: null
@@ -553,7 +552,7 @@ fields:
         languageField: locale_code
       readonly: false
       required: false
-      sort: 4
+      sort: null
       special:
         - translations
       translations: null
@@ -576,7 +575,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 0
+      sort: null
       special:
         - uuid
       translations: null
@@ -615,7 +614,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 1
+      sort: null
       special: null
       translations: null
       validation: null
@@ -653,7 +652,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 3
+      sort: null
       special: null
       translations: null
       validation: null
@@ -691,7 +690,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 5
+      sort: null
       special: null
       translations: null
       validation: null
@@ -729,7 +728,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 6
+      sort: null
       special:
         - date-created
       translations: null
@@ -768,7 +767,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 7
+      sort: null
       special:
         - date-updated
       translations: null
@@ -814,7 +813,7 @@ fields:
             value: ARCHIVED
       readonly: false
       required: false
-      sort: 8
+      sort: null
       special: null
       translations: null
       validation: null
@@ -852,7 +851,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 9
+      sort: null
       special: null
       translations: null
       validation: null
@@ -890,7 +889,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 10
+      sort: null
       special: null
       translations: null
       validation:
@@ -934,7 +933,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: 11
+      sort: null
       special: null
       translations: null
       validation: null
@@ -957,6 +956,7 @@ fields:
       numeric_scale: null
       table: article_locale
     type: text
+directus: 10.8.3
 relations:
   - collection: article_locale
     field: article_id
