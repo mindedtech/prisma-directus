@@ -20,6 +20,6 @@
     "./packages/*"
   ],
   "devDependencies": {
-    "npm-check-updates": "^16.14.12"
+    "npm-check-updates": "^16.14.15"
   }
 }

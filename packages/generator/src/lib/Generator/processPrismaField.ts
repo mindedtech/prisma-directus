@@ -11,16 +11,20 @@ import type { DMMF } from "@prisma/generator-helper";
 
 const getPrismaFieldDefaultObject = (
   prismaField: PrismaField,
-):
-  | null
-  | (Omit<DMMF.FieldDefault, `args`> & {
-      args: unknown[];
-    }) =>
-  prismaField.default !== null &&
-  typeof prismaField.default === `object` &&
-  !Array.isArray(prismaField.default)
-    ? prismaField.default
-    : null;
+): undefined | DMMF.FieldDefault => {
+  if (!prismaField.hasDefaultValue) {
+    return;
+  }
+  const defaultValue = prismaField.default;
+  if (
+    typeof defaultValue !== `object` ||
+    defaultValue === null ||
+    Array.isArray(defaultValue)
+  ) {
+    return;
+  }
+  return defaultValue as DMMF.FieldDefault;
+};
 
 type DatabaseScalarType =
   | `biginteger`
@@ -95,7 +99,8 @@ const getPrismaModelSnapshotTypes = (
       ctx.getDirectivesOfPrismaField(prismaField).find(`uuid`) !== undefined ||
       defaultObject?.name === `uuid` ||
       (defaultObject?.name === `dbgenerated` &&
-        defaultObject?.args[0] === `gen_random_uuid()`)
+        typeof defaultObject.args[0] === `string` &&
+        defaultObject.args[0] === `gen_random_uuid()`)
     ) {
       return {
         dbType: {

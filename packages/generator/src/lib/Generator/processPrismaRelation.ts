@@ -26,9 +26,9 @@ const processPrismaRelation = (
   const localPrismaItemRelationDirectives = ctx.getDirectivesOfPrismaField(
     localPrismaItemRelation,
   );
-  const contraintName =
+  const constraintName =
     localPrismaItemRelationDirectives.find(`constraint`)?.tArgs[0];
-  if (typeof contraintName !== `string`) {
+  if (typeof constraintName !== `string`) {
     throw new Error(
       `[${localPrismaModel.name}.${localPrismaItemRelation.name}] Missing constraint`,
     );
@@ -68,7 +68,7 @@ const processPrismaRelation = (
     related_collection: remotePrismaModel.dbName ?? remotePrismaModel.name,
     schema: {
       column: localPrismaField.dbName ?? localPrismaField.name,
-      constraint_name: contraintName,
+      constraint_name: constraintName,
       foreign_key_column: remotePrismaField.dbName ?? remotePrismaField.name,
       foreign_key_table: remotePrismaModel.dbName ?? remotePrismaModel.name,
       on_delete: onDelete,

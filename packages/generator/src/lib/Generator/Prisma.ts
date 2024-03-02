@@ -2,8 +2,8 @@ import type { Snapshot } from "@/generator/lib/Generator/Snapshot";
 import type { DMMF } from "@prisma/generator-helper";
 
 type PrismaDatamodel = DMMF.Datamodel;
-type PrismaModel = PrismaDatamodel[`models`][number];
-type PrismaField = PrismaModel[`fields`][number];
+type PrismaModel = DMMF.Model;
+type PrismaField = DMMF.Field;
 
 const createDefaultPrismaSnapshot = (): Pick<
   Snapshot,

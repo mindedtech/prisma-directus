@@ -22,9 +22,4 @@ services:
       - prisma-directus-dev
     ports:
       - 11055:11055
-    volumes:
-      - read_only: false
-        source: ./uploads
-        target: /mount/uploads
-        type: bind
 version: "3.8"
