@@ -163,18 +163,14 @@ const createGeneratorContext = (
             );
           }
           const remotePrismaListRelation = remotePrismaModel.fields.find(
-            (prismaItemRelation) =>
-              prismaItemRelation.relationName ===
-              localItemRelation.relationName,
+            (remotePrismaListRelation) =>
+              remotePrismaListRelation.relationName ===
+                localItemRelation.relationName &&
+              remotePrismaListRelation.isList,
           );
           if (!remotePrismaListRelation) {
             throw new Error(
               `[${localPrismaModel.name}.${localPrismaField.name}] Missing remotePrismaListRelation`,
-            );
-          }
-          if (!remotePrismaListRelation.isList) {
-            throw new Error(
-              `[${localPrismaModel.name}.${localPrismaField.name}] remotePrismaListRelation is not a list`,
             );
           }
           remotePrismaListRelationOfLocalPrismaItemRelationMap.set(
