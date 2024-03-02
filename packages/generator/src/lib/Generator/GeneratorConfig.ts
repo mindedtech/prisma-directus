@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { ConditionDictionary } from "@/generator/lib/Generator/Condition";
 import { FilterDictionary } from "@/generator/lib/Generator/Filter";
+import { RichTextCustomSyntax } from "@/generator/lib/Generator/RichTextCustomSyntax";
 
 const GeneratorConfig = z
   .object({
@@ -16,6 +17,7 @@ const GeneratorConfig = z
     directus: z.string(),
     filters: FilterDictionary.default({}),
     permissionsFile: z.string().default(`./directus-permissions.yml`),
+    richTextCustomSyntaxes: z.array(RichTextCustomSyntax).default([]),
     roles: z.record(
       z
         .object({

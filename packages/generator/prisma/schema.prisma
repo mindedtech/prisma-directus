@@ -75,6 +75,8 @@ model article_locale {
   /// @validation(slug)
   slug                String            @map("slug")
   /// @richText
+  /// @customSyntax(spoiler)
+  /// @customSyntax(tag)
   body_markdown       String?           @map("body_markdown")
 
   @@id([article_locale_id], map: "article_locale__pk")

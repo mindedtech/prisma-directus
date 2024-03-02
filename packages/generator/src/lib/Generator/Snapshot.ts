@@ -1,3 +1,4 @@
+import type { RichTextCustomSyntax } from "@/generator/lib/Generator/RichTextCustomSyntax";
 import type { OmitStrict } from "@/generator/lib/utils";
 import type {
   Collection as BaseCollection,
@@ -42,6 +43,7 @@ type SnapshotFieldMetaOptionsChoice = {
 type SnapshotFieldMetaOptions = {
   allowDuplicates?: boolean;
   choices?: SnapshotFieldMetaOptionsChoice[];
+  customSyntax?: RichTextCustomSyntax[];
   template?: string;
   enableLink?: boolean;
   languageDirectionField?: string;

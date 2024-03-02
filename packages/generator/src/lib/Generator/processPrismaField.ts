@@ -501,6 +501,22 @@ const processPrismaField = (
       `[${prismaModel.name}.${prismaField.name}] Filter "${validation?.tArgs[0]}" not found`,
     );
   }
+  const customSyntaxes = directives.filter(`customSyntax`);
+  for (const {
+    tArgs: [customSyntaxName],
+  } of customSyntaxes) {
+    const customSyntax = ctx.config.richTextCustomSyntaxes.find(
+      (customSyntax) => customSyntax.name === customSyntaxName,
+    );
+    if (customSyntax === undefined) {
+      throw new Error(
+        `[${prismaModel.name}.${prismaField.name}] Custom syntax "${customSyntaxName}" not found`,
+      );
+    }
+    options ??= {};
+    options.customSyntax ??= [];
+    options.customSyntax.push(customSyntax);
+  }
   const fieldTranslations = directives.filter(`fieldTranslation`);
   const { directusType } = types;
 

@@ -1,6 +1,19 @@
 directus: "10.8.3"
 version: 1
 conditions: {}
+richTextCustomSyntaxes:
+  - name: spoiler
+    box: block
+    prefix: |2
+      <details>
+        <summary>
+    suffix: |2
+        </summary>
+      </details>
+  - name: tag
+    box: inline
+    prefix: <span class="tag">
+    suffix: </span>
 debugFile: ./prisma/directus-debug.local.json
 permissionsFile: ./prisma/directus-permissions.yml
 snapshotFile: ./prisma/directus-snapshot.yml

@@ -930,7 +930,22 @@ fields:
       hidden: false
       interface: input-rich-text-md
       note: null
-      options: null
+      options:
+        customSyntax:
+          - box: block
+            icon: code_blocks
+            name: spoiler
+            prefix: |
+              <details>
+                <summary>
+            suffix: |2
+                </summary>
+              </details>
+          - box: inline
+            icon: code_blocks
+            name: tag
+            prefix: <span class="tag">
+            suffix: </span>
       readonly: false
       required: false
       sort: null
