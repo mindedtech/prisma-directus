@@ -15,6 +15,7 @@ richTextCustomSyntaxes:
     prefix: <span class="tag">
     suffix: </span>
 debugFile: ./prisma/directus-debug.local.json
+traceFile: ./prisma/directus-trace.local.log
 permissionsFile: ./prisma/directus-permissions.yml
 snapshotFile: ./prisma/directus-snapshot.yml
 roles:

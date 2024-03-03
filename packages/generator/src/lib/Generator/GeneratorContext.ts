@@ -1,3 +1,6 @@
+import { writeFileSync } from "fs";
+import { join } from "path";
+
 import {
   parseFieldDirectives,
   parseModelDirectives,
@@ -23,7 +26,7 @@ type GeneratorContext = {
   readonly snapshot: Snapshot;
   readonly permissions: Permission[];
 
-  readonly trace: (...args: unknown[]) => void;
+  readonly trace: (arg: string) => void;
 
   readonly getDirectivesOfPrismaModel: (
     prismaModel: PrismaModel,
@@ -60,13 +63,20 @@ const createGeneratorContext = (
 ): GeneratorContext => {
   const { directivePrefix } = config;
 
-  const trace = (...args: unknown[]): void => {
-    if (config.trace) {
-      console.log(...args);
+  const traceFilePath =
+    typeof config.traceFile === `string`
+      ? join(process.cwd(), config.traceFile)
+      : null;
+
+  if (typeof traceFilePath === `string`) {
+    writeFileSync(traceFilePath, `createGeneratorContext`, { flag: `w+` });
+  }
+
+  const trace = (arg: string): void => {
+    if (typeof traceFilePath === `string`) {
+      writeFileSync(traceFilePath, `${arg}\n`, { flag: `a` });
     }
   };
-
-  trace(`createGeneratorContext`);
 
   const prismaSnapshot = createDefaultPrismaSnapshot();
 

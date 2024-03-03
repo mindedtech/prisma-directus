@@ -26,7 +26,7 @@ const GeneratorConfig = z
         .strict(),
     ),
     snapshotFile: z.string().default(`./directus-snapshot.yml`),
-    trace: z.boolean().default(false),
+    traceFile: z.string().optional(),
     version: z.number().int().nonnegative(),
   })
   .strict();
