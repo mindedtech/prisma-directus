@@ -7,6 +7,9 @@ const processPrismaRelation = (
   ctx: GeneratorContext,
   localPrismaField: PrismaField,
 ): void => {
+  ctx.trace(
+    `[${localPrismaField.name}.${localPrismaField.name}] processPrismaRelation`,
+  );
   const localPrismaModel = ctx.getPrismaModelOfPrismaField(localPrismaField);
   const localPrismaItemRelation =
     ctx.getLocalPrismaItemRelationOfLocalPrismaField(localPrismaField);

@@ -6,6 +6,7 @@ const processPrismaModel = (
   ctx: GeneratorContext,
   prismaModel: PrismaModel,
 ): void => {
+  ctx.trace(`[${prismaModel.name}] processPrismaModel`);
   if (
     prismaModel.primaryKey?.fields &&
     prismaModel.primaryKey.fields.length > 1

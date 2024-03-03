@@ -23,16 +23,6 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
-    directive: z.literal(`archiveField`),
-    kwArgs: z.object({}).strict(),
-    tArgs: z.tuple([z.string()]),
-  }),
-  RawDirective.extend({
-    directive: z.literal(`archiveValue`),
-    kwArgs: z.object({}).strict(),
-    tArgs: z.tuple([z.string()]),
-  }),
-  RawDirective.extend({
     directive: z.literal(`archive`),
     kwArgs: z
       .object({
@@ -45,7 +35,12 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
-    directive: z.literal(`color`),
+    directive: z.literal(`archiveField`),
+    kwArgs: z.object({}).strict(),
+    tArgs: z.tuple([z.string()]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`archiveValue`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
@@ -63,7 +58,12 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
     ]),
   }),
   RawDirective.extend({
-    directive: z.literal(`template`),
+    directive: z.literal(`color`),
+    kwArgs: z.object({}).strict(),
+    tArgs: z.tuple([z.string()]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`group`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
@@ -84,11 +84,6 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
   }),
   RawDirective.extend({
     directive: z.literal(`itemDuplicationField`),
-    kwArgs: z.object({}).strict(),
-    tArgs: z.tuple([z.string()]),
-  }),
-  RawDirective.extend({
-    directive: z.literal(`group`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
   }),
@@ -123,6 +118,11 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
     directive: z.literal(`singleton`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`template`),
+    kwArgs: z.object({}).strict(),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`unarchiveValue`),
@@ -226,14 +226,14 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([z.string(), z.string()]),
   }),
   RawDirective.extend({
-    directive: z.literal(`template`),
+    directive: z.literal(`fieldTranslation`),
     kwArgs: z.object({}).strict(),
-    tArgs: z.tuple([z.string()]),
+    tArgs: z.tuple([z.string(), z.string()]),
   }),
   RawDirective.extend({
-    directive: z.literal(`link`),
+    directive: z.literal(`filter`),
     kwArgs: z.object({}).strict(),
-    tArgs: z.tuple([]),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`group`),
@@ -278,6 +278,11 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
+    directive: z.literal(`link`),
+    kwArgs: z.object({}).strict(),
+    tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`m2m`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
@@ -289,21 +294,6 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
   }),
   RawDirective.extend({
     directive: z.literal(`maxLength`),
-    kwArgs: z.object({}).strict(),
-    tArgs: z.tuple([z.coerce.number().int().min(0)]),
-  }),
-  RawDirective.extend({
-    directive: z.literal(`precision`),
-    kwArgs: z.object({}).strict(),
-    tArgs: z.tuple([z.coerce.number().int().min(0)]),
-  }),
-  RawDirective.extend({
-    directive: z.literal(`richText`),
-    kwArgs: z.object({}).strict(),
-    tArgs: z.tuple([]),
-  }),
-  RawDirective.extend({
-    directive: z.literal(`scale`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.coerce.number().int().min(0)]),
   }),
@@ -323,6 +313,16 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([z.enum([`nullify`, `delete`])]),
   }),
   RawDirective.extend({
+    directive: z.literal(`precision`),
+    kwArgs: z.object({}).strict(),
+    tArgs: z.tuple([z.coerce.number().int().min(0)]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`richText`),
+    kwArgs: z.object({}).strict(),
+    tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`readonly`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
@@ -331,6 +331,11 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     directive: z.literal(`required`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`scale`),
+    kwArgs: z.object({}).strict(),
+    tArgs: z.tuple([z.coerce.number().int().min(0)]),
   }),
   RawDirective.extend({
     directive: z.literal(`sort`),
@@ -343,9 +348,14 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
-    directive: z.literal(`updatedAt`),
+    directive: z.literal(`template`),
     kwArgs: z.object({}).strict(),
-    tArgs: z.tuple([]),
+    tArgs: z.tuple([z.string()]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`translations`),
+    kwArgs: z.object({}).strict(),
+    tArgs: z.union([z.tuple([z.string()]), z.tuple([z.string(), z.string()])]),
   }),
   RawDirective.extend({
     directive: z.literal(`type`),
@@ -353,14 +363,9 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([FieldType]),
   }),
   RawDirective.extend({
-    directive: z.literal(`fieldTranslation`),
+    directive: z.literal(`updatedAt`),
     kwArgs: z.object({}).strict(),
-    tArgs: z.tuple([z.string(), z.string()]),
-  }),
-  RawDirective.extend({
-    directive: z.literal(`translations`),
-    kwArgs: z.object({}).strict(),
-    tArgs: z.union([z.tuple([z.string()]), z.tuple([z.string(), z.string()])]),
+    tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`uuid`),

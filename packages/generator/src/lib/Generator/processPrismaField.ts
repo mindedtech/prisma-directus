@@ -1,3 +1,4 @@
+import type { FilterItem } from "@/generator/lib/Generator/Filter";
 import type { GeneratorContext } from "@/generator/lib/Generator/GeneratorContext";
 import type { PrismaField } from "@/generator/lib/Generator/Prisma";
 import type {
@@ -376,6 +377,7 @@ const processPrismaField = (
   ctx: GeneratorContext,
   prismaField: PrismaField,
 ): void => {
+  ctx.trace(`[${prismaField.name}] processPrismaField`);
   const types = getPrismaModelSnapshotTypes(ctx, prismaField);
   if (types === undefined) {
     return;
@@ -494,12 +496,25 @@ const processPrismaField = (
     special.push(`translations`);
   }
   const validation = directives.find(`validation`);
-  const filter =
-    validation !== undefined ? ctx.config.filters[validation.tArgs[0]] : null;
-  if (filter !== null && filter === undefined) {
-    throw new Error(
-      `[${prismaModel.name}.${prismaField.name}] Filter "${validation?.tArgs[0]}" not found`,
-    );
+  let validationFilter: undefined | FilterItem = undefined;
+  if (validation) {
+    validationFilter = ctx.config.filters[validation.tArgs[0]];
+    if (!validationFilter) {
+      throw new Error(
+        `[${prismaModel.name}.${prismaField.name}] Validation Filter "${validation?.tArgs[0]}" not found`,
+      );
+    }
+  }
+  const filter = directives.find(`filter`);
+  if (filter) {
+    const optionFilter = ctx.config.filters[filter.tArgs[0]];
+    if (!optionFilter) {
+      throw new Error(
+        `[${prismaModel.name}.${prismaField.name}] Filter "${filter?.tArgs[0]}" not found`,
+      );
+    }
+    options ??= {};
+    options.filter = { _and: [optionFilter.filter] };
   }
   const customSyntaxes = directives.filter(`customSyntax`);
   for (const {
@@ -571,11 +586,12 @@ const processPrismaField = (
               translation,
             }))
           : null,
-      validation: filter
+      validation: validationFilter
         ? ({
             _and: [
               {
-                [prismaField.dbName ?? prismaField.name]: filter.filter,
+                [prismaField.dbName ?? prismaField.name]:
+                  validationFilter.filter,
               },
             ],
           } as SnapshotFieldMeta[`validation`])
@@ -583,7 +599,7 @@ const processPrismaField = (
       validation_message:
         directives.find(`validationMessage`)?.tArgs[0] ??
         directives.find(`validation`)?.tArgs[1] ??
-        filter?.message ??
+        validationFilter?.message ??
         null,
       width: directives.find(`width`)?.tArgs[0] ?? `full`,
     },

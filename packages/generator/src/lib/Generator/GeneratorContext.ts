@@ -23,6 +23,8 @@ type GeneratorContext = {
   readonly snapshot: Snapshot;
   readonly permissions: Permission[];
 
+  readonly trace: (...args: unknown[]) => void;
+
   readonly getDirectivesOfPrismaModel: (
     prismaModel: PrismaModel,
   ) => ModelDirectives;
@@ -57,6 +59,14 @@ const createGeneratorContext = (
   datamodel: PrismaDatamodel,
 ): GeneratorContext => {
   const { directivePrefix } = config;
+
+  const trace = (...args: unknown[]): void => {
+    if (config.trace) {
+      console.log(...args);
+    }
+  };
+
+  trace(`createGeneratorContext`);
 
   const prismaSnapshot = createDefaultPrismaSnapshot();
 
@@ -100,6 +110,7 @@ const createGeneratorContext = (
   > = new Map();
 
   for (const localPrismaModel of datamodel.models) {
+    trace(`[${localPrismaModel.name}] parseModelDirectives`);
     const prismaModelDirectives = parseModelDirectives(
       directivePrefix,
       localPrismaModel.name,
@@ -111,6 +122,9 @@ const createGeneratorContext = (
     }
     for (const localPrismaField of localPrismaModel.fields) {
       prismaModelOfPrismaFieldMap.set(localPrismaField, localPrismaModel);
+      trace(
+        `[${localPrismaModel.name}.${localPrismaField.name}] parseFieldDirectives`,
+      );
       const prismaFieldDirectives = parseFieldDirectives(
         directivePrefix,
         localPrismaModel.name,
@@ -323,6 +337,7 @@ const createGeneratorContext = (
     getRemotePrismaListRelationOfLocalPrismaItemRelation,
     permissions,
     snapshot,
+    trace,
   };
 };
 
