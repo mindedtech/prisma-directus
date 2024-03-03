@@ -19,6 +19,7 @@ collections:
       singleton: false
       sort: null
       sort_field: null
+      system: false
       translations: null
       unarchive_value: null
       versioning: false
@@ -43,6 +44,7 @@ collections:
       singleton: false
       sort: null
       sort_field: null
+      system: false
       translations: null
       unarchive_value: null
       versioning: false
@@ -67,6 +69,7 @@ collections:
       singleton: false
       sort: null
       sort_field: null
+      system: false
       translations: null
       unarchive_value: DRAFT
       versioning: false
@@ -91,6 +94,7 @@ collections:
       singleton: false
       sort: null
       sort_field: null
+      system: false
       translations: null
       unarchive_value: null
       versioning: false

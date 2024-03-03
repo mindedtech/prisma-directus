@@ -15,7 +15,7 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
     directive: z.literal(`accountability`),
     kwArgs: z.object({}).strict(),
-    tArgs: z.tuple([z.enum([`all`, `accountability`, `null`])]),
+    tArgs: z.tuple([z.enum([`all`, `activity`, `null`])]),
   }),
   RawDirective.extend({
     directive: z.literal(`archiveAppFilter`),

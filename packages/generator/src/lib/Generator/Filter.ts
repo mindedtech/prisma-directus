@@ -117,7 +117,11 @@ const LogicalFilter: ZodType<LogicalFilter> = z.lazy(() =>
 );
 
 const FieldFilter: ZodType<FieldFilter> = z.lazy(() =>
-  z.union([FieldFilterOperator, FieldValidationOperator, FieldFilter]),
+  z
+    .record(
+      z.union([FieldFilterOperator, FieldValidationOperator, FieldFilter]),
+    )
+    .or(z.union([FieldFilterOperator, FieldValidationOperator])),
 );
 
 const FieldValidationOperator: ZodType<FieldValidationOperator> = z
@@ -129,7 +133,7 @@ const FieldValidationOperator: ZodType<FieldValidationOperator> = z
 
 const FilterItem = z.object({
   filter: Filter,
-  message: z.string(),
+  message: z.string().optional(),
 });
 type FilterItem = z.infer<typeof FilterItem>;
 

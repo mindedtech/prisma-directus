@@ -1,15 +1,13 @@
 import type { Filter } from "@/generator/lib/Generator/Filter";
 import type { RichTextCustomSyntax } from "@/generator/lib/Generator/RichTextCustomSyntax";
 import type { OmitStrict } from "@/generator/lib/utils";
-import type {
-  Collection as BaseCollection,
-  CollectionMeta as BaseCollectionMeta,
-} from "@directus/api/types/collection";
+import type { Collection as BaseCollection } from "@directus/api/types/collection";
 import type {
   Snapshot as BaseSnapshot,
   SnapshotField as BaseSnapshotField,
   SnapshotRelation as BaseSnapshotRelation,
 } from "@directus/api/types/snapshot";
+import type { BaseCollectionMeta } from "@directus/system-data";
 import type { Type as SnapshotFieldType } from "@directus/types";
 
 type SnapshotCollection = Omit<BaseCollection, `meta`> & {
