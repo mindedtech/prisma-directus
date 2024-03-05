@@ -159,13 +159,33 @@ const createDefaultFilterDictionary = (): FilterDictionary => ({
   },
   uri: {
     filter: {
-      _regex: `^(?<scheme>[a-zA-Z][a-zA-Z0-9+.-]*):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
+      _or: [
+        {
+          _regex: `^(?<scheme>[a-zA-Z][a-zA-Z0-9+.-]*):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
+        },
+        {
+          _empty: true,
+        },
+        {
+          _null: true,
+        },
+      ],
     },
     message: `Must be a valid URI (or URL), e.g. urn:isbn:0385249497`,
   },
   url: {
     filter: {
-      _regex: `^(?<scheme>https?):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
+      _or: [
+        {
+          _regex: `^(?<scheme>https?):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
+        },
+        {
+          _empty: true,
+        },
+        {
+          _null: true,
+        },
+      ],
     },
     message: `Must be a valid URL, e.g. https://example.com`,
   },
