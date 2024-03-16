@@ -276,7 +276,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 0
       special: null
       translations: null
       validation: null
@@ -314,7 +314,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 1
       special:
         - date-created
       translations: null
@@ -353,7 +353,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 2
       special:
         - date-updated
       translations: null
@@ -392,7 +392,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 0
       special:
         - uuid
       translations: null
@@ -431,7 +431,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 1
       special:
         - date-created
       translations: null
@@ -470,7 +470,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 2
       special:
         - date-updated
       translations: null
@@ -516,7 +516,7 @@ fields:
             value: ARCHIVED
       readonly: false
       required: false
-      sort: null
+      sort: 3
       special: null
       translations: null
       validation: null
@@ -556,7 +556,7 @@ fields:
         languageField: locale_code
       readonly: false
       required: false
-      sort: null
+      sort: 4
       special:
         - translations
       translations: null
@@ -579,7 +579,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 0
       special:
         - uuid
       translations: null
@@ -618,7 +618,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 1
       special: null
       translations: null
       validation: null
@@ -656,7 +656,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 3
       special: null
       translations: null
       validation: null
@@ -694,7 +694,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 5
       special: null
       translations: null
       validation: null
@@ -732,7 +732,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 6
       special:
         - date-created
       translations: null
@@ -771,7 +771,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 7
       special:
         - date-updated
       translations: null
@@ -817,7 +817,7 @@ fields:
             value: ARCHIVED
       readonly: false
       required: false
-      sort: null
+      sort: 8
       special: null
       translations: null
       validation: null
@@ -855,7 +855,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 9
       special: null
       translations: null
       validation: null
@@ -893,7 +893,7 @@ fields:
       options: null
       readonly: false
       required: false
-      sort: null
+      sort: 10
       special: null
       translations: null
       validation:
@@ -957,7 +957,7 @@ fields:
             suffix: </span>
       readonly: false
       required: false
-      sort: null
+      sort: 11
       special: null
       translations: null
       validation: null

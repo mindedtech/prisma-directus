@@ -35,10 +35,10 @@ const generate = ({ config, datamodel }: GeneratorInput): GeneratorOutput => {
         continue;
       }
       processPrismaModel(ctx, prismaModel);
-      for (const prismaField of prismaModel.fields) {
-        processPrismaField(ctx, prismaField);
+      prismaModel.fields.forEach((prismaField, order) => {
+        processPrismaField(ctx, prismaField, order);
         processPrismaRelation(ctx, prismaField);
-      }
+      });
     }
     return {
       isError: false,

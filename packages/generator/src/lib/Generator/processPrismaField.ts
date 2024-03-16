@@ -376,6 +376,7 @@ const getPrismaFieldSnapshotFieldSchema = (
 const processPrismaField = (
   ctx: GeneratorContext,
   prismaField: PrismaField,
+  order: number,
 ): void => {
   ctx.trace(`[${prismaField.name}] processPrismaField`);
   const types = getPrismaModelSnapshotTypes(ctx, prismaField);
@@ -599,7 +600,7 @@ const processPrismaField = (
       options,
       readonly: directives.find(`readonly`) !== undefined,
       required: directives.find(`required`) !== undefined,
-      sort: directives.find(`sort`)?.tArgs[0] ?? null,
+      sort: directives.find(`sort`)?.tArgs[0] ?? order,
       special: special.length > 0 ? special : null,
       translations:
         fieldTranslations.length > 0
