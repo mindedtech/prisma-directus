@@ -141,53 +141,35 @@ const FilterDictionary = z.record(FilterItem);
 type FilterDictionary = z.infer<typeof FilterDictionary>;
 
 const createDefaultFilterDictionary = (): FilterDictionary => ({
+  empty: {
+    filter: {
+      _empty: true,
+    },
+    message: `Empty`,
+  },
+  null: {
+    filter: {
+      _null: true,
+    },
+    message: `Null`,
+  },
   slug: {
     filter: {
-      _or: [
-        {
-          _regex: `^[a-z0-9]+(?:-[a-z0-9]+)*$`,
-        },
-        {
-          _empty: true,
-        },
-        {
-          _null: true,
-        },
-      ],
+      _regex: `^[a-z0-9]+(?:-[a-z0-9]+)*$`,
     },
-    message: `Slug must be a valid slug, e.g. this-is-a-slug`,
+    message: `Valid slug, e.g. "this-is-a-slug"`,
   },
   uri: {
     filter: {
-      _or: [
-        {
-          _regex: `^(?<scheme>[a-zA-Z][a-zA-Z0-9+.-]*):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
-        },
-        {
-          _empty: true,
-        },
-        {
-          _null: true,
-        },
-      ],
+      _regex: `^(?<scheme>[a-zA-Z][a-zA-Z0-9+.-]*):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
     },
-    message: `Must be a valid URI (or URL), e.g. urn:isbn:0385249497`,
+    message: `Valid URI (or URL), e.g. "urn:isbn:0385249497"`,
   },
   url: {
     filter: {
-      _or: [
-        {
-          _regex: `^(?<scheme>https?):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
-        },
-        {
-          _empty: true,
-        },
-        {
-          _null: true,
-        },
-      ],
+      _regex: `^(?<scheme>https?):\\/\\/(?<authority>[^\\/\\s?#]+)(?<path>[^\\s?#]*)(?:\\?(?<query>[^\\s#]*))?(?:#(?<fragment>[^\\s]*))?$`,
     },
-    message: `Must be a valid URL, e.g. https://example.com`,
+    message: `Valid URL, e.g. "https://example.com"`,
   },
 });
 
@@ -196,5 +178,6 @@ export {
   Filter,
   FilterDictionary,
   FilterItem,
+  LogicalFilter,
   createDefaultFilterDictionary,
 };

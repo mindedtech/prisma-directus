@@ -72,7 +72,7 @@ model article_locale {
   updated_at          DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
   publication_status  PublicationStatus @default(DRAFT) @map("publication_status")
   title               String
-  /// @validation(slug)
+  /// @validation(anyOf, slug, empty, null)
   slug                String            @map("slug")
   /// @richText
   /// @customSyntax(spoiler)

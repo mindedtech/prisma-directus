@@ -897,13 +897,18 @@ fields:
       special: null
       translations: null
       validation:
-        _and:
+        _or:
           - slug:
-              _or:
-                - _regex: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-                - _empty: true
-                - _null: true
-      validation_message: Slug must be a valid slug, e.g. this-is-a-slug
+              _regex: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          - slug:
+              _empty: true
+          - slug:
+              _null: true
+      validation_message: |-
+        At least one of the following conditions must be met:
+          - Valid slug, e.g. "this-is-a-slug"
+          - Empty
+          - Null
       width: full
     schema:
       data_type: text

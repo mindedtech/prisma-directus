@@ -375,7 +375,7 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
     directive: z.literal(`validation`),
     kwArgs: z.object({}).strict(),
-    tArgs: z.union([z.tuple([z.string()]), z.tuple([z.string(), z.string()])]),
+    tArgs: z.tuple([z.enum([`anyOf`, `allOf`])]).rest(z.string()),
   }),
   RawDirective.extend({
     directive: z.literal(`validationMessage`),

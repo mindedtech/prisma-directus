@@ -1,4 +1,4 @@
-import type { FilterItem } from "@/generator/lib/Generator/Filter";
+import type { LogicalFilter } from "@/generator/lib/Generator/Filter";
 import type { GeneratorContext } from "@/generator/lib/Generator/GeneratorContext";
 import type { PrismaField } from "@/generator/lib/Generator/Prisma";
 import type {
@@ -382,6 +382,7 @@ const processPrismaField = (
   if (types === undefined) {
     return;
   }
+  const fieldName = prismaField.dbName ?? prismaField.name;
   const prismaModel = ctx.getPrismaModelOfPrismaField(prismaField);
   const directives = ctx.getDirectivesOfPrismaField(prismaField);
   let choices: SnapshotFieldMetaOptions[`choices`] = undefined;
@@ -496,14 +497,35 @@ const processPrismaField = (
     special.push(`translations`);
   }
   const validation = directives.find(`validation`);
-  let validationFilter: undefined | FilterItem = undefined;
+  let validationMessage: null | string =
+    directives.find(`validationMessage`)?.tArgs[0] ?? null;
+  let validationFilter: null | LogicalFilter = null;
   if (validation) {
-    validationFilter = ctx.config.filters[validation.tArgs[0]];
-    if (!validationFilter) {
-      throw new Error(
-        `[${prismaModel.name}.${prismaField.name}] Validation Filter "${validation?.tArgs[0]}" not found`,
-      );
-    }
+    const operator = validation.tArgs[0] === `anyOf` ? `_or` : `_and`;
+    const filters = validation.tArgs.slice(1).map((filterName) => {
+      const filter = ctx.config.filters[filterName];
+      if (!filter) {
+        throw new Error(
+          `[${prismaModel.name}.${prismaField.name}] Validation Filter "${filterName}" not found`,
+        );
+      }
+      return filter;
+    });
+    const operands = filters.map((filter) => ({
+      [fieldName]: filter.filter,
+    }));
+    validationFilter =
+      operator === `_and` ? { _and: operands } : { _or: operands };
+    const filterMessages = filters.map((filter) => filter.message);
+    const joinFilterMessages = filterMessages.join(
+      filterMessages.length === 1 ? `` : `\n  - `,
+    );
+    validationMessage =
+      filters.length === 1
+        ? joinFilterMessages
+        : operator === `_and`
+          ? `All of the following conditions must be met:\n  - ${joinFilterMessages}`
+          : `At least one of the following conditions must be met:\n  - ${joinFilterMessages}`;
   }
   const filter = directives.find(`filter`);
   if (filter) {
@@ -537,7 +559,7 @@ const processPrismaField = (
 
   const snapshotField: SnapshotField = {
     collection: prismaModel.dbName ?? prismaModel.name,
-    field: prismaField.dbName ?? prismaField.name,
+    field: fieldName,
     meta: {
       collection: prismaModel.dbName ?? prismaModel.name,
       conditions: fieldConditions.length > 0 ? fieldConditions : null,
@@ -586,21 +608,8 @@ const processPrismaField = (
               translation,
             }))
           : null,
-      validation: validationFilter
-        ? ({
-            _and: [
-              {
-                [prismaField.dbName ?? prismaField.name]:
-                  validationFilter.filter,
-              },
-            ],
-          } as SnapshotFieldMeta[`validation`])
-        : null,
-      validation_message:
-        directives.find(`validationMessage`)?.tArgs[0] ??
-        directives.find(`validation`)?.tArgs[1] ??
-        validationFilter?.message ??
-        null,
+      validation: validationFilter as SnapshotFieldMeta[`validation`],
+      validation_message: validationMessage,
       width: directives.find(`width`)?.tArgs[0] ?? `full`,
     },
     schema: getPrismaFieldSnapshotFieldSchema(ctx, prismaField),
