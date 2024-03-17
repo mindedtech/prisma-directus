@@ -278,6 +278,11 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
+    directive: z.literal(`limit`),
+    kwArgs: z.object({}).strict(),
+    tArgs: z.tuple([z.coerce.number().int().min(0)]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`link`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),

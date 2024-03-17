@@ -48,6 +48,7 @@ type SnapshotFieldMetaOptions = {
   enableLink?: boolean;
   languageDirectionField?: string;
   languageField?: string;
+  limit?: number;
 };
 
 type SnapshotFieldMetaSpecial =

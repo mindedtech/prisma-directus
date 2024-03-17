@@ -438,6 +438,11 @@ const processPrismaField = (
     options ??= {};
     options.choices = choices;
   }
+  const limit = directives.find(`limit`);
+  if (typeof limit !== `undefined`) {
+    options ??= {};
+    options.limit = limit.tArgs[0];
+  }
   if (directives.find(`link`) !== undefined) {
     options ??= {};
     options.enableLink = true;
