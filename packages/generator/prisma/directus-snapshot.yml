@@ -553,6 +553,7 @@ fields:
       interface: translations
       note: null
       options:
+        limit: 42
         languageField: locale_code
       readonly: false
       required: false

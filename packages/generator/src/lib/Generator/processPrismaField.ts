@@ -1,3 +1,5 @@
+import { omit } from "@/generator/lib/utils";
+
 import type { LogicalFilter } from "@/generator/lib/Generator/Filter";
 import type { GeneratorContext } from "@/generator/lib/Generator/GeneratorContext";
 import type { PrismaField } from "@/generator/lib/Generator/Prisma";
@@ -556,9 +558,19 @@ const processPrismaField = (
         `[${prismaModel.name}.${prismaField.name}] Custom syntax "${customSyntaxName}" not found`,
       );
     }
+    if (customSyntax.global) {
+      continue;
+    }
     options ??= {};
     options.customSyntax ??= [];
-    options.customSyntax.push(customSyntax);
+    options.customSyntax.push(omit(customSyntax, [`global`]));
+  }
+  for (const customSyntax of ctx.config.richTextCustomSyntaxes) {
+    if (customSyntax.global) {
+      options ??= {};
+      options.customSyntax ??= [];
+      options.customSyntax.push(omit(customSyntax, [`global`]));
+    }
   }
   const fieldTranslations = directives.filter(`fieldTranslation`);
   const { directusType } = types;

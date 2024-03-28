@@ -42,7 +42,7 @@ type SnapshotFieldMetaOptionsChoice = {
 type SnapshotFieldMetaOptions = {
   allowDuplicates?: boolean;
   choices?: SnapshotFieldMetaOptionsChoice[];
-  customSyntax?: RichTextCustomSyntax[];
+  customSyntax?: OmitStrict<RichTextCustomSyntax, `global`>[];
   filter?: Filter;
   template?: string;
   enableLink?: boolean;
