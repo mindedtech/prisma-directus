@@ -498,6 +498,20 @@ const processPrismaField = (
   if (directives.find(`uuid`) !== undefined) {
     special.push(`uuid`);
   }
+  const file = directives.find(`image`) ?? directives.find(`file`);
+  if (file !== undefined) {
+    special.push(`file`);
+    if (typeof file.kwArgs.folder === `string`) {
+      const folder = ctx.config.folders[file.kwArgs.folder];
+      if (!folder) {
+        throw new Error(
+          `[${prismaModel.name}.${prismaField.name}] Folder "${file.kwArgs.folder}" not found`,
+        );
+      }
+      options ??= {};
+      options.folder = folder.id;
+    }
+  }
   if (
     options?.languageField !== undefined &&
     !special.includes(`translations`)
@@ -587,9 +601,11 @@ const processPrismaField = (
           ? `boolean`
           : directives.find(`datetime`) !== undefined
             ? `datetime`
-            : special.includes(`translations`)
-              ? `translations`
-              : null),
+            : directives.find(`image`) !== undefined
+              ? `image`
+              : special.includes(`translations`)
+                ? `translations`
+                : null),
       display_options: displayOptions,
       field: prismaField.dbName ?? prismaField.name,
       group: directives.find(`group`)?.tArgs[0] ?? null,
@@ -600,19 +616,21 @@ const processPrismaField = (
           ? `boolean`
           : directives.find(`datetime`) !== undefined
             ? `datetime`
-            : directives.find(`richText`) !== undefined
-              ? `input-rich-text-md`
-              : directives.find(`m2m`) !== undefined
-                ? `list-m2m`
-                : directives.find(`o2m`) !== undefined
-                  ? `list-o2m`
-                  : directives.find(`m2o`) !== undefined
-                    ? `select-dropdown-m2o`
-                    : choices
-                      ? `select-dropdown`
-                      : directives.find(`translations`) !== undefined
-                        ? `translations`
-                        : null),
+            : directives.find(`image`) !== undefined
+              ? `file-image`
+              : directives.find(`richText`) !== undefined
+                ? `input-rich-text-md`
+                : directives.find(`m2m`) !== undefined
+                  ? `list-m2m`
+                  : directives.find(`o2m`) !== undefined
+                    ? `list-o2m`
+                    : directives.find(`m2o`) !== undefined
+                      ? `select-dropdown-m2o`
+                      : choices
+                        ? `select-dropdown`
+                        : directives.find(`translations`) !== undefined
+                          ? `translations`
+                          : null),
       note: directives.find(`note`)?.tArgs[0] ?? null,
       options,
       readonly: directives.find(`readonly`) !== undefined,

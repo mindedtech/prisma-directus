@@ -213,6 +213,7 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
       z.enum([
         `boolean`,
         `datetime`,
+        `image`,
         `formatted-value`,
         `raw`,
         `related-values`,
@@ -236,6 +237,15 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
+    directive: z.literal(`file`),
+    kwArgs: z
+      .object({
+        folder: z.string().nullable().default(null),
+      })
+      .strict(),
+    tArgs: z.tuple([z.string()]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`group`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
@@ -244,6 +254,15 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     directive: z.literal(`hidden`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`image`),
+    kwArgs: z
+      .object({
+        folder: z.string().nullable().default(null),
+      })
+      .strict(),
+    tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
     directive: z.literal(`interface`),
@@ -256,6 +275,7 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
         `input`,
         `list-m2m`,
         `list-o2m`,
+        `file-image`,
         `select-dropdown-m2o`,
         `select-dropdown`,
         `translations`,

@@ -16,6 +16,13 @@ const GeneratorConfig = z
     directivePrefix: z.string().default(`@`),
     directus: z.string(),
     filters: FilterDictionary.default({}),
+    folders: z
+      .record(
+        z.object({
+          id: z.string().uuid(),
+        }),
+      )
+      .default({}),
     permissionsFile: z.string().default(`./directus-permissions.yml`),
     richTextCustomSyntaxes: z.array(RichTextCustomSyntax).default([]),
     roles: z.record(

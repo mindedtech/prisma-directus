@@ -43,18 +43,20 @@ type SnapshotFieldMetaOptions = {
   allowDuplicates?: boolean;
   choices?: SnapshotFieldMetaOptionsChoice[];
   customSyntax?: OmitStrict<RichTextCustomSyntax, `global`>[];
-  filter?: Filter;
-  template?: string;
   enableLink?: boolean;
+  filter?: Filter;
+  folder?: string;
   languageDirectionField?: string;
   languageField?: string;
   limit?: number;
+  template?: string;
 };
 
 type SnapshotFieldMetaSpecial =
   | `cast-boolean`
   | `date-created`
   | `date-updated`
+  | `file`
   | `m2m`
   | `m2o`
   | `o2m`
@@ -65,6 +67,7 @@ type SnapshotFieldMeta = Omit<BaseSnapshotField[`meta`], `translations`> & {
   display:
     | `boolean`
     | `datetime`
+    | `image`
     | `formatted-value`
     | `raw`
     | `related-values`
@@ -73,6 +76,7 @@ type SnapshotFieldMeta = Omit<BaseSnapshotField[`meta`], `translations`> & {
   interface:
     | `boolean`
     | `datetime`
+    | `file-image`
     | `input-rich-text-md`
     | `input`
     | `list-m2m`
