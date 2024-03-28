@@ -243,7 +243,7 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
         folder: z.string().nullable().default(null),
       })
       .strict(),
-    tArgs: z.tuple([z.string()]),
+    tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`group`),
@@ -262,7 +262,7 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
         folder: z.string().nullable().default(null),
       })
       .strict(),
-    tArgs: z.tuple([z.string()]),
+    tArgs: z.tuple([]),
   }),
   RawDirective.extend({
     directive: z.literal(`interface`),
