@@ -560,30 +560,32 @@ const processPrismaField = (
     options ??= {};
     options.filter = { _and: [optionFilter.filter] };
   }
-  const customSyntaxes = directives.filter(`customSyntax`);
-  for (const {
-    tArgs: [customSyntaxName],
-  } of customSyntaxes) {
-    const customSyntax = ctx.config.richTextCustomSyntaxes.find(
-      (customSyntax) => customSyntax.name === customSyntaxName,
-    );
-    if (customSyntax === undefined) {
-      throw new Error(
-        `[${prismaModel.name}.${prismaField.name}] Custom syntax "${customSyntaxName}" not found`,
+  if (directives.find(`richText`) !== undefined) {
+    const customSyntaxes = directives.filter(`customSyntax`);
+    for (const {
+      tArgs: [customSyntaxName],
+    } of customSyntaxes) {
+      const customSyntax = ctx.config.richTextCustomSyntaxes.find(
+        (customSyntax) => customSyntax.name === customSyntaxName,
       );
-    }
-    if (customSyntax.global) {
-      continue;
-    }
-    options ??= {};
-    options.customSyntax ??= [];
-    options.customSyntax.push(omit(customSyntax, [`global`]));
-  }
-  for (const customSyntax of ctx.config.richTextCustomSyntaxes) {
-    if (customSyntax.global) {
+      if (customSyntax === undefined) {
+        throw new Error(
+          `[${prismaModel.name}.${prismaField.name}] Custom syntax "${customSyntaxName}" not found`,
+        );
+      }
+      if (customSyntax.global) {
+        continue;
+      }
       options ??= {};
       options.customSyntax ??= [];
       options.customSyntax.push(omit(customSyntax, [`global`]));
+    }
+    for (const customSyntax of ctx.config.richTextCustomSyntaxes) {
+      if (customSyntax.global) {
+        options ??= {};
+        options.customSyntax ??= [];
+        options.customSyntax.push(omit(customSyntax, [`global`]));
+      }
     }
   }
   const fieldTranslations = directives.filter(`fieldTranslation`);
