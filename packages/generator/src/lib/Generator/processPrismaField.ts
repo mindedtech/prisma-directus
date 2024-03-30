@@ -495,7 +495,8 @@ const processPrismaField = (
   if (directives.find(`o2m`) !== undefined) {
     special.push(`o2m`);
   }
-  if (directives.find(`uuid`) !== undefined) {
+  const uuid = directives.find(`uuid`);
+  if (uuid !== undefined && uuid.kwArgs.generated !== false) {
     special.push(`uuid`);
   }
   const file = directives.find(`image`) ?? directives.find(`file`);

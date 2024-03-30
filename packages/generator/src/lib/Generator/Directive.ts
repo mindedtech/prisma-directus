@@ -394,7 +394,7 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
   }),
   RawDirective.extend({
     directive: z.literal(`uuid`),
-    kwArgs: z.object({}).strict(),
+    kwArgs: z.object({ generated: z.coerce.boolean().default(true) }).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
