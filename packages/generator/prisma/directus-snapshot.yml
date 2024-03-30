@@ -581,8 +581,7 @@ fields:
       readonly: false
       required: false
       sort: 0
-      special:
-        - uuid
+      special: null
       translations: null
       validation: null
       validation_message: null

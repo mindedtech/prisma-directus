@@ -11,6 +11,10 @@ const RawDirective = z.object({
 
 type RawDirective = z.infer<typeof RawDirective>;
 
+const booleanString = z
+  .union([z.literal(`true`), z.literal(`false`)])
+  .transform((val): boolean => val === `true`);
+
 const ModelDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
     directive: z.literal(`accountability`),
@@ -28,7 +32,7 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
       .object({
         archive: z.string(),
         field: z.string(),
-        filter: z.coerce.boolean().default(false),
+        filter: booleanString.default(`false`),
         unarchive: z.string(),
       })
       .strict(),
@@ -197,7 +201,7 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.union([
       z.tuple([z.literal(`string`), z.string()]),
       z.tuple([z.literal(`number`), z.coerce.number()]),
-      z.tuple([z.literal(`boolean`), z.coerce.boolean()]),
+      z.tuple([z.literal(`boolean`), booleanString]),
       z.tuple([z.literal(`null`)]),
     ]),
   }),
@@ -394,7 +398,7 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
   }),
   RawDirective.extend({
     directive: z.literal(`uuid`),
-    kwArgs: z.object({ generated: z.coerce.boolean().default(true) }).strict(),
+    kwArgs: z.object({ generated: booleanString.default(`true`) }).strict(),
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({

@@ -56,7 +56,7 @@ model article {
 
 /// @hidden
 model article_locale {
-  /// @uuid @hidden
+  /// @uuid(generated: false) @hidden
   article_locale_id   String            @default(dbgenerated("gen_random_uuid()")) @map("article_locale_id") @db.Uuid
   /// @hidden
   article_id          String            @map("article_id") @db.Uuid
