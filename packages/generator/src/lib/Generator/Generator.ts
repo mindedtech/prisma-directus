@@ -4,6 +4,7 @@ import { processPrismaModel } from "@/generator/lib/Generator/processPrismaModel
 import { processPrismaRelation } from "@/generator/lib/Generator/processPrismaRelation";
 
 import type { GeneratorConfig } from "@/generator/lib/Generator/GeneratorConfig";
+import type { Layout } from "@/generator/lib/Generator/Layout";
 import type { Permission } from "@/generator/lib/Generator/Permission";
 import type { PrismaDatamodel } from "@/generator/lib/Generator/Prisma";
 import type { Snapshot } from "@/generator/lib/Generator/Snapshot";
@@ -16,6 +17,7 @@ type GeneratorInput = {
 type GeneratorOutput = {
   readonly snapshot: Snapshot;
   readonly permissions: Permission[];
+  readonly layouts: Layout[];
 } & (
   | {
       readonly isError: true;
@@ -42,6 +44,7 @@ const generate = ({ config, datamodel }: GeneratorInput): GeneratorOutput => {
     }
     return {
       isError: false,
+      layouts: ctx.layouts,
       permissions: ctx.permissions,
       snapshot: ctx.snapshot,
     };
@@ -49,6 +52,7 @@ const generate = ({ config, datamodel }: GeneratorInput): GeneratorOutput => {
     return {
       error,
       isError: true,
+      layouts: ctx.layouts,
       permissions: ctx.permissions,
       snapshot: ctx.snapshot,
     };

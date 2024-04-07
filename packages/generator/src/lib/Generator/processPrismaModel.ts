@@ -95,6 +95,17 @@ const processPrismaModel = (
       role: role.id,
     });
   }
+  const layout = modelDirectives.find(`layout`);
+  if (layout) {
+    const { kind, sort } = layout.kwArgs;
+    const fields = layout.tArgs;
+    ctx.layouts.push({
+      collection: directusCollection.collection,
+      fields,
+      kind,
+      sort,
+    });
+  }
 
   ctx.snapshot.collections.push(directusCollection);
 };

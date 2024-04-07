@@ -1,8 +1,8 @@
 {
   "bin": "./build/main.js",
   "dependencies": {
-    "@prisma/generator-helper": "^5.11.0",
-    "@prisma/internals": "^5.11.0",
+    "@prisma/generator-helper": "^5.12.1",
+    "@prisma/internals": "^5.12.1",
     "js-yaml": "^4.1.0",
     "zod": "^3.22.4"
   },
@@ -11,11 +11,11 @@
     "@directus/cli": "^9.14.3",
     "@directus/schema": "^11.0.1",
     "@directus/sdk": "^14.0.0",
-    "@prisma/client": "^5.11.0",
-    "@swc/cli": "^0.3.10",
-    "@swc/core": "^1.4.8",
+    "@prisma/client": "^5.12.1",
+    "@swc/cli": "^0.3.12",
+    "@swc/core": "^1.4.12",
     "@types/js-yaml": "^4.0.9",
-    "@types/node": "^20.11.28",
+    "@types/node": "^20.12.5",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "dotenv-cli": "^7.4.1",
@@ -28,10 +28,10 @@
     "eslint-plugin-sort-exports": "^0.9.1",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "prettier": "^3.2.5",
-    "prisma": "^5.11.0",
+    "prisma": "^5.12.1",
     "tsc-alias": "^1.8.8",
-    "type-fest": "^4.12.0",
-    "typescript": "^5.4.2"
+    "type-fest": "^4.15.0",
+    "typescript": "^5.4.4"
   },
   "exports": {
     "./runtime": {
@@ -74,5 +74,5 @@
   },
   "type": "module",
   "types": "./build/index.d.ts",
-  "version": "0.5.7"
+  "version": "0.6.0"
 }

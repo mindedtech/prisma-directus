@@ -12,6 +12,7 @@ import type {
   ModelDirectives,
 } from "@/generator/lib/Generator/Directive";
 import type { GeneratorConfig } from "@/generator/lib/Generator/GeneratorConfig";
+import type { Layout } from "@/generator/lib/Generator/Layout";
 import type { Permission } from "@/generator/lib/Generator/Permission";
 import type {
   PrismaDatamodel,
@@ -25,6 +26,7 @@ type GeneratorContext = {
   readonly datamodel: PrismaDatamodel;
   readonly snapshot: Snapshot;
   readonly permissions: Permission[];
+  readonly layouts: Layout[];
 
   readonly trace: (arg: string) => void;
 
@@ -89,6 +91,7 @@ const createGeneratorContext = (
   };
 
   const permissions: Permission[] = [];
+  const layouts: Layout[] = [];
 
   const directivesOfPrismaModelMap: Map<PrismaModel, ModelDirectives> =
     new Map();
@@ -345,6 +348,7 @@ const createGeneratorContext = (
     getRemotePrismaFieldOfLocalPrismaItemRelation,
     getRemotePrismaItemRelationOfLocalPrismaListRelation,
     getRemotePrismaListRelationOfLocalPrismaItemRelation,
+    layouts,
     permissions,
     snapshot,
     trace,

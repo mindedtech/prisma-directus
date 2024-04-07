@@ -17,6 +17,7 @@ richTextCustomSyntaxes:
 debugFile: ./prisma/directus-debug.local.json
 traceFile: ./prisma/directus-trace.local.log
 permissionsFile: ./prisma/directus-permissions.yml
+layoutsFile: ./prisma/directus-layouts.yml
 snapshotFile: ./prisma/directus-snapshot.yml
 roles:
   public:
