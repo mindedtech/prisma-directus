@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { FieldType } from "@/generator/lib/Generator/FieldType";
+import { LayoutKind } from "@/generator/lib/Generator/Layout";
 import { PermissionAction } from "@/generator/lib/Generator/Permission";
 
 const RawDirective = z.object({
@@ -90,6 +91,13 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
     directive: z.literal(`itemDuplicationField`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),
+  }),
+  RawDirective.extend({
+    directive: z.literal(`layout`),
+    kwArgs: z
+      .object({ kind: LayoutKind, sort: z.string().optional() })
+      .strict(),
+    tArgs: z.array(z.string()),
   }),
   RawDirective.extend({
     directive: z.literal(`note`),

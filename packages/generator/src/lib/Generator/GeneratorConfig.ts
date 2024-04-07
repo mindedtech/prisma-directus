@@ -23,6 +23,7 @@ const GeneratorConfig = z
         }),
       )
       .default({}),
+    layoutsFile: z.string().default(`./directus-layouts.yml`),
     permissionsFile: z.string().default(`./directus-permissions.yml`),
     richTextCustomSyntaxes: z.array(RichTextCustomSyntax).default([]),
     roles: z.record(

@@ -81,6 +81,12 @@ const runGeneratorHandler = () =>
         config.permissionsFile,
         `${config.banner}\n${dump(result.permissions)}`,
       );
+      const layoutsDir = dirname(config.layoutsFile);
+      await mkdir(layoutsDir, { recursive: true });
+      await writeFile(
+        config.layoutsFile,
+        `${config.banner}\n${dump(result.layouts)}`,
+      );
     },
     onManifest: () => ({
       defaultOutput: `./directus-snapshot.yml`,
