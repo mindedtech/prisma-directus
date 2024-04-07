@@ -8,6 +8,7 @@ const Layout = z
     collection: z.string(),
     fields: z.array(z.string()),
     kind: LayoutKind,
+    limit: z.number().int().positive().optional(),
     sort: z.string().optional(),
   })
   .strict();

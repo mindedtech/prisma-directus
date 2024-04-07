@@ -95,7 +95,11 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
     directive: z.literal(`layout`),
     kwArgs: z
-      .object({ kind: LayoutKind, sort: z.string().optional() })
+      .object({
+        kind: LayoutKind,
+        limit: z.coerce.number().int().positive().optional(),
+        sort: z.string().optional(),
+      })
       .strict(),
     tArgs: z.array(z.string()),
   }),

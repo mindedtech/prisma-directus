@@ -4,4 +4,5 @@
     - slug
     - title
   kind: tabular
+  limit: 1000
   sort: slug

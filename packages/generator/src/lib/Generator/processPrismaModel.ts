@@ -97,12 +97,13 @@ const processPrismaModel = (
   }
   const layout = modelDirectives.find(`layout`);
   if (layout) {
-    const { kind, sort } = layout.kwArgs;
+    const { kind, limit, sort } = layout.kwArgs;
     const fields = layout.tArgs;
     ctx.layouts.push({
       collection: directusCollection.collection,
       fields,
       kind,
+      limit,
       sort,
     });
   }

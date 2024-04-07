@@ -55,7 +55,7 @@ model article {
 }
 
 /// @hidden
-/// @layout(kind: tabular, sort: slug, slug, title)
+/// @layout(kind: tabular, sort: slug, limit: 1000, slug, title)
 model article_locale {
   /// @uuid(generated: false) @hidden
   article_locale_id   String            @default(dbgenerated("gen_random_uuid()")) @map("article_locale_id") @db.Uuid
