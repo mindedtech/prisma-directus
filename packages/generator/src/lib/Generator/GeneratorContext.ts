@@ -5,7 +5,7 @@ import {
   parseFieldDirectives,
   parseModelDirectives,
 } from "@/generator/lib/Generator/Directive";
-import { createDefaultPrismaSnapshot } from "@/generator/lib/Generator/Prisma";
+import { getPrismaMigrationsSnapshot } from "@/generator/lib/Generator/Prisma";
 
 import type {
   FieldDirectives,
@@ -80,15 +80,20 @@ const createGeneratorContext = (
     }
   };
 
-  const prismaSnapshot = createDefaultPrismaSnapshot();
-
   const snapshot: Snapshot = {
-    ...prismaSnapshot,
+    collections: [],
     directus: config.directus,
+    fields: [],
     relations: [],
     vendor: `postgres`,
     version: config.version,
   };
+
+  if (config.includePrismaMigrations) {
+    const { collections, fields } = getPrismaMigrationsSnapshot();
+    snapshot.collections.push(...collections);
+    snapshot.fields.push(...fields);
+  }
 
   const permissions: Permission[] = [];
   const layouts: Layout[] = [];

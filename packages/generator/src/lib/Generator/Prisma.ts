@@ -5,7 +5,7 @@ type PrismaDatamodel = DMMF.Datamodel;
 type PrismaModel = DMMF.Model;
 type PrismaField = DMMF.Field;
 
-const createDefaultPrismaSnapshot = (): Pick<
+const getPrismaMigrationsSnapshot = (): Pick<
   Snapshot,
   `collections` | `fields`
 > => ({
@@ -228,6 +228,6 @@ const createDefaultPrismaSnapshot = (): Pick<
   ],
 });
 
-export { createDefaultPrismaSnapshot };
+export { getPrismaMigrationsSnapshot };
 
 export type { PrismaDatamodel, PrismaField, PrismaModel };

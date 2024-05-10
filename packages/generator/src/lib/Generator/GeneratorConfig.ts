@@ -23,6 +23,7 @@ const GeneratorConfig = z
         }),
       )
       .default({}),
+    includePrismaMigrations: z.boolean().default(false),
     layoutsFile: z.string().default(`./directus-layouts.yml`),
     permissionsFile: z.string().default(`./directus-permissions.yml`),
     richTextCustomSyntaxes: z.array(RichTextCustomSyntax).default([]),
