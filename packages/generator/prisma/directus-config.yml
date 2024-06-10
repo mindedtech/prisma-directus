@@ -1,4 +1,29 @@
+directus: "10.8.3"
+version: 1
 conditions: {}
+richTextCustomSyntaxes:
+  - name: spoiler
+    box: block
+    prefix: |2
+      <details>
+        <summary>
+    suffix: |2
+        </summary>
+      </details>
+  - name: tag
+    box: inline
+    prefix: <span class="tag">
+    suffix: </span>
+debugFile: ./prisma/directus-debug.local.json
+traceFile: ./prisma/directus-trace.local.log
+permissionsFile: ./prisma/directus-permissions.yml
+layoutsFile: ./prisma/directus-layouts.yml
+snapshotFile: ./prisma/directus-snapshot.yml
+roles:
+  public:
+    id: null
+  writer:
+    id: 55ec5d95-9072-42ff-b85f-60284875463c
 filters:
   email:
     message: Must be a valid email address

@@ -12,14 +12,19 @@
     "url": "git+ssh://git@github.com/elierotenberg/prisma-directus.git"
   },
   "scripts": {
-    "ncu": "ncu -ws --root -u -t minor && npm i",
-    "ncu:latest": "ncu -ws --root -u -t latest -i && npm i"
+    "ws:build": "lerna run build",
+    "ws:clean": "lerna clean && rm -rf node_modules && rm package-lock.json",
+    "ws:install": "npm i --legacy-peer-deps --prefer-dedupe",
+    "ws:ncu": "ncu -ws --root -u -t minor -i",
+    "ws:ncu:latest": "ncu -ws --root -u -t latest -i",
+    "ws:publish": "lerna publish"
   },
   "type": "commonjs",
   "workspaces": [
     "./packages/*"
   ],
   "devDependencies": {
-    "npm-check-updates": "^16.14.12"
+    "lerna": "^8.1.3",
+    "npm-check-updates": "^16.14.20"
   }
 }

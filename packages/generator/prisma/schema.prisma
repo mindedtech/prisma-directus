@@ -22,7 +22,8 @@ enum PublicationStatus {
   ARCHIVED
 }
 
-/// @autoSortFields
+/// @permission(public, read, *)
+/// @permission(writer, create, *)
 model locale {
   locale_code         String           @map("locale_code")
   /// @createdAt
@@ -36,7 +37,7 @@ model locale {
   @@map("locale")
 }
 
-/// @autoSortFields @archive(field: publication_status, archive: ARCHIVED, unarchive: DRAFT)
+/// @archive(field: publication_status, archive: ARCHIVED, unarchive: DRAFT)
 model article {
   /// @uuid
   article_id          String            @default(dbgenerated("gen_random_uuid()")) @map("article_id") @db.Uuid
@@ -46,15 +47,17 @@ model article {
   updated_at          DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
   publication_status  PublicationStatus @default(DRAFT)
   /// @translations(locale_code) @constraint(article_locale__article__fk)
+  /// @limit(42)
   article_locale_list article_locale[]  @relation("article_locale__article", map: "article_locale__article__fk")
 
   @@id([article_id], map: "article__pk")
   @@map("article")
 }
 
-/// @autoSortFields @hidden
+/// @hidden
+/// @layout(kind: tabular, sort: slug, limit: 1000, slug, title)
 model article_locale {
-  /// @uuid @hidden
+  /// @uuid(generated: false) @hidden
   article_locale_id   String            @default(dbgenerated("gen_random_uuid()")) @map("article_locale_id") @db.Uuid
   /// @hidden
   article_id          String            @map("article_id") @db.Uuid
@@ -71,9 +74,11 @@ model article_locale {
   updated_at          DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
   publication_status  PublicationStatus @default(DRAFT) @map("publication_status")
   title               String
-  /// @validation(slug)
+  /// @validation(anyOf, slug, empty, null)
   slug                String            @map("slug")
   /// @richText
+  /// @customSyntax(spoiler)
+  /// @customSyntax(tag)
   body_markdown       String?           @map("body_markdown")
 
   @@id([article_locale_id], map: "article_locale__pk")
