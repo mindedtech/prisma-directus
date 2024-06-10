@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-import { ConditionDictionary } from "@/generator/lib/Generator/Condition";
-import { FilterDictionary } from "@/generator/lib/Generator/Filter";
-import { RichTextCustomSyntax } from "@/generator/lib/Generator/RichTextCustomSyntax";
+import { ConditionDictionary } from "prisma-directus-generator/lib/Generator/Condition";
+import { FilterDictionary } from "prisma-directus-generator/lib/Generator/Filter";
+import { RichTextCustomSyntax } from "prisma-directus-generator/lib/Generator/RichTextCustomSyntax";
 
 const GeneratorConfig = z
   .object({

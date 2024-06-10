@@ -1,13 +1,13 @@
-import { createGeneratorContext } from "@/generator/lib/Generator/GeneratorContext";
-import { processPrismaField } from "@/generator/lib/Generator/processPrismaField";
-import { processPrismaModel } from "@/generator/lib/Generator/processPrismaModel";
-import { processPrismaRelation } from "@/generator/lib/Generator/processPrismaRelation";
+import { createGeneratorContext } from "prisma-directus-generator/lib/Generator/GeneratorContext";
+import { processPrismaField } from "prisma-directus-generator/lib/Generator/processPrismaField";
+import { processPrismaModel } from "prisma-directus-generator/lib/Generator/processPrismaModel";
+import { processPrismaRelation } from "prisma-directus-generator/lib/Generator/processPrismaRelation";
 
-import type { GeneratorConfig } from "@/generator/lib/Generator/GeneratorConfig";
-import type { Layout } from "@/generator/lib/Generator/Layout";
-import type { Permission } from "@/generator/lib/Generator/Permission";
-import type { PrismaDatamodel } from "@/generator/lib/Generator/Prisma";
-import type { Snapshot } from "@/generator/lib/Generator/Snapshot";
+import type { GeneratorConfig } from "prisma-directus-generator/lib/Generator/GeneratorConfig";
+import type { Layout } from "prisma-directus-generator/lib/Generator/Layout";
+import type { Permission } from "prisma-directus-generator/lib/Generator/Permission";
+import type { PrismaDatamodel } from "prisma-directus-generator/lib/Generator/Prisma";
+import type { Snapshot } from "prisma-directus-generator/lib/Generator/Snapshot";
 
 type GeneratorInput = {
   readonly config: GeneratorConfig;

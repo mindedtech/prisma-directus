@@ -5,10 +5,10 @@ import generatorHelper from "@prisma/generator-helper";
 import { dump, load } from "js-yaml";
 import { z } from "zod";
 
-import { createDefaultConditionDictionary } from "@/generator/lib/Generator/Condition";
-import { createDefaultFilterDictionary } from "@/generator/lib/Generator/Filter";
-import { generate } from "@/generator/lib/Generator/Generator";
-import { GeneratorConfig } from "@/generator/lib/Generator/GeneratorConfig";
+import { createDefaultConditionDictionary } from "prisma-directus-generator/lib/Generator/Condition";
+import { createDefaultFilterDictionary } from "prisma-directus-generator/lib/Generator/Filter";
+import { generate } from "prisma-directus-generator/lib/Generator/Generator";
+import { GeneratorConfig } from "prisma-directus-generator/lib/Generator/GeneratorConfig";
 
 const { generatorHandler } = generatorHelper;
 

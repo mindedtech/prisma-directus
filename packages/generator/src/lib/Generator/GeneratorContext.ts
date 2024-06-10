@@ -4,22 +4,22 @@ import { join } from "path";
 import {
   parseFieldDirectives,
   parseModelDirectives,
-} from "@/generator/lib/Generator/Directive";
-import { getPrismaMigrationsSnapshot } from "@/generator/lib/Generator/Prisma";
+} from "prisma-directus-generator/lib/Generator/Directive";
+import { getPrismaMigrationsSnapshot } from "prisma-directus-generator/lib/Generator/Prisma";
 
 import type {
   FieldDirectives,
   ModelDirectives,
-} from "@/generator/lib/Generator/Directive";
-import type { GeneratorConfig } from "@/generator/lib/Generator/GeneratorConfig";
-import type { Layout } from "@/generator/lib/Generator/Layout";
-import type { Permission } from "@/generator/lib/Generator/Permission";
+} from "prisma-directus-generator/lib/Generator/Directive";
+import type { GeneratorConfig } from "prisma-directus-generator/lib/Generator/GeneratorConfig";
+import type { Layout } from "prisma-directus-generator/lib/Generator/Layout";
+import type { Permission } from "prisma-directus-generator/lib/Generator/Permission";
 import type {
   PrismaDatamodel,
   PrismaField,
   PrismaModel,
-} from "@/generator/lib/Generator/Prisma";
-import type { Snapshot } from "@/generator/lib/Generator/Snapshot";
+} from "prisma-directus-generator/lib/Generator/Prisma";
+import type { Snapshot } from "prisma-directus-generator/lib/Generator/Snapshot";
 
 type GeneratorContext = {
   readonly config: GeneratorConfig;

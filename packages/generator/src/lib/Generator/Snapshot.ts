@@ -1,6 +1,3 @@
-import type { Filter } from "@/generator/lib/Generator/Filter";
-import type { RichTextCustomSyntax } from "@/generator/lib/Generator/RichTextCustomSyntax";
-import type { OmitStrict } from "@/generator/lib/utils";
 import type { Collection as BaseCollection } from "@directus/api/types/collection";
 import type {
   Snapshot as BaseSnapshot,
@@ -9,6 +6,9 @@ import type {
 } from "@directus/api/types/snapshot";
 import type { BaseCollectionMeta } from "@directus/system-data";
 import type { Type as SnapshotFieldType } from "@directus/types";
+import type { Filter } from "prisma-directus-generator/lib/Generator/Filter";
+import type { RichTextCustomSyntax } from "prisma-directus-generator/lib/Generator/RichTextCustomSyntax";
+import type { OmitStrict } from "prisma-directus-generator/lib/utils";
 
 type SnapshotCollection = Omit<BaseCollection, `meta`> & {
   meta: Omit<BaseCollectionMeta, `translations`> & {

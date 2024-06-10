@@ -5,8 +5,7 @@
     "rootDir": "./src" /* Specify the root folder within your source files. */,
     "baseUrl": "./src" /* Specify the base directory to resolve non-relative module names. */,
     "paths": {
-      "@/generator/*": ["./*"],
-      "~/generator/package.json": ["../package.json"]
+      "prisma-directus-generator/*": ["./*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */
   },
   "exclude": ["**/node_modules"],

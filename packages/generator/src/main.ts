@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-import { runGeneratorHandler } from "@/generator/lib/GeneratorHandler";
+import { runGeneratorHandler } from "prisma-directus-generator/lib/GeneratorHandler";
 
 runGeneratorHandler();

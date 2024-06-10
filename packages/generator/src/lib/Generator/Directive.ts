@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-import { FieldType } from "@/generator/lib/Generator/FieldType";
-import { LayoutKind } from "@/generator/lib/Generator/Layout";
-import { PermissionAction } from "@/generator/lib/Generator/Permission";
+import { FieldType } from "prisma-directus-generator/lib/Generator/FieldType";
+import { LayoutKind } from "prisma-directus-generator/lib/Generator/Layout";
+import { PermissionAction } from "prisma-directus-generator/lib/Generator/Permission";
 
 const RawDirective = z.object({
   directive: z.string(),

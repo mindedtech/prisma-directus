@@ -1,6 +1,6 @@
-import { Type as FieldType } from "@directus/types";
 import { z } from "zod";
 
+import type { Type as FieldType } from "@directus/types";
 import type { ZodType } from "zod";
 
 const FieldType: ZodType<FieldType> = z.enum([

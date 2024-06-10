@@ -1,6 +1,6 @@
-import { Condition } from "@directus/types";
 import { z } from "zod";
 
+import type { Condition } from "@directus/types";
 import type { ZodType } from "zod";
 
 const Condition: ZodType<Condition> = z.object({

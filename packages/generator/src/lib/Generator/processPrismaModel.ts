@@ -1,6 +1,6 @@
-import type { GeneratorContext } from "@/generator/lib/Generator/GeneratorContext";
-import type { PrismaModel } from "@/generator/lib/Generator/Prisma";
-import type { SnapshotCollection } from "@/generator/lib/Generator/Snapshot";
+import type { GeneratorContext } from "prisma-directus-generator/lib/Generator/GeneratorContext";
+import type { PrismaModel } from "prisma-directus-generator/lib/Generator/Prisma";
+import type { SnapshotCollection } from "prisma-directus-generator/lib/Generator/Snapshot";
 
 const processPrismaModel = (
   ctx: GeneratorContext,

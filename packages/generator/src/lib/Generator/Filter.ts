@@ -1,11 +1,11 @@
-import {
+import { z } from "zod";
+
+import type {
   ClientFilterOperator,
   FieldFilterOperator,
   FieldValidationOperator,
   FilterOperator,
 } from "@directus/types";
-import { z } from "zod";
-
 import type { ZodType } from "zod";
 
 const FilterOperator: ZodType<FilterOperator> = z.enum([

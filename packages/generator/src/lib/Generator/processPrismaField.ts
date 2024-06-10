@@ -1,16 +1,16 @@
-import { omit } from "@/generator/lib/utils";
+import { omit } from "prisma-directus-generator/lib/utils";
 
-import type { LogicalFilter } from "@/generator/lib/Generator/Filter";
-import type { GeneratorContext } from "@/generator/lib/Generator/GeneratorContext";
-import type { PrismaField } from "@/generator/lib/Generator/Prisma";
+import type { DMMF } from "@prisma/generator-helper";
+import type { LogicalFilter } from "prisma-directus-generator/lib/Generator/Filter";
+import type { GeneratorContext } from "prisma-directus-generator/lib/Generator/GeneratorContext";
+import type { PrismaField } from "prisma-directus-generator/lib/Generator/Prisma";
 import type {
   SnapshotField,
   SnapshotFieldMeta,
   SnapshotFieldMetaOptions,
   SnapshotFieldMetaSpecial,
   SnapshotFieldType,
-} from "@/generator/lib/Generator/Snapshot";
-import type { DMMF } from "@prisma/generator-helper";
+} from "prisma-directus-generator/lib/Generator/Snapshot";
 
 const getPrismaFieldDefaultObject = (
   prismaField: PrismaField,

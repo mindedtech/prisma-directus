@@ -1,7 +1,7 @@
-import type { GeneratorContext } from "@/generator/lib/Generator/GeneratorContext";
-import type { PrismaField } from "@/generator/lib/Generator/Prisma";
-import type { SnapshotRelation } from "@/generator/lib/Generator/Snapshot";
 import type { ForeignKey } from "@directus/schema";
+import type { GeneratorContext } from "prisma-directus-generator/lib/Generator/GeneratorContext";
+import type { PrismaField } from "prisma-directus-generator/lib/Generator/Prisma";
+import type { SnapshotRelation } from "prisma-directus-generator/lib/Generator/Snapshot";
 
 const processPrismaRelation = (
   ctx: GeneratorContext,

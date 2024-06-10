@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { Filter } from "@/generator/lib/Generator/Filter";
+import { Filter } from "prisma-directus-generator/lib/Generator/Filter";
 
 const PermissionAction = z.enum([
   `create`,

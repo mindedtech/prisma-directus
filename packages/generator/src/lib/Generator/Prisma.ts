@@ -1,5 +1,5 @@
-import type { Snapshot } from "@/generator/lib/Generator/Snapshot";
 import type { DMMF } from "@prisma/generator-helper";
+import type { Snapshot } from "prisma-directus-generator/lib/Generator/Snapshot";
 
 type PrismaDatamodel = DMMF.Datamodel;
 type PrismaModel = DMMF.Model;

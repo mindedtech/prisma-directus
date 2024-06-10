@@ -1,4 +1,4 @@
-import { Layout } from "@/generator/lib/Generator/Layout";
-import { Permission } from "@/generator/lib/Generator/Permission";
+import { Layout } from "prisma-directus-generator/lib/Generator/Layout";
+import { Permission } from "prisma-directus-generator/lib/Generator/Permission";
 
 export { Layout, Permission };
