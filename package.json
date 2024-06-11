@@ -17,7 +17,8 @@
     "ws:install": "npm i --legacy-peer-deps --prefer-dedupe",
     "ws:ncu": "ncu -ws --root -u -t minor -i",
     "ws:ncu:latest": "ncu -ws --root -u -t latest -i",
-    "ws:publish": "lerna publish"
+    "ws:publish": "lerna publish",
+    "ws:publish:dev": "lerna publish --canary --preid dev --dist-tag dev"
   },
   "type": "commonjs",
   "workspaces": [

@@ -68,6 +68,11 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
+    directive: z.literal(`relationToSystemModel`),
+    kwArgs: z.object({}).strict(),
+    tArgs: z.tuple([z.string(), z.string()]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`group`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),

@@ -95,6 +95,36 @@ const processPrismaModel = (
       role: role.id,
     });
   }
+
+  const fieldExtension = modelDirectives.find(`relationToSystemModel`);
+  if (fieldExtension) {
+    ctx.snapshot.relations.push({
+      collection: fieldExtension.tArgs[0], // Model to be added to
+      field: fieldExtension.tArgs[1], // Field name
+      meta: {
+        junction_field: null,
+        many_collection: fieldExtension.tArgs[0],
+        many_field: fieldExtension.tArgs[1],
+        one_allowed_collections: null,
+        one_collection: prismaModel.dbName ?? prismaModel.name,
+        one_collection_field: null,
+        one_deselect_action: `nullify`, //TODO: make this configurable
+        one_field: null, //TODO: make this configurable
+        sort_field: null, //TODO: make this configurable
+      },
+      related_collection: prismaModel.dbName ?? prismaModel.name,
+      schema: {
+        column: fieldExtension.tArgs[1],
+        constraint_name: null,
+        foreign_key_column: `id`, //TODO: make this configurable
+        foreign_key_table: prismaModel.dbName ?? prismaModel.name,
+        on_delete: `SET NULL`, //TODO: make this configurable
+        on_update: `CASCADE`, //TODO: make this configurable
+        table: fieldExtension.tArgs[0],
+      },
+    });
+  }
+
   const layout = modelDirectives.find(`layout`);
   if (layout) {
     const { kind, limit, sort } = layout.kwArgs;

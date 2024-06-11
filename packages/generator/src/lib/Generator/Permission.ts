@@ -16,6 +16,7 @@ const Permission = z.object({
   fields: z.string(),
   permissions: Filter.optional(),
   role: z.string().uuid().nullable(),
+  validations: Filter.optional(),
 });
 type Permission = z.infer<typeof Permission>;
 
