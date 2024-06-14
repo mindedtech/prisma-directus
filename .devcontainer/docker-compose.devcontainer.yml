@@ -1,0 +1,24 @@
+services:
+  prisma-directus-devcontainer:
+    build:
+      dockerfile: .devcontainer/Dockerfile
+      context: .
+    container_name: prisma-directus-devcontainer
+    command: sleep infinity
+    volumes:
+      - type: bind
+        source: .
+        target: /prisma-directus
+        consistency: cached
+      - type: bind
+        source: ${HOME}${USERPROFILE}/.npmrc
+        target: /home/node/.npmrc
+        consistency: cached
+        read_only: true
+      - type: bind
+        source: ${HOME}/.ssh
+        target: /home/node/.ssh
+        consistency: cached
+        read_only: true
+    networks:
+      - prisma-directus-dev

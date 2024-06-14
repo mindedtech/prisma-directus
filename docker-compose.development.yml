@@ -5,7 +5,7 @@ services:
     command: "-p 11432 -c max_connections=100 -c log_connections=yes -c log_statement=all"
     container_name: prisma-directus-pg-dev
     env_file:
-      - postgres.env.development
+      - ./env/development/postgres.env.development
     image: postgres:16
     networks:
       - prisma-directus-dev
@@ -16,7 +16,7 @@ services:
     environment:
       - DB_HOST=prisma-directus-pg-dev
     env_file:
-      - directus.env.development
+      - ./env/development/directus.env.development
     image: directus/directus:10
     networks:
       - prisma-directus-dev

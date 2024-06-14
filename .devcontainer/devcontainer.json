@@ -1,0 +1,155 @@
+{
+  "name": "Prisma-Directus Generator DevContainer",
+  "dockerComposeFile": [
+    "../docker-compose.development.yml",
+    "docker-compose.devcontainer.yml"
+  ],
+  "service": "prisma-directus-devcontainer",
+  "shutdownAction": "stopCompose",
+  "workspaceFolder": "${localWorkspaceFolderBasename}", 
+  "remoteEnv": {
+    "COMPOSE_PROJECT_NAME": "prisma_directus_dev"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "attilah.ohm",
+        "dbaeumer.vscode-eslint",
+        "fabiospampinato.vscode-terminals",
+        "graphql.vscode-graphql-syntax",
+        "redhat.vscode-yaml",
+        "visualstudioexptteam.vscodeintellicode",
+        "ms-azuretools.vscode-docker",
+        "graphql.vscode-graphql",
+        "visualstudioexptteam.intellicode-api-usage-examples",
+        "bradlc.vscode-tailwindcss",
+        "ajmnz.prisma-import",
+
+        // common
+        "atlassian.atlascode",
+        "github.copilot-chat",
+        "bierner.markdown-preview-github-styles",
+        "DavidAnson.vscode-markdownlint",
+        "eamodio.gitlens",
+        "esbenp.prettier-vscode",
+        "foxundermoon.shell-format",
+        "mdickin.markdown-shortcuts",
+        "ms-vsliveshare.vsliveshare",
+        "task.vscode-task",
+        "timonwong.shellcheck",
+        "vivaxy.vscode-conventional-commits",
+        "yzhang.markdown-all-in-one",
+        "github.vscode-github-actions",
+        "GitHub.vscode-pull-request-github"
+      ],
+      "settings": {
+        "remote.autoForwardPorts": false,
+
+        "[javascript]": {
+          "editor.formatOnSave": false
+        },
+        "[javascriptreact]": {
+          "editor.formatOnSave": false
+        },
+        "[prisma]": {
+          "editor.defaultFormatter": "ajmnz.prisma-import"
+        },
+        "[typescript]": {
+          "editor.formatOnSave": false
+        },
+        "[typescriptreact]": {
+          "editor.formatOnSave": false
+        },
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "editor.gotoLocation.multipleTypeDefinitions": "goto",
+        "editor.guides.bracketPairs": true,
+        "editor.quickSuggestions": {
+          "comments": "on",
+          "other": "on",
+          "strings": "on"
+        },
+        "editor.quickSuggestionsDelay": 0,
+        "editor.snippetSuggestions": "none",
+        "editor.suggest.localityBonus": true,
+        "editor.suggest.showSnippets": false,
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        "editor.suggestOnTriggerCharacters": true,
+        "editor.tabCompletion": "on",
+        "editor.tabSize": 2,
+        "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?_",
+        "emmet.excludeLanguages": [
+          "html",
+          "javascript",
+          "javascriptreact",
+          "markdown",
+          "typescript",
+          "typescriptreact"
+        ],
+        "eslint.lintTask.enable": true,
+        "eslint.workingDirectories": [
+          {
+            "pattern": "./packages/*/"
+          }
+        ],
+        "files.associations": {
+          "*.prisma": "prisma",
+          "*.css": "scss"
+        },
+        "files.autoSave": "off",
+        "files.exclude": {},
+        "files.readonlyInclude": {
+          "**/gql.ts": true,
+          "packages/experiments/data/**/*": true,
+          "packages/experiments/src/*/openapi-types.ts": true,
+          "packages/schema/directus/directus-permissions.yml": true,
+          "packages/schema/directus/directus-snapshot.yml": true,
+          "packages/schema/docs/public/**/*": true,
+          "packages/schema/gql/schema.gql": true,
+          "packages/schema/prisma-client/**/*": true,
+          "packages/schema/sql/data/**/*": true,
+          "packages/schema/sql/schema.sql": true
+        },
+        "graphql-config.load.filePath": "./graphql.config.ts",
+        "javascript.preferences.importModuleSpecifier": "non-relative",
+        "javascript.referencesCodeLens.enabled": true,
+        "javascript.referencesCodeLens.showOnAllFunctions": true,
+        "javascript.updateImportsOnFileMove.enabled": "always",
+        "json.format.enable": true,
+        "prisma.import.exclude": ["**/schema.prisma"],
+        "references.preferredLocation": "view",
+        "terminal.integrated.enablePersistentSessions": false,
+        "terminals.autokill": true,
+        "terminals.autorun": true,
+        "terminals.terminals": [
+          {
+            "cwd": "[workspaceFolder]",
+            "focus": true,
+            "name": "root/shell",
+            "open": true,
+            "recycle": true
+          },
+          {
+            "cwd": "[workspaceFolder]/packages/generator",
+            "name": "packages/generator/shell",
+            "recycle": true
+          }
+        ],
+
+        "typescript.enablePromptUseWorkspaceTsdk": true,
+        "typescript.implementationsCodeLens.enabled": true,
+        "typescript.preferences.importModuleSpecifier": "non-relative",
+        "typescript.preferences.preferTypeOnlyAutoImports": true,
+        "typescript.referencesCodeLens.enabled": true,
+        "typescript.referencesCodeLens.showOnAllFunctions": true,
+        "typescript.suggest.paths": true,
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        "yaml.format.enable": true,
+        "yaml.maxItemsComputed": 5000000,
+        "window.title": "${rootName}${separator}${activeEditorShort}"
+      }
+    }
+  }
+}
