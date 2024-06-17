@@ -77,7 +77,7 @@ const processPrismaModel = (
   };
 
   for (const {
-    kwArgs: { filter },
+    kwArgs: { permissionsFilter, validationFilter },
     tArgs: [roleName, action, fields],
   } of modelDirectives.filter(`permission`)) {
     const role = ctx.config.roles[roleName];
@@ -86,13 +86,24 @@ const processPrismaModel = (
         `[${prismaModel.name}] Unknown role for permission [role=${roleName}]`,
       );
     }
+
+    const ctxPermissionsFilter =
+      permissionsFilter === undefined
+        ? undefined
+        : ctx.config.filters[permissionsFilter]?.filter;
+
+    const ctxValidationFilter =
+      validationFilter === undefined
+        ? undefined
+        : ctx.config.filters[validationFilter]?.filter;
+
     ctx.permissions.push({
       action,
       collection: directusCollection.collection,
       fields,
-      permissions:
-        filter === undefined ? undefined : ctx.config.filters[filter]?.filter,
+      permissions: ctxPermissionsFilter,
       role: role.id,
+      validation: ctxValidationFilter,
     });
   }
   const layout = modelDirectives.find(`layout`);

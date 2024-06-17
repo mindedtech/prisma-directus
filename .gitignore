@@ -5,3 +5,4 @@
 *.log
 .eslintcache
 .nx/cache
+*.tgz
