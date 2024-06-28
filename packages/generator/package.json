@@ -43,10 +43,9 @@
   "name": "prisma-directus-generator",
   "private": false,
   "scripts": {
-    "build": "npm run build:clean && npm run build:ts && npm run build:prisma && npm run build:pack",
+    "build": "npm run build:clean && npm run build:ts && npm run build:prisma",
     "build:clean": "rm -rf build && rm -rf ../../prisma-directus-generator.tgz",
     "build:prisma": "npm run dev:prisma -- generate",
-    "build:pack": "npm pack && mv prisma-directus-generator-*.tgz ../../prisma-directus-generator.tgz",
     "build:ts": "npm run build:ts:swc && npm run build:ts:tsc && npm run build:ts:tsc-alias && npm run build:ts:eslint",
     "build:ts:eslint": "eslint src",
     "build:ts:swc": "swc src --out-dir build --strip-leading-paths --source-maps",
