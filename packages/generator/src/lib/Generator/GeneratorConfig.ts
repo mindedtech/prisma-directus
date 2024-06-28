@@ -30,6 +30,7 @@ const GeneratorConfig = z
     roles: z.record(
       z
         .object({
+          icon: z.string().optional(),
           id: z.string().uuid().nullable(),
         })
         .strict(),

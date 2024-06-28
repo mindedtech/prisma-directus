@@ -111,7 +111,8 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
   RawDirective.extend({
     directive: z.literal(`permission`),
     kwArgs: z.object({
-      filter: z.string().optional(),
+      permissionsFilter: z.string().optional(),
+      validationFilter: z.string().optional(),
     }),
     tArgs: z.tuple([z.string(), PermissionAction, z.string()]),
   }),

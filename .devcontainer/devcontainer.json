@@ -6,7 +6,7 @@
   ],
   "service": "prisma-directus-devcontainer",
   "shutdownAction": "stopCompose",
-  "workspaceFolder": "${localWorkspaceFolderBasename}", 
+  "workspaceFolder": "/${localWorkspaceFolderBasename}", 
   "remoteEnv": {
     "COMPOSE_PROJECT_NAME": "prisma_directus_dev"
   },
