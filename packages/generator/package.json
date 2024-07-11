@@ -7,10 +7,10 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@directus/api": "^19.3.1",
+    "@directus/api": "^20.0.0-rc.1",
     "@directus/cli": "^9.14.3",
     "@directus/schema": "^11.0.3",
-    "@directus/sdk": "^16.1.0",
+    "@directus/sdk": "^16.2.0-rc.0",
     "@mindedtech/eslint-config": "^1.4.0",
     "@mindedtech/tsconfig": "^1.4.0",
     "@prisma/client": "^5.15.0",
@@ -55,7 +55,7 @@
     "dev:directus:schema:apply": "dotenv -e directus.env.development directus schema apply ./prisma/directus-snapshot.yml",
     "dev:directus:schema:diff": "./directus-diff.mjs",
     "dev:directus:schema:snapshot": "dotenv -e directus.env.development directus schema snapshot > ./directus-snapshot.local.yml",
-    "dev:docker:directus:down": "docker-compose -f docker-compose.development.yml down prisma-directus-directus-dev",
+    "dev:docker:directus:down": "docker-compose -f docker-compose.development.yml down -d prisma-directus-directus-dev",
     "dev:docker:directus:up": "docker-compose -f docker-compose.development.yml up -d prisma-directus-directus-dev",
     "dev:docker:down": "docker-compose -f docker-compose.development.yml down",
     "dev:docker:logs": "docker-compose -f docker-compose.development.yml logs -f",
