@@ -369,11 +369,6 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
-    directive: z.literal(`required`),
-    kwArgs: z.object({}).strict(),
-    tArgs: z.tuple([]),
-  }),
-  RawDirective.extend({
     directive: z.literal(`scale`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.coerce.number().int().min(0)]),

@@ -91,7 +91,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 0
       special: null
       translations: null
@@ -129,7 +129,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 1
       special:
         - date-created
@@ -168,7 +168,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 2
       special:
         - date-updated
@@ -207,7 +207,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 0
       special:
         - uuid
@@ -246,7 +246,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 1
       special:
         - date-created
@@ -285,7 +285,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 2
       special:
         - date-updated
@@ -331,7 +331,7 @@ fields:
           - text: ARCHIVED
             value: ARCHIVED
       readonly: false
-      required: false
+      required: true
       sort: 3
       special: null
       translations: null
@@ -372,7 +372,7 @@ fields:
         limit: 42
         languageField: locale_code
       readonly: false
-      required: false
+      required: true
       sort: 4
       special:
         - translations
@@ -395,7 +395,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 0
       special: null
       translations: null
@@ -433,7 +433,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 1
       special: null
       translations: null
@@ -471,7 +471,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 3
       special: null
       translations: null
@@ -509,7 +509,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 5
       special: null
       translations: null
@@ -547,7 +547,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 6
       special:
         - date-created
@@ -586,7 +586,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 7
       special:
         - date-updated
@@ -632,7 +632,7 @@ fields:
           - text: ARCHIVED
             value: ARCHIVED
       readonly: false
-      required: false
+      required: true
       sort: 8
       special: null
       translations: null
@@ -670,7 +670,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 9
       special: null
       translations: null
@@ -708,7 +708,7 @@ fields:
       note: null
       options: null
       readonly: false
-      required: false
+      required: true
       sort: 10
       special: null
       translations: null
