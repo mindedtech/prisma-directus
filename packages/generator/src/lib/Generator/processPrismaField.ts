@@ -296,6 +296,9 @@ const getPrismaFieldSnapshotDefaultValue = (
   return null;
 };
 
+const isNullable = (prismaField: PrismaField): boolean =>
+  !prismaField.isId && !prismaField.isRequired && !prismaField.hasDefaultValue;
+
 const getPrismaFieldSnapshotFieldSchema = (
   ctx: GeneratorContext,
   prismaField: PrismaField,
@@ -364,7 +367,7 @@ const getPrismaFieldSnapshotFieldSchema = (
     generation_expression: null,
     has_auto_increment: false,
     is_generated: false,
-    is_nullable: !prismaField.isRequired && !prismaField.isId,
+    is_nullable: isNullable(prismaField),
     is_primary_key: prismaField.isId,
     is_unique: prismaField.isUnique || prismaField.isId,
     max_length: directives.find(`maxLength`)?.tArgs[0] ?? null,
@@ -637,7 +640,7 @@ const processPrismaField = (
       note: directives.find(`note`)?.tArgs[0] ?? null,
       options,
       readonly: directives.find(`readonly`) !== undefined,
-      required: directives.find(`required`) !== undefined,
+      required: !isNullable(prismaField),
       sort: directives.find(`sort`)?.tArgs[0] ?? order,
       special: special.length > 0 ? special : null,
       translations:
