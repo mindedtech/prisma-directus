@@ -69,6 +69,6 @@
   },
   "type": "module",
   "types": "./build/index.d.ts",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "gitHead": "722f3e260a762caa6c4dda970f2262ecec8d56e4"
 }
