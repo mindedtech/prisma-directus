@@ -24,7 +24,7 @@ const processPrismaModel = (
     .filter(`itemDuplicationField`)
     .map((directive) => directive.tArgs[0]);
   const directusCollection: SnapshotCollection = {
-    collection: prismaModel.name,
+    collection: prismaModel.dbName ?? prismaModel.name,
     meta: {
       accountability:
         accountability === `null` || accountability === undefined
@@ -42,7 +42,7 @@ const processPrismaModel = (
         modelDirectives.find(`archive`)?.kwArgs.archive ??
         null,
       collapse: modelDirectives.find(`collapse`)?.tArgs[0] ?? `open`,
-      collection: prismaModel.name,
+      collection: prismaModel.dbName ?? prismaModel.name,
       color: modelDirectives.find(`color`)?.tArgs[0] ?? null,
       display_template: modelDirectives.find(`template`)?.tArgs[0] ?? null,
       group: modelDirectives.find(`group`)?.tArgs[0] ?? null,

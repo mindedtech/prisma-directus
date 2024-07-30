@@ -36,6 +36,7 @@ const GeneratorConfig = z
     ),
     snapshotFile: z.string().default(`./directus-snapshot.yml`),
     traceFile: z.string().optional(),
+    transformAliasFieldName: z.enum([`camelCase`, `snake_case`]).optional(),
     version: z.number().int().nonnegative(),
   })
   .strict();

@@ -3,6 +3,7 @@
   "dependencies": {
     "@prisma/generator-helper": "^5.15.0",
     "@prisma/internals": "^5.15.0",
+    "change-case": "^5.4.4",
     "js-yaml": "^4.1.0",
     "zod": "^3.23.8"
   },
