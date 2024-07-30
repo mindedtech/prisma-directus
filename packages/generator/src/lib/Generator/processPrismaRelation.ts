@@ -20,6 +20,9 @@ const processPrismaRelation = (
     ctx.getRemotePrismaListRelationOfLocalPrismaItemRelation(
       localPrismaItemRelation,
     );
+  const remoteFieldName = ctx.transformListFieldName(
+    remotePrismaListRelation.dbName ?? remotePrismaListRelation.name,
+  );
   const remotePrismaModel = ctx.getPrismaModelOfPrismaField(
     remotePrismaListRelation,
   );
@@ -63,8 +66,7 @@ const processPrismaRelation = (
       one_collection: remotePrismaModel.dbName ?? remotePrismaModel.name,
       one_collection_field: null,
       one_deselect_action: onDeselect,
-      one_field:
-        remotePrismaListRelation.dbName ?? remotePrismaListRelation.name,
+      one_field: remoteFieldName,
       sort_field:
         localPrismaItemRelationDirectives.find(`sortField`)?.tArgs[0] ?? null,
     },

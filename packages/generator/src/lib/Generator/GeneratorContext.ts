@@ -1,6 +1,8 @@
 import { writeFileSync } from "fs";
 import { join } from "path";
 
+import * as changeCase from "change-case";
+
 import {
   parseFieldDirectives,
   parseModelDirectives,
@@ -57,6 +59,8 @@ type GeneratorContext = {
   readonly getRemotePrismaFieldOfLocalPrismaItemRelation: (
     prismaField: PrismaField,
   ) => PrismaField;
+
+  readonly transformListFieldName: (name: string) => string;
 };
 
 const createGeneratorContext = (
@@ -357,6 +361,12 @@ const createGeneratorContext = (
     permissions,
     snapshot,
     trace,
+    transformListFieldName:
+      config.transformListFieldName === `camelCase`
+        ? changeCase.camelCase
+        : config.transformListFieldName === `snake_case`
+          ? changeCase.snakeCase
+          : (name: string) => name,
   };
 };
 

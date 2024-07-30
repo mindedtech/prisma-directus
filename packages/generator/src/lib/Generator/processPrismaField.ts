@@ -1,5 +1,3 @@
-import * as changeCase from "change-case";
-
 import { omit } from "prisma-directus-generator/lib/utils";
 
 import type { DMMF } from "@prisma/generator-helper";
@@ -390,13 +388,10 @@ const processPrismaField = (
   if (types === undefined) {
     return;
   }
-  const transformFieldName =
-    ctx.config.transformAliasFieldName === `camelCase`
-      ? changeCase.camelCase
-      : ctx.config.transformAliasFieldName === `snake_case`
-        ? changeCase.snakeCase
-        : (name: string) => name;
-  const fieldName = transformFieldName(prismaField.dbName ?? prismaField.name);
+  const rawFieldName = prismaField.dbName ?? prismaField.name;
+  const fieldName = prismaField.isList
+    ? ctx.transformListFieldName(rawFieldName)
+    : rawFieldName;
   const prismaModel = ctx.getPrismaModelOfPrismaField(prismaField);
   const directives = ctx.getDirectivesOfPrismaField(prismaField);
   let choices: SnapshotFieldMetaOptions[`choices`] = undefined;
