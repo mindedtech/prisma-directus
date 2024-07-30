@@ -388,7 +388,7 @@ const processPrismaField = (
   if (types === undefined) {
     return;
   }
-  const fieldName = prismaField.dbName ?? prismaField.name;
+  const fieldName = prismaField.name;
   const prismaModel = ctx.getPrismaModelOfPrismaField(prismaField);
   const directives = ctx.getDirectivesOfPrismaField(prismaField);
   let choices: SnapshotFieldMetaOptions[`choices`] = undefined;
@@ -596,10 +596,10 @@ const processPrismaField = (
   const { directusType } = types;
 
   const snapshotField: SnapshotField = {
-    collection: prismaModel.dbName ?? prismaModel.name,
+    collection: prismaModel.name,
     field: fieldName,
     meta: {
-      collection: prismaModel.dbName ?? prismaModel.name,
+      collection: prismaModel.name,
       conditions: fieldConditions.length > 0 ? fieldConditions : null,
       display:
         directives.find(`display`)?.tArgs[0] ??
@@ -613,7 +613,7 @@ const processPrismaField = (
                 ? `translations`
                 : null),
       display_options: displayOptions,
-      field: prismaField.dbName ?? prismaField.name,
+      field: prismaField.name,
       group: directives.find(`group`)?.tArgs[0] ?? null,
       hidden: directives.find(`hidden`) !== undefined,
       interface:

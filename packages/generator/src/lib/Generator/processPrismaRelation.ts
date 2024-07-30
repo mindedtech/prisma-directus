@@ -52,23 +52,22 @@ const processPrismaRelation = (
     localPrismaItemRelationDirectives.find(`onDeselect`)?.tArgs[0] ??
     (onDelete === `CASCADE` ? `delete` : `nullify`);
   const snapshotRelation: SnapshotRelation = {
-    collection: localPrismaModel.dbName ?? localPrismaModel.name,
-    field: localPrismaField.dbName ?? localPrismaField.name,
+    collection: localPrismaModel.name,
+    field: localPrismaField.name,
     meta: {
       junction_field:
         localPrismaItemRelationDirectives.find(`join`)?.tArgs[0] ?? null,
-      many_collection: localPrismaModel.dbName ?? localPrismaModel.name,
-      many_field: localPrismaField.dbName ?? localPrismaField.name,
+      many_collection: localPrismaModel.name,
+      many_field: localPrismaField.name,
       one_allowed_collections: null,
-      one_collection: remotePrismaModel.dbName ?? remotePrismaModel.name,
+      one_collection: remotePrismaModel.name,
       one_collection_field: null,
       one_deselect_action: onDeselect,
-      one_field:
-        remotePrismaListRelation.dbName ?? remotePrismaListRelation.name,
+      one_field: remotePrismaListRelation.name,
       sort_field:
         localPrismaItemRelationDirectives.find(`sortField`)?.tArgs[0] ?? null,
     },
-    related_collection: remotePrismaModel.dbName ?? remotePrismaModel.name,
+    related_collection: remotePrismaModel.name,
     schema: {
       column: localPrismaField.dbName ?? localPrismaField.name,
       constraint_name: constraintName,
