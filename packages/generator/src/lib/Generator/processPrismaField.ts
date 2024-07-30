@@ -621,7 +621,7 @@ const processPrismaField = (
                 ? `translations`
                 : null),
       display_options: displayOptions,
-      field: prismaField.dbName ?? prismaField.name,
+      field: fieldName,
       group: directives.find(`group`)?.tArgs[0] ?? null,
       hidden: directives.find(`hidden`) !== undefined,
       interface:
