@@ -643,7 +643,7 @@ const processPrismaField = (
       note: directives.find(`note`)?.tArgs[0] ?? null,
       options,
       readonly: directives.find(`readonly`) !== undefined,
-      required: !isNullable(prismaField),
+      required: !isNullable(prismaField) && !prismaField.isList,
       sort: directives.find(`sort`)?.tArgs[0] ?? order,
       special: special.length > 0 ? special : null,
       translations:

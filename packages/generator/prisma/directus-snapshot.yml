@@ -372,7 +372,7 @@ fields:
         limit: 42
         languageField: locale_code
       readonly: false
-      required: true
+      required: false
       sort: 4
       special:
         - translations
