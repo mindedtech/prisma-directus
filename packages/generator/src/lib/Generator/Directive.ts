@@ -354,6 +354,13 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([z.enum([`nullify`, `delete`])]),
   }),
   RawDirective.extend({
+    directive: z.literal(`onUpdate`),
+    kwArgs: z.object({}).strict(),
+    tArgs: z.tuple([
+      z.enum([`Cascade`, `NoAction`, `Restrict`, `SetDefault`, `SetNull`]),
+    ]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`precision`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.coerce.number().int().min(0)]),

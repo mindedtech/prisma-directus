@@ -74,5 +74,6 @@
   "vscode-graphql.cacheSchemaFileForLookup": true,
   "yaml.format.enable": true,
   "yaml.maxItemsComputed": 5000000,
-  "yaml.validate": false
+  "yaml.validate": false,
+  "conventionalCommits.scopes": ["generator"]
 }

@@ -816,7 +816,7 @@ relations:
       foreign_key_column: article_id
       foreign_key_table: article
       on_delete: CASCADE
-      on_update: NO ACTION
+      on_update: CASCADE
       table: article_locale
   - collection: article_locale
     field: locale_code
@@ -837,7 +837,7 @@ relations:
       foreign_key_column: locale_code
       foreign_key_table: locale
       on_delete: CASCADE
-      on_update: NO ACTION
+      on_update: CASCADE
       table: article_locale
 vendor: postgres
 version: 1

@@ -51,6 +51,20 @@ const processPrismaRelation = (
             : localPrismaItemRelation.relationOnDelete === `SetDefault`
               ? `SET DEFAULT`
               : null;
+  const onUpdateDirective =
+    localPrismaItemRelationDirectives.find(`onUpdate`)?.tArgs[0];
+  const onUpdate: ForeignKey[`on_update`] =
+    onUpdateDirective === `Cascade`
+      ? `CASCADE`
+      : onUpdateDirective === `SetNull`
+        ? `SET NULL`
+        : onUpdateDirective === `NoAction`
+          ? `NO ACTION`
+          : onUpdateDirective === `Restrict`
+            ? `RESTRICT`
+            : onUpdateDirective === `SetDefault`
+              ? `SET DEFAULT`
+              : onDelete;
   const onDeselect: SnapshotRelation[`meta`][`one_deselect_action`] =
     localPrismaItemRelationDirectives.find(`onDeselect`)?.tArgs[0] ??
     (onDelete === `CASCADE` ? `delete` : `nullify`);
@@ -77,7 +91,7 @@ const processPrismaRelation = (
       foreign_key_column: remotePrismaField.dbName ?? remotePrismaField.name,
       foreign_key_table: remotePrismaModel.dbName ?? remotePrismaModel.name,
       on_delete: onDelete,
-      on_update: `NO ACTION`,
+      on_update: onUpdate,
       table: localPrismaModel.dbName ?? localPrismaModel.name,
     },
   };
