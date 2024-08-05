@@ -109,6 +109,54 @@ const processPrismaModel = (
   }
 
   ctx.snapshot.collections.push(directusCollection);
+
+  for (const {
+    kwArgs: { hidden, readonly, required, unique },
+    tArgs: [field, dataType],
+  } of modelDirectives.filter(`unsupportedField`)) {
+    ctx.snapshot.fields.push({
+      collection: directusCollection.collection,
+      field,
+      meta: {
+        collection: directusCollection.collection,
+        conditions: null,
+        display: null,
+        display_options: null,
+        field,
+        group: null,
+        hidden,
+        interface: null,
+        note: null,
+        options: null,
+        readonly,
+        required,
+        sort: null,
+        special: null,
+        translations: null,
+        validation: null,
+        validation_message: null,
+        width: `full`,
+      },
+      schema: {
+        data_type: dataType,
+        default_value: null,
+        foreign_key_column: null,
+        foreign_key_table: null,
+        generation_expression: null,
+        has_auto_increment: false,
+        is_generated: false,
+        is_nullable: !required,
+        is_primary_key: false,
+        is_unique: unique,
+        max_length: null,
+        name: field,
+        numeric_precision: null,
+        numeric_scale: null,
+        table: directusCollection.schema.name,
+      },
+      type: `unknown`,
+    });
+  }
 };
 
 export { processPrismaModel };

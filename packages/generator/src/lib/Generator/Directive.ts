@@ -146,6 +146,18 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([z.string()]),
   }),
   RawDirective.extend({
+    directive: z.literal(`unsupportedField`),
+    kwArgs: z
+      .object({
+        hidden: booleanString.default(`false`),
+        readonly: booleanString.default(`false`),
+        required: booleanString.default(`false`),
+        unique: booleanString.default(`false`),
+      })
+      .strict(),
+    tArgs: z.tuple([z.string(), z.string()]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`versioning`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([]),
