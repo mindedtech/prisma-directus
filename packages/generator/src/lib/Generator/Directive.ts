@@ -308,6 +308,7 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
         `select-dropdown-m2o`,
         `select-dropdown`,
         `translations`,
+        `simple-guide-versioning`,
       ]),
     ]),
   }),

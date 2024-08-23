@@ -639,7 +639,10 @@ const processPrismaField = (
                         ? `select-dropdown`
                         : directives.find(`translations`) !== undefined
                           ? `translations`
-                          : null),
+                          : directives.find(`simple-guide-versioning`) !==
+                              undefined
+                            ? `simple-guide-versioning`
+                            : null),
       note: directives.find(`note`)?.tArgs[0] ?? null,
       options,
       readonly: directives.find(`readonly`) !== undefined,

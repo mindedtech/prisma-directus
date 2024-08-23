@@ -84,6 +84,7 @@ type SnapshotFieldMeta = Omit<BaseSnapshotField[`meta`], `translations`> & {
     | `select-dropdown-m2o`
     | `select-dropdown`
     | `translations`
+    | `simple-guide-versioning`
     | null;
   options?: SnapshotFieldMetaOptions | null;
   readonly: boolean;
