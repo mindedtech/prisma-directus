@@ -32,11 +32,11 @@ const parseConfigFile = async (
     ...config.conditions,
   };
 
-  config.roles = {
+  config.policies = {
     public: {
       id: null,
     },
-    ...config.roles,
+    ...config.policies,
   };
 
   return config;

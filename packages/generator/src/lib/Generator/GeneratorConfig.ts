@@ -26,8 +26,7 @@ const GeneratorConfig = z
     includePrismaMigrations: z.boolean().default(false),
     layoutsFile: z.string().default(`./directus-layouts.yml`),
     permissionsFile: z.string().default(`./directus-permissions.yml`),
-    richTextCustomSyntaxes: z.array(RichTextCustomSyntax).default([]),
-    roles: z.record(
+    policies: z.record(
       z
         .object({
           icon: z.string().optional(),
@@ -35,6 +34,7 @@ const GeneratorConfig = z
         })
         .strict(),
     ),
+    richTextCustomSyntaxes: z.array(RichTextCustomSyntax).default([]),
     snapshotFile: z.string().default(`./directus-snapshot.yml`),
     traceFile: z.string().optional(),
     transformListFieldName: z.enum([`camelCase`, `snake_case`]).optional(),
