@@ -78,13 +78,13 @@ const processPrismaModel = (
 
   for (const {
     kwArgs: { permissionsFilter, validationFilter },
-    tArgs: [policy, action, fields],
+    tArgs: [policyName, action, fields],
   } of modelDirectives.filter(`permission`)) {
-    const retrievedPolicy = policy ? ctx.config.policies[policy] : null;
+    const policy = policyName ? ctx.config.policies[policyName] : null;
 
-    if (!retrievedPolicy) {
+    if (!policy) {
       throw new Error(
-        `[${prismaModel.name}] Unknown policy for permission [policyName=${policy}]`,
+        `[${prismaModel.name}] Unknown policy for permission [policyName=${policyName}]`,
       );
     }
 
@@ -103,7 +103,7 @@ const processPrismaModel = (
       collection: directusCollection.collection,
       fields,
       permissions: ctxPermissionsFilter,
-      policy: retrievedPolicy ? retrievedPolicy.id : null,
+      policy: policy.id,
       validation: ctxValidationFilter,
     });
   }
