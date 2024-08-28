@@ -2,8 +2,8 @@
 - action: read
   collection: locale
   fields: '*'
-  role: null
+  policy: null
 - action: create
   collection: locale
   fields: '*'
-  role: 55ec5d95-9072-42ff-b85f-60284875463c
+  policy: 55ec5d95-9072-42ff-b85f-60284875463c

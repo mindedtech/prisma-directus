@@ -17,7 +17,7 @@ services:
       - DB_HOST=prisma-directus-pg-dev
     env_file:
       - directus.env.development
-    image: directus/directus:10
+    image: directus/directus:11.0.2
     networks:
       - prisma-directus-dev
     ports:

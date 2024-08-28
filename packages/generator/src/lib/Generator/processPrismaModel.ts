@@ -78,12 +78,13 @@ const processPrismaModel = (
 
   for (const {
     kwArgs: { permissionsFilter, validationFilter },
-    tArgs: [roleName, action, fields],
+    tArgs: [policyName, action, fields],
   } of modelDirectives.filter(`permission`)) {
-    const role = ctx.config.roles[roleName];
-    if (!role) {
+    const policy = policyName ? ctx.config.policies[policyName] : null;
+
+    if (!policy) {
       throw new Error(
-        `[${prismaModel.name}] Unknown role for permission [role=${roleName}]`,
+        `[${prismaModel.name}] Unknown policy for permission [policyName=${policyName}]`,
       );
     }
 
@@ -102,7 +103,7 @@ const processPrismaModel = (
       collection: directusCollection.collection,
       fields,
       permissions: ctxPermissionsFilter,
-      role: role.id,
+      policy: policy.id,
       validation: ctxValidationFilter,
     });
   }
