@@ -11,24 +11,29 @@
     "type": "git",
     "url": "git+ssh://git@github.com/mindedtech/prisma-directus.git"
   },
+  "packageManager": "pnpm@9.7.0",
+  "pnpm": {
+    "overrides": {
+      "isolated-vm": "$isolated-vm"
+    }
+  },
   "scripts": {
     "build": "lerna run build",
-    "clean": "npx lerna clean && npx lerna run clean && rm -rf node_modules && rm package-lock.json",
+    "clean": "pnpm exec lerna clean && pnpm exec lerna run clean && rm -rf node_modules && rm package-lock.json",
     "npm:publish": "lerna publish",
     "npm:publish:dev:canary": "lerna publish --canary --preid dev --dist-tag dev",
     "npm:publish:dev:minor": "lerna publish preminor --preid dev --dist-tag dev",
     "npm:publish:dev:patch": "lerna publish prepatch --preid dev --dist-tag dev",
-    "npm:update:dev": "npx npm-check-updates -ws --root -u -i -t @dev --pre 1",
-    "npm:update:pre": "npx npm-check-updates -ws --root -u -i -t @latest --pre 1",
-    "npm:update:minor": "npx npm-check-updates -ws --root -u -i -t minor",
-    "npm:update:latest": "npx npm-check-updates -ws --root -u -i -t latest"
+    "npm:update:dev": "pnpm exec npm-check-updates -ws --root -u -i -t @dev --pre 1",
+    "npm:update:pre": "pnpm exec npm-check-updates -ws --root -u -i -t @latest --pre 1",
+    "npm:update:minor": "pnpm exec npm-check-updates -ws --root -u -i -t minor",
+    "npm:update:latest": "pnpm exec npm-check-updates -ws --root -u -i -t latest"
   },
   "type": "commonjs",
-  "workspaces": [
-    "./packages/*"
-  ],
   "devDependencies": {
-    "lerna": "^8.1.4",
-    "npm-check-updates": "^16.14.20"
+    "isolated-vm": "^5.0.1",
+    "lerna": "^8.1.8",
+    "npm-check-updates": "^16.14.20",
+    "typescript": "^5.5.4"
   }
 }
