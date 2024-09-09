@@ -236,7 +236,7 @@ const getPrismaFieldSnapshotDefaultValue = (
 ): string | number | boolean | null => {
   const directiveDefaultValue = ctx
     .getDirectivesOfPrismaField(prismaField)
-    .find(`default`)?.tArgs[0];
+    .find(`default`)?.tArgs[1];
   if (directiveDefaultValue !== undefined) {
     if (directiveDefaultValue === `null`) {
       return null;
@@ -280,10 +280,17 @@ const getPrismaFieldSnapshotDefaultValue = (
         `[field=${prismaField.name}] Unsupported default value object type: ${defaultObject.name}`,
       );
     }
+    if (typeof prismaField.default === `boolean`) {
+      if (prismaField.default === false) {
+        throw new Error(
+          `[field=${prismaField.name}] Boolean default value false is not supported`,
+        );
+      }
+      return prismaField.default;
+    }
     if (
       typeof prismaField.default === `string` ||
-      typeof prismaField.default === `number` ||
-      typeof prismaField.default === `boolean`
+      typeof prismaField.default === `number`
     ) {
       return prismaField.default;
     }
@@ -465,6 +472,13 @@ const processPrismaField = (
     options.template = template;
   }
   const translations = directives.find(`translations`);
+  const defaultLanguage = directives.find(`defaultLanguage`)?.tArgs[0];
+  if (defaultLanguage !== undefined) {
+    options ??= {};
+    options.defaultLanguage = defaultLanguage;
+    displayOptions ??= {};
+    displayOptions[`defaultLanguage`] = defaultLanguage;
+  }
   const languageDirectionField =
     directives.find(`languageDirectionField`)?.tArgs[0] ??
     translations?.tArgs[1];

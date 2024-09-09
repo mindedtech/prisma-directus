@@ -43,6 +43,7 @@ type SnapshotFieldMetaOptions = {
   allowDuplicates?: boolean;
   choices?: SnapshotFieldMetaOptionsChoice[];
   customSyntax?: OmitStrict<RichTextCustomSyntax, `global`>[];
+  defaultLanguage?: string;
   enableLink?: boolean;
   filter?: Filter;
   folder?: string;
