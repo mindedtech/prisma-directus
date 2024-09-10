@@ -55,7 +55,6 @@ const processPrismaModel = (
       singleton: modelDirectives.find(`singleton`) !== undefined,
       sort: modelDirectives.find(`sort`)?.tArgs[0] ?? null,
       sort_field: modelDirectives.find(`sortField`)?.tArgs[0] ?? null,
-      system: false,
       translations:
         collectionTranslations.length > 0
           ? collectionTranslations.map(({ tArgs }) => ({
