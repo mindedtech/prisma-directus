@@ -30,7 +30,6 @@ const getPrismaMigrationsSnapshot = (): Pick<
         singleton: false,
         sort: null,
         sort_field: null,
-        system: false,
         translations: null,
         unarchive_value: null,
         versioning: false,
