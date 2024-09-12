@@ -11,7 +11,7 @@ import type { RichTextCustomSyntax } from "prisma-directus-generator/lib/Generat
 import type { OmitStrict } from "prisma-directus-generator/lib/utils";
 
 type SnapshotCollection = Omit<BaseCollection, `meta`> & {
-  meta: Omit<BaseCollectionMeta, `translations`> & {
+  meta: Omit<BaseCollectionMeta, `translations` | `system`> & {
     archive_app_filter: boolean;
     archive_field: string | null;
     archive_value: string | null;
