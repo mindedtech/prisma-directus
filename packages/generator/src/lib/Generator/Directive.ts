@@ -317,6 +317,11 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     ]),
   }),
   RawDirective.extend({
+    directive: z.literal(`enableSelect`),
+    kwArgs: z.object({}).strict(),
+    tArgs: z.tuple([booleanString.default(`true`)]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`join`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([z.string()]),

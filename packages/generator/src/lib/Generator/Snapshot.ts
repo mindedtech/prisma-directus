@@ -51,6 +51,7 @@ type SnapshotFieldMetaOptions = {
   languageField?: string;
   limit?: number;
   template?: string;
+  enableSelect?: boolean;
 };
 
 type SnapshotFieldMetaSpecial =
