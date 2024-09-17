@@ -45,6 +45,7 @@ type SnapshotFieldMetaOptions = {
   customSyntax?: OmitStrict<RichTextCustomSyntax, `global`>[];
   defaultLanguage?: string;
   enableLink?: boolean;
+  enableSelect?: boolean;
   filter?: Filter;
   folder?: string;
   languageDirectionField?: string;
