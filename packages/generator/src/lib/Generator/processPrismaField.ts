@@ -471,6 +471,12 @@ const processPrismaField = (
     options ??= {};
     options.template = template;
   }
+  const enableSelect = directives.find(`enableSelect`);
+  if (enableSelect !== undefined) {
+    options ??= {};
+    options.enableSelect = enableSelect.tArgs[0];
+  }
+
   const translations = directives.find(`translations`);
   const defaultLanguage = directives.find(`defaultLanguage`)?.tArgs[0];
   if (defaultLanguage !== undefined) {
