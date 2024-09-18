@@ -156,7 +156,10 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
         unique: booleanString.default(`false`),
       })
       .strict(),
-    tArgs: z.tuple([z.string(), z.string(), z.string().nullable().optional()]),
+    tArgs: z.union([
+      z.tuple([z.string(), z.string()]),
+      z.tuple([z.string(), z.string(), z.string()]),
+    ]),
   }),
   RawDirective.extend({
     directive: z.literal(`versioning`),
