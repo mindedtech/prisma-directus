@@ -471,10 +471,10 @@ const processPrismaField = (
     options ??= {};
     options.template = template;
   }
-  const selectEnabled = directives.find(`enableSelect`);
-  if (selectEnabled !== undefined) {
+  const enableSelect = directives.find(`enableSelect`);
+  if (enableSelect !== undefined) {
     options ??= {};
-    options.enableSelect = selectEnabled.tArgs[0];
+    options.enableSelect = enableSelect.tArgs[0];
   }
 
   const translations = directives.find(`translations`);
