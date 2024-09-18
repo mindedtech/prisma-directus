@@ -45,7 +45,6 @@
   "javascript.updateImportsOnFileMove.enabled": "always",
   "json.format.enable": true,
   "references.preferredLocation": "view",
-  "terminal.integrated.enablePersistentSessions": false,
   "terminals.autokill": true,
   "terminals.autorun": false,
   "terminals.terminals": [
