@@ -156,7 +156,7 @@ const ModelDirective = z.discriminatedUnion(`directive`, [
         unique: booleanString.default(`false`),
       })
       .strict(),
-    tArgs: z.tuple([z.string(), z.string()]),
+    tArgs: z.tuple([z.string(), z.string(), z.string().nullable().optional()]),
   }),
   RawDirective.extend({
     directive: z.literal(`versioning`),
@@ -493,7 +493,7 @@ const parseRawDirectives = (
       for (const arg of argsList) {
         // Trim and check if it's a key-value pair
         const trimmedArg = arg.trim();
-        if (trimmedArg.includes(`:`)) {
+        if (trimmedArg.match(/^[a-zA-Z$_]+[a-zA-Z$_0-9]*: .*/)) {
           const [key, value] = trimmedArg.split(/:\s*/);
           if (typeof key !== `string` || typeof value !== `string`) {
             continue;

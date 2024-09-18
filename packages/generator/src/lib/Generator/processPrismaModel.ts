@@ -123,7 +123,7 @@ const processPrismaModel = (
 
   for (const {
     kwArgs: { hidden, readonly, required, unique },
-    tArgs: [field, dataType],
+    tArgs: [field, dataType, defaultValue],
   } of modelDirectives.filter(`unsupportedField`)) {
     ctx.snapshot.fields.push({
       collection: directusCollection.collection,
@@ -150,7 +150,7 @@ const processPrismaModel = (
       },
       schema: {
         data_type: dataType,
-        default_value: null,
+        default_value: defaultValue ?? null,
         foreign_key_column: null,
         foreign_key_table: null,
         generation_expression: null,
