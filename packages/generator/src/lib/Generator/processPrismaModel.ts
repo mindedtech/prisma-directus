@@ -100,7 +100,7 @@ const processPrismaModel = (
     ctx.permissions.push({
       action,
       collection: directusCollection.collection,
-      fields,
+      fields: fields == `all` ? `*` : fields,
       permissions: ctxPermissionsFilter,
       policy: policy.id,
       validation: ctxValidationFilter,
