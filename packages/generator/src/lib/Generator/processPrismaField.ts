@@ -374,6 +374,7 @@ const getPrismaFieldSnapshotFieldSchema = (
     generation_expression: null,
     has_auto_increment: false,
     is_generated: false,
+    is_indexed: directives.find(`indexed`) !== undefined,
     is_nullable: isNullable(prismaField),
     is_primary_key: prismaField.isId,
     is_unique: prismaField.isUnique || prismaField.isId,

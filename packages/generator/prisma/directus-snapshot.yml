@@ -72,7 +72,7 @@ collections:
       versioning: false
     schema:
       name: article_locale
-directus: 10.8.3
+directus: 11.3.5
 fields:
   - collection: locale
     field: locale_code
@@ -103,6 +103,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: true
       is_unique: true
@@ -142,6 +143,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: false
       is_unique: false
@@ -181,6 +183,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: false
       is_unique: false
@@ -220,6 +223,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: true
       is_unique: true
@@ -259,6 +263,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: false
       is_unique: false
@@ -298,6 +303,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: false
       is_unique: false
@@ -343,6 +349,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: false
       is_unique: false
@@ -407,6 +414,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: true
       is_unique: true
@@ -445,6 +453,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: false
       is_unique: false
@@ -483,6 +492,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: false
       is_unique: false
@@ -521,6 +531,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: false
       is_unique: true
@@ -560,6 +571,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: false
       is_unique: false
@@ -599,6 +611,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: false
       is_unique: false
@@ -644,6 +657,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: false
       is_unique: false
@@ -682,6 +696,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: false
       is_unique: false
@@ -731,6 +746,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: false
       is_primary_key: false
       is_unique: false
@@ -784,6 +800,7 @@ fields:
       generation_expression: null
       has_auto_increment: false
       is_generated: false
+      is_indexed: false
       is_nullable: true
       is_primary_key: false
       is_unique: false

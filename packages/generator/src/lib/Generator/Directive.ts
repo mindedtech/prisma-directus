@@ -302,6 +302,11 @@ const FieldDirective = z.discriminatedUnion(`directive`, [
     tArgs: z.tuple([]),
   }),
   RawDirective.extend({
+    directive: z.literal(`indexed`),
+    kwArgs: z.object({}).strict(),
+    tArgs: z.tuple([]),
+  }),
+  RawDirective.extend({
     directive: z.literal(`interface`),
     kwArgs: z.object({}).strict(),
     tArgs: z.tuple([

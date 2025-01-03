@@ -156,6 +156,7 @@ const processPrismaModel = (
         generation_expression: null,
         has_auto_increment: false,
         is_generated: false,
+        is_indexed: false,
         is_nullable: !required,
         is_primary_key: false,
         is_unique: unique,
