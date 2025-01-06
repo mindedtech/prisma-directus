@@ -1,4 +1,4 @@
-directus: "10.8.3"
+directus: "11.3.5"
 version: 1
 conditions: {}
 richTextCustomSyntaxes:
